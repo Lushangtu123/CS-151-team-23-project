@@ -1,16 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="cs151.application.MainController">
+<VBox alignment="CENTER" spacing="30.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cs151.application.MainController"
+      style="-fx-background-color: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
     </padding>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <!-- Welcome Section -->
+    <VBox alignment="CENTER" spacing="10.0">
+        <Label text="Student Information Management System" 
+               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        <Label text="Manage student profiles and programming languages" 
+               style="-fx-font-size: 14px; -fx-text-fill: #e0e0e0;"/>
+    </VBox>
+
+    <!-- Navigation Buttons -->
+    <VBox spacing="15.0" alignment="CENTER" maxWidth="400">
+        <Button text="Define Programming Languages" 
+                onAction="#onLanguagesButtonClick"
+                prefWidth="350"
+                prefHeight="50"
+                style="-fx-background-color: white; -fx-text-fill: #667eea; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10;">
+        </Button>
+        
+        <Button text="Manage Student Profiles" 
+                disable="true"
+                prefWidth="350"
+                prefHeight="50"
+                style="-fx-background-color: #cccccc; -fx-text-fill: #666666; -fx-font-size: 16px; -fx-background-radius: 10;">
+        </Button>
+        
+        <Label text="(Coming in future versions)" 
+               style="-fx-text-fill: #e0e0e0; -fx-font-size: 12px; -fx-font-style: italic;"/>
+    </VBox>
+
+    <!-- Footer -->
+    <Label text="Version 0.2 | Team 23" 
+           style="-fx-text-fill: white; -fx-font-size: 12px;"/>
+           
 </VBox>
