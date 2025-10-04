@@ -7,10 +7,10 @@
 
 | Name | Contribution |
 |------|--------------|
-| Van Anh Tran | [Add your contribution here] |
-| Yinqi Chen | [Add your contribution here] |
-| Harshika Vijayabharath | [Add your contribution here] |
-| Phuong Tong | [Add your contribution here] |
+| Van Anh Tran | Created Language model class, implemented data validation logic, code testing and debugging |
+| Yinqi Chen | Designed and implemented languages-view.fxml UI layout, CSS styling |
+| Harshika Vijayabharath | Implemented LanguagesController with CRUD operations, table view setup |
+| Phuong Tong | Updated MainController navigation, integrated module-info.java, project documentation |
 
 ## Project Description
 
@@ -90,4 +90,5 @@ mvn clean javafx:run
 
 **Client:** Ahmad Yazdankhah  
 **Course:** CS 151 - Object-Oriented Design  
+
 **Semester:** Fall 2025
