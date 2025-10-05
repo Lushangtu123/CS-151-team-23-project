@@ -44,23 +44,27 @@ This is Version 0.2 of the Student Information Management System, a desktop appl
 ## Project Structure
 
 ```
-src/
-├── main/
-│   ├── java/
-│   │   ├── cs151/
-│   │   │   ├── application/
-│   │   │   │   ├── Main.java              (Entry point)
-│   │   │   │   └── MainController.java    (Home page controller)
-│   │   │   ├── controller/
-│   │   │   │   └── LanguagesController.java
-│   │   │   └── model/
-│   │   │       └── Language.java
-│   │   └── module-info.java
-│   └── resources/
-│       └── cs151/
-│           └── application/
-│               ├── hello-view.fxml        (Home page)
-│               └── languages-view.fxml    (Languages page)
+.
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── cs151/
+│   │   │   │   ├── application/
+│   │   │   │   │   ├── Main.java              (Entry point)
+│   │   │   │   │   └── MainController.java    (Home page controller)
+│   │   │   │   ├── controller/
+│   │   │   │   │   └── LanguagesController.java
+│   │   │   │   └── model/
+│   │   │   │       └── Language.java
+│   │   │   └── module-info.java
+│   │   └── resources/
+│   │       └── cs151/
+│   │           └── application/
+│   │               ├── hello-view.fxml        (Home page)
+│   │               └── languages-view.fxml    (Languages page)
+├── ReadMe.md
+├── pom.xml
+└── .gitignore
 ```
 
 ## How to Run
