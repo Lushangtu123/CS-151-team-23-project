@@ -9,7 +9,7 @@
 |------|--------------|
 | Van Anh Tran | Created Language model class, implemented data validation logic, code testing and debugging |
 | Yinqi Chen | Designed and implemented languages-view.fxml UI layout, CSS styling |
-| Harshika Vijayabharath | Implemented LanguagesController with CRUD operations, table view setup |
+| Harshika Vijayabharath | Implemented LanguagesController with CRUD operations, setup table view|
 | Phuong Tong | Updated MainController navigation, integrated module-info.java, project documentation |
 
 ## Project Description
@@ -96,3 +96,4 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
