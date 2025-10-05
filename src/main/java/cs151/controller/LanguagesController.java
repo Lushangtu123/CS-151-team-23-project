@@ -210,7 +210,7 @@ public class LanguagesController {
             javafx.fxml.FXMLLoader fxmlLoader = new javafx.fxml.FXMLLoader(
                 getClass().getResource("/cs151/application/hello-view.fxml")
             );
-            javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 600, 500);
+            javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 700, 600);
             stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();

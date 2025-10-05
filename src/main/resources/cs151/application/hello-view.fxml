@@ -15,7 +15,7 @@
     <VBox alignment="CENTER" spacing="10.0">
         <Label text="Student Information Management System" 
                style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;"/>
-        <Label text="Manage student profiles and programming languages" 
+        <Label text="Monitor student academic and career pathways"
                style="-fx-font-size: 14px; -fx-text-fill: #e0e0e0;"/>
     </VBox>
 
