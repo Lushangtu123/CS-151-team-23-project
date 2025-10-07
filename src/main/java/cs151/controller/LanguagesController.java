@@ -4,6 +4,7 @@ import cs151.data.LanguageDAO;
 import cs151.model.Language;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -86,6 +87,7 @@ public class LanguagesController {
                 }
             }
         });
+<<<<<<< HEAD
         //  from SQLite
         dao.initTable(); // Ensure Language table exists
         languagesList = FXCollections.observableArrayList(dao.getAllLanguages());
@@ -99,6 +101,27 @@ public class LanguagesController {
         // Bind the table to the observable list
         languagesTable.setItems(languagesList);
         
+=======
+
+        // Wrap the list into a sorted list
+        SortedList<Language> sortedList = new SortedList<>(languagesList);
+
+        // Comparison of languages
+        sortedList.setComparator((lang1, lang2) ->
+                lang1.getName().compareToIgnoreCase(lang2.getName()));
+
+        sortedList.comparatorProperty().bind(languagesTable.comparatorProperty());
+        // Display sorted languages
+        languagesTable.setItems(sortedList);
+
+        // Set sort column and the sort order
+        languagesTable.getSortOrder().add(nameColumn);
+        nameColumn.setSortType(TableColumn.SortType.ASCENDING);
+
+        // Apply the sort to table
+        languagesTable.sort();
+
+>>>>>>> e8d3d6bd5426603dc9fb2fde9d098de594802760
         // Clear message when user starts typing
         languageNameField.textProperty().addListener((obs, oldVal, newVal) -> {
             messageLabel.setText("");
@@ -118,9 +141,18 @@ public class LanguagesController {
             showMessage("Language '" + languageName + "' already exists!", "error");
             return;
         }
+<<<<<<< HEAD
 
         dao.saveLanguage(languageName);
         languagesList.setAll(dao.getAllLanguages()); // Refresh list from DB
+=======
+        
+        // Create and add the new language
+        Language newLanguage = new Language(nextId++, languageName);
+        languagesList.add(newLanguage);
+        languagesTable.sort();
+        // Clear the input field
+>>>>>>> e8d3d6bd5426603dc9fb2fde9d098de594802760
         languageNameField.clear();
         showMessage("Language '" + languageName + "' added successfully!", "success");
     }
