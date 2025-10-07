@@ -3,6 +3,7 @@ package cs151.controller;
 import cs151.model.Language;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -82,10 +83,25 @@ public class LanguagesController {
                 }
             }
         });
-        
-        // Bind the table to the observable list
-        languagesTable.setItems(languagesList);
-        
+
+        // Wrap the list into a sorted list
+        SortedList<Language> sortedList = new SortedList<>(languagesList);
+
+        // Comparison of languages
+        sortedList.setComparator((lang1, lang2) ->
+                lang1.getName().compareToIgnoreCase(lang2.getName()));
+
+        sortedList.comparatorProperty().bind(languagesTable.comparatorProperty());
+        // Display sorted languages
+        languagesTable.setItems(sortedList);
+
+        // Set sort column and the sort order
+        languagesTable.getSortOrder().add(nameColumn);
+        nameColumn.setSortType(TableColumn.SortType.ASCENDING);
+
+        // Apply the sort to table
+        languagesTable.sort();
+
         // Clear message when user starts typing
         languageNameField.textProperty().addListener((obs, oldVal, newVal) -> {
             messageLabel.setText("");
@@ -115,7 +131,7 @@ public class LanguagesController {
         // Create and add the new language
         Language newLanguage = new Language(nextId++, languageName);
         languagesList.add(newLanguage);
-        
+        languagesTable.sort();
         // Clear the input field
         languageNameField.clear();
         
