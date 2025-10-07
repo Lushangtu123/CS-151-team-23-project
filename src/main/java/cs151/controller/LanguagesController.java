@@ -1,5 +1,6 @@
 package cs151.controller;
 
+import cs151.data.LanguageDAO;
 import cs151.model.Language;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,10 +37,13 @@ public class LanguagesController {
     private Label messageLabel;
     
     // Observable list to hold languages
-    private ObservableList<Language> languagesList = FXCollections.observableArrayList();
+    // private ObservableList<Language> languagesList = FXCollections.observableArrayList(); ************
+    private final LanguageDAO dao = new LanguageDAO();
+    private ObservableList<Language> languagesList;
+
     
     // Counter for generating IDs (in-memory only for v0.2)
-    private int nextId = 1;
+    // private int nextId = 1; ***************
     
     /**
      * Initialize method called automatically by JavaFX
@@ -82,6 +86,15 @@ public class LanguagesController {
                 }
             }
         });
+        //  from SQLite
+        dao.initTable(); // Ensure Language table exists
+        languagesList = FXCollections.observableArrayList(dao.getAllLanguages());
+        languagesTable.setItems(languagesList);
+
+        // Clear message when user starts typing
+        languageNameField.textProperty().addListener((obs, oldVal, newVal) -> {
+            messageLabel.setText("");
+        });
         
         // Bind the table to the observable list
         languagesTable.setItems(languagesList);
@@ -91,89 +104,79 @@ public class LanguagesController {
             messageLabel.setText("");
         });
     }
-    
-    /**
-     * Handles the Save button click
-     * Validates and adds/updates a language
-     */
+
     @FXML
     protected void onSaveButtonClick() {
         String languageName = languageNameField.getText().trim();
-        
-        // Validation: Check if name is empty
+
         if (languageName.isEmpty()) {
             showMessage("Please add a language", "error");
             return;
         }
-        
-        // Validation: Check if name already exists
-        if (isLanguageExists(languageName)) {
+
+        if (dao.isLanguageExists(languageName)) {
             showMessage("Language '" + languageName + "' already exists!", "error");
             return;
         }
-        
-        // Create and add the new language
-        Language newLanguage = new Language(nextId++, languageName);
-        languagesList.add(newLanguage);
-        
-        // Clear the input field
+
+        dao.saveLanguage(languageName);
+        languagesList.setAll(dao.getAllLanguages()); // Refresh list from DB
         languageNameField.clear();
-        
-        // Show success message
         showMessage("Language '" + languageName + "' added successfully!", "success");
     }
-    
+
     /**
      * Handles editing a language
      * @param language The language to edit
      */
+
     private void handleEdit(Language language) {
-        // Create a dialog for editing
         TextInputDialog dialog = new TextInputDialog(language.getName());
         dialog.setTitle("Edit Language");
         dialog.setHeaderText("Edit Programming Language");
         dialog.setContentText("Language Name:");
-        
+
         dialog.showAndWait().ifPresent(newName -> {
             newName = newName.trim();
-            
-            // Validate new name
+
             if (newName.isEmpty()) {
                 showMessage("Language name cannot be empty!", "error");
                 return;
             }
-            
-            // Check if new name already exists (excluding current language)
-            if (!newName.equalsIgnoreCase(language.getName()) && isLanguageExists(newName)) {
+
+            if ((language.getName() == null || !newName.equalsIgnoreCase(language.getName()))
+                    && dao.isLanguageExists(newName)) {
                 showMessage("Language '" + newName + "' already exists!", "error");
                 return;
             }
-            
-            // Update the language name
-            language.setName(newName);
-            languagesTable.refresh();
+
+
+            dao.updateLanguage(language.getId(), newName);
+            languagesList.setAll(dao.getAllLanguages()); // Refresh list
             showMessage("Language updated successfully!", "success");
         });
     }
+
     
     /**
      * Handles deleting a language
      * @param language The language to delete
      */
     private void handleDelete(Language language) {
-        // Show confirmation dialog
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Language");
         alert.setHeaderText("Delete Programming Language");
         alert.setContentText("Are you sure you want to delete '" + language.getName() + "'?");
-        
+
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                languagesList.remove(language);
+                dao.deleteLanguage(language.getId());
+                languagesList.setAll(dao.getAllLanguages()); // Refresh list
                 showMessage("Language '" + language.getName() + "' deleted successfully!", "success");
             }
         });
     }
+
     
     /**
      * Checks if a language with the given name already exists
@@ -181,9 +184,9 @@ public class LanguagesController {
      * @return true if exists, false otherwise
      */
     private boolean isLanguageExists(String name) {
-        return languagesList.stream()
-                .anyMatch(lang -> lang.getName().equalsIgnoreCase(name));
+        return dao.isLanguageExists(name);
     }
+
     
     /**
      * Displays a message to the user

@@ -18,7 +18,7 @@
     <HBox alignment="CENTER_LEFT" spacing="10.0">
         <Button fx:id="backButton" text="← Back" onAction="#onBackButtonClick"
                 style="-fx-background-color: #757575; -fx-text-fill: white; -fx-cursor: hand;"/>
-        <Label text="Define Programming Languages" 
+        <Label text="Programming Languages" 
                style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
     </HBox>
     
