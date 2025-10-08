@@ -56,6 +56,7 @@ This is Version 0.3 of the Student Information Management System, a desktop appl
 - **Build Tool**: Maven
 - **GUI Framework**: JavaFX 17.0.6
 - **Design Pattern**: MVC (Model-View-Controller)
+- **Database:** SQLite
 
 ## Project Structure
 
@@ -117,6 +118,7 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
 
 
 
