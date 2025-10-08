@@ -80,7 +80,7 @@ This is Version 0.3 of the Student Information Management System, a desktop appl
 │   │           └── application/
 │   │               ├── main-view.fxml         (Home page)
 │   │               └── languages-view.fxml    (Languages page)
-├── student.db
+├── student.db                                 (Database)
 ├── ReadMe.md
 ├── pom.xml
 └── .gitignore
@@ -116,6 +116,7 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
 
 
 
