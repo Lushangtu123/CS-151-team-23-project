@@ -1,4 +1,4 @@
-# Student Information Management System - Version 0.2
+# Student Information Management System - Version 0.3
 
 **Team Number:** 23  
 **Section:** 02
@@ -7,16 +7,33 @@
 
 | Name | Contribution |
 |------|--------------|
-| Van Anh Tran | Created Language model class, implemented data validation logic, code testing and debugging |
+| Van Anh Tran | Created Language model class, implemented data validation logic, SQlite |
 | Yinqi Chen | Designed and implemented languages-view.fxml UI layout, CSS styling |
 | Harshika Vijayabharath | Implemented LanguagesController with CRUD operations, setup table view|
 | Phuong Tong | Updated MainController navigation, integrated module-info.java, project documentation |
 
 ## Project Description
 
-This is Version 0.2 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
+This is Version 0.3 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
+### ✅ New in This Version 0.3
 
-## Version 0.2 Features
+- **JavaFX TableView Integration**
+  - Displays all stored programming languages in a tabular format
+  - Automatically sorted alphabetically (A to Z)
+  - Includes Edit and Delete buttons per row
+
+- **SQLite Persistence**
+  - Languages are stored in a local database (`student.db`)
+  - Data remains available across sessions
+
+- **Improved Validation**
+  - Prevents empty or duplicate entries
+  - Displays success/error messages with styling
+
+- **Confirmation Dialogs**
+  - Prompts before deleting a language
+  - Prompts before editing with pre-filled input
+## Old Version 0.2 Features
 
 ### Implemented Features:
 - **Home Page**: Landing page with navigation to different sections
@@ -54,17 +71,21 @@ This is Version 0.2 of the Student Information Management System, a desktop appl
 │   │   │   │   │   └── MainController.java    (Home page controller)
 │   │   │   │   ├── controller/
 │   │   │   │   │   └── LanguagesController.java
+│   │   │   │   ├── data/
+│   │   │   │   │   └── LanguageDAO.java       (Database access layer)
 │   │   │   │   └── model/
 │   │   │   │       └── Language.java
 │   │   │   └── module-info.java
 │   │   └── resources/
 │   │       └── cs151/
 │   │           └── application/
-│   │               ├── hello-view.fxml        (Home page)
+│   │               ├── main-view.fxml         (Home page)
 │   │               └── languages-view.fxml    (Languages page)
+├── student.db
 ├── ReadMe.md
 ├── pom.xml
 └── .gitignore
+
 ```
 
 ## How to Run
@@ -86,8 +107,8 @@ mvn clean javafx:run
 - The application runs as a single-user desktop application (no login required)
 
 ## Version History
-
-- **v0.2** (Current): Define Programming Languages feature implemented
+- v0.3 (Current): TableView integration and SQLite persistence
+- **v0.2**: Define Programming Languages feature implemented
 - **v0.1**: Initial project setup
 
 ---
@@ -96,4 +117,5 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
 
