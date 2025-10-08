@@ -113,10 +113,11 @@ mvn clean javafx:run
 
 ---
 
-**Client:** Ahmad Yazdankhah  
+**Client:** Professor Ahmad Yazdankhah  
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
 
 
 
