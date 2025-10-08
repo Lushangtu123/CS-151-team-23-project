@@ -20,7 +20,6 @@ This is Version 0.3 of the Student Information Management System, a desktop appl
 - **JavaFX TableView Integration**
   - Displays all stored programming languages in a tabular format
   - Automatically sorted alphabetically (A to Z)
-  - Includes Edit and Delete buttons per row
 
 - **SQLite Persistence**
   - Languages are stored in a local database (`student.db`)
@@ -117,5 +116,6 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
 
 
