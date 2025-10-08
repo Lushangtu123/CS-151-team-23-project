@@ -106,7 +106,7 @@ mvn clean javafx:run
 - The application runs as a single-user desktop application (no login required)
 
 ## Version History
-- v0.3 (Current): TableView integration and SQLite persistence
+- **v0.3** (Current): TableView integration and SQLite persistence
 - **v0.2**: Define Programming Languages feature implemented
 - **v0.1**: Initial project setup
 
@@ -116,6 +116,7 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
 
 
 
