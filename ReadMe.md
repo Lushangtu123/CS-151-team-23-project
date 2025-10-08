@@ -70,10 +70,10 @@ This is Version 0.3 of the Student Information Management System, a desktop appl
 │   │   │   │   │   └── MainController.java    (Home page controller)
 │   │   │   │   ├── controller/
 │   │   │   │   │   └── LanguagesController.java
+│   │   │   │   ├── model/
+│   │   │   │   │   └── Language.java
 │   │   │   │   ├── data/
 │   │   │   │   │   └── LanguageDAO.java       (Database access layer)
-│   │   │   │   └── model/
-│   │   │   │       └── Language.java
 │   │   │   └── module-info.java
 │   │   └── resources/
 │   │       └── cs151/
@@ -84,6 +84,7 @@ This is Version 0.3 of the Student Information Management System, a desktop appl
 ├── ReadMe.md
 ├── pom.xml
 └── .gitignore
+
 
 ```
 
@@ -116,6 +117,7 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
 
 
 
