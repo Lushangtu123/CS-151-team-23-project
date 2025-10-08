@@ -48,7 +48,6 @@ This is Version 0.3 of the Student Information Management System, a desktop appl
 - Student profile management
 - Search functionality
 - Report generation
-- Data persistence (SQLite/file system)
 
 ## Technical Requirements
 
@@ -118,6 +117,7 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
 
 
 
