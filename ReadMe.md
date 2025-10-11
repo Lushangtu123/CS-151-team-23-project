@@ -7,16 +7,34 @@
 
 | Name | Contribution |
 |------|--------------|
-| Van Anh Tran | Created Language model class, implemented data validation logic, database testing and debugging |
+| Van Anh Tran | Created Language model class, implemented data validation logic, database testing and debugging, SQLite integration |
 | Yinqi Chen | Designed and implemented languages-view.fxml UI layout, CSS styling, fixed merge conflicts |
 | Harshika Vijayabharath | Implemented LanguagesController with CRUD operations, setup table view with sorting|
-| Phuong Tong | Implemented LanguageDAO for SQLite persistence, updated MainController navigation, project documentation |
+| Phuong Tong | Implemented LanguageDAO for SQLite persistence, updated MainController navigation, integrated module-info.java, project documentation |
 
 ## Project Description
 
 This is Version 0.3 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
 
 ## Version 0.3 Features
+
+### ✅ New in This Version 0.3
+
+- **JavaFX TableView Integration**
+  - Displays all stored programming languages in a tabular format
+  - Automatically sorted alphabetically (A to Z)
+
+- **SQLite Persistence**
+  - Languages are stored in a local database (`student.db`)
+  - Data remains available across sessions
+
+- **Improved Validation**
+  - Prevents empty or duplicate entries
+  - Displays success/error messages with styling
+
+- **Confirmation Dialogs**
+  - Prompts before deleting a language
+  - Prompts before editing with pre-filled input
 
 ### Implemented Features:
 - **Home Page**: Landing page with navigation to different sections
@@ -67,12 +85,14 @@ This is Version 0.3 of the Student Information Management System, a desktop appl
 │   │   └── resources/
 │   │       └── cs151/
 │   │           └── application/
-│   │               ├── hello-view.fxml        (Home page)
+│   │               ├── main-view.fxml         (Home page)
 │   │               └── languages-view.fxml    (Languages page)
 ├── student.db                                 (SQLite database)
 ├── ReadMe.md
 ├── pom.xml
 └── .gitignore
+
+
 ```
 
 ## How to Run
@@ -108,6 +128,7 @@ mvn clean javafx:run
   - Added SQLite database integration for persistent storage
   - Implemented LanguageDAO for data access layer
   - Added alphabetical sorting (A-Z) for languages table
+  - TableView integration with JavaFX
   - Data now persists between application sessions
   - Upgraded JavaFX from 17.0.6 to 21.0.1 for better macOS compatibility
   
@@ -120,8 +141,18 @@ mvn clean javafx:run
 
 ---
 
-**Client:** Ahmad Yazdankhah  
+**Client:** Professor Ahmad Yazdankhah  
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
+
+
+
+
+
+
+
+
+
 
