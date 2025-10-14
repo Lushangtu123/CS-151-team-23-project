@@ -3,7 +3,6 @@ package cs151.application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
@@ -36,6 +35,33 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error loading languages page: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Handles navigation to the Student Management page
+     * Triggered when user clicks the "Manage Students" button
+     */
+    @FXML
+    protected void onStudentsButtonClick(javafx.event.ActionEvent event) {
+        try {
+            // Get the current stage from the event source
+            javafx.scene.Node source = (javafx.scene.Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            
+            // Load the students view
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                Main.class.getResource("/cs151/application/students-view.fxml")
+            );
+            Scene scene = new Scene(fxmlLoader.load(), 1400, 800);
+            
+            // Set the new scene
+            stage.setTitle("Student Management");
+            stage.setScene(scene);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error loading students page: " + e.getMessage());
         }
     }
 }

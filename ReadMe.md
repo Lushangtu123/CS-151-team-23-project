@@ -1,4 +1,4 @@
-# Student Information Management System - Version 0.3
+# Student Information Management System - Version 0.5
 
 **Team Number:** 23  
 **Section:** 02
@@ -7,53 +7,72 @@
 
 | Name | Contribution |
 |------|--------------|
-| Van Anh Tran | Created Language model class, implemented data validation logic, database testing and debugging, SQLite integration |
-| Yinqi Chen | Designed and implemented languages-view.fxml UI layout, CSS styling, fixed merge conflicts |
-| Harshika Vijayabharath | Implemented LanguagesController with CRUD operations, setup table view with sorting|
-| Phuong Tong | Implemented LanguageDAO for SQLite persistence, updated MainController navigation, integrated module-info.java, project documentation |
+| Van Anh Tran | Created Language and Student model classes, implemented data validation logic, database testing and debugging, SQLite integration |
+| Yinqi Chen | Designed and implemented languages-view.fxml and students-view.fxml UI layouts, CSS styling, fixed merge conflicts |
+| Harshika Vijayabharath | Implemented LanguagesController and StudentsController with CRUD operations, setup table views with sorting|
+| Phuong Tong | Implemented LanguageDAO and StudentDAO for SQLite persistence, updated MainController navigation, integrated module-info.java, project documentation |
 
 ## Project Description
 
-This is Version 0.3 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
+This is Version 0.5 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
 
-## Version 0.3 Features
+## Version 0.5 Features
 
-### ✅ New in This Version 0.3
+### ✅ New in This Version 0.5
 
-- **JavaFX TableView Integration**
-  - Displays all stored programming languages in a tabular format
-  - Automatically sorted alphabetically (A to Z)
+- **Complete Student Profile Management**
+  - Create, view, edit, and delete student profiles
+  - Required fields: Name, Academic Status
+  - Optional fields: Email, Programming Languages, Database Skills, Role, Interests
+  - Full validation with inline error messages
+  - TableView with automatic sorting by name (A→Z, case-insensitive)
 
-- **SQLite Persistence**
-  - Languages are stored in a local database (`student.db`)
-  - Data remains available across sessions
+- **Enhanced Language Management**
+  - Reference checking before deletion
+  - Prevents deletion of languages assigned to students
+  - Option to unassign and delete languages
+  - Improved data integrity
 
-- **Improved Validation**
-  - Prevents empty or duplicate entries
-  - Displays success/error messages with styling
-
-- **Confirmation Dialogs**
-  - Prompts before deleting a language
-  - Prompts before editing with pre-filled input
+- **Advanced Persistence Layer**
+  - StudentDAO with full CRUD operations
+  - LanguageDAO with reference checking
+  - All data stored in SQLite database
+  - Supports complex queries and sorting
 
 ### Implemented Features:
+
+#### **UC-01: Define Programming Languages** ✅
 - **Home Page**: Landing page with navigation to different sections
 - **Define Programming Languages Page**: 
-  - Add new programming languages
+  - ✅ `addLanguage(name)` - Add new programming languages
+  - ✅ `renameLanguage(id, newName)` - Edit existing programming languages
+  - ✅ `deleteLanguage(id)` - Delete programming languages with confirmation
+  - ✅ `listLanguages()` - View list in **TableView** component with **automatic alphabetical sorting (A-Z)**
+  - ✅ `isUniqueLanguage(name)` - Validation for empty and duplicate language names
+  - ✅ `isReferenced(name)` - Check if language is used by students
   - **Persistent storage using SQLite database**
-  - View list of all programming languages in **TableView** component
-  - **Automatic alphabetical sorting (A-Z ascending order)**
-  - Edit existing programming languages
-  - Delete programming languages with confirmation
-  - Validation for empty and duplicate language names
   - Success/error messages for user feedback
   - Data persists between application sessions
 
+#### **UC-02: Create Student Profile** ✅
+- **Student Management Page**:
+  - ✅ `createStudent(profile)` - Create new student profiles with validation
+  - ✅ `getAllStudents({sortBy:"name", order:"asc"})` - View all students in **TableView** sorted A→Z (case-insensitive)
+  - ✅ `validateStudent(profile)` - Required field validation + inline errors
+  - ✅ `persistStudent(profile)` - Save students to SQLite database
+  - ✅ Edit existing student profiles
+  - ✅ Delete student profiles with confirmation
+  - ✅ View detailed student information
+  - Student count display
+  - Form with all required and optional fields
+  - Email format validation
+  - Multi-language support (comma-separated)
+
 ### Features Coming in Future Versions:
-- Student profile management
-- Search functionality
-- Report generation
-- Additional data analytics
+- Search and filter functionality
+- Advanced reporting and analytics
+- Team formation tools
+- Export data to CSV/PDF
 
 ## Technical Requirements
 
@@ -75,18 +94,22 @@ This is Version 0.3 of the Student Information Management System, a desktop appl
 │   │   │   │   │   ├── Main.java              (Entry point)
 │   │   │   │   │   └── MainController.java    (Home page controller)
 │   │   │   │   ├── controller/
-│   │   │   │   │   └── LanguagesController.java (Languages CRUD controller)
+│   │   │   │   │   ├── LanguagesController.java (Languages CRUD controller)
+│   │   │   │   │   └── StudentsController.java  (Students CRUD controller)
 │   │   │   │   ├── data/
-│   │   │   │   │   ├── LanguageDAO.java       (Database access layer)
+│   │   │   │   │   ├── LanguageDAO.java       (Language database access)
+│   │   │   │   │   ├── StudentDAO.java        (Student database access)
 │   │   │   │   │   └── package-info.java
 │   │   │   │   └── model/
-│   │   │   │       └── Language.java          (Language entity)
+│   │   │   │       ├── Language.java          (Language entity)
+│   │   │   │       └── Student.java           (Student entity)
 │   │   │   └── module-info.java
 │   │   └── resources/
 │   │       └── cs151/
 │   │           └── application/
-│   │               ├── main-view.fxml         (Home page)
-│   │               └── languages-view.fxml    (Languages page)
+│   │               ├── hello-view.fxml        (Home page)
+│   │               ├── languages-view.fxml    (Languages page)
+│   │               └── students-view.fxml     (Students page)
 ├── student.db                                 (SQLite database)
 ├── ReadMe.md
 ├── pom.xml
@@ -113,18 +136,37 @@ mvn clean javafx:run
 - **Location**: Project root directory
 - **Tables**: 
   - `Language` (id INTEGER PRIMARY KEY, name TEXT)
+  - `Student` (id INTEGER PRIMARY KEY, name TEXT, academicStatus TEXT, email TEXT, languages TEXT, dbSkills TEXT, role TEXT, interests TEXT)
 - **JDBC Driver**: SQLite JDBC 3.50.3.0 (included in Maven dependencies)
+- **Relationships**: Languages stored as comma-separated strings in Student records
 
 ## Notes
 
 - Data is now **permanently stored** in SQLite database
-- All programming languages persist between application sessions
+- All programming languages and student profiles persist between application sessions
 - The application runs as a single-user desktop application (no login required)
 - Database file is automatically created on first run if it doesn't exist
+- Student tables are automatically created when accessing Student Management page
 
 ## Version History
 
-- **v0.3** (Current): 
+- **v0.5** (Current): 
+  - ✅ **Complete Student Profile Management** (UC-02)
+    - Created Student model with required and optional fields
+    - Implemented StudentDAO with full CRUD operations
+    - Built students-view.fxml with comprehensive form
+    - Implemented StudentsController with validation
+    - TableView with automatic sorting by name (A→Z, case-insensitive)
+  - ✅ **Enhanced Language Management** (UC-01)
+    - Added isReferenced() method to check language usage
+    - Improved data integrity with reference checking
+  - ✅ **Persistence Layer Complete**
+    - LanguageRepository: findAll, insert, update, delete, isReferenced
+    - StudentRepository: findAllSortedByName, insert, update, delete, validate
+  - Updated navigation with Student Management button
+  - Updated home page UI to version 0.5
+  
+- **v0.3**: 
   - Added SQLite database integration for persistent storage
   - Implemented LanguageDAO for data access layer
   - Added alphabetical sorting (A-Z) for languages table
