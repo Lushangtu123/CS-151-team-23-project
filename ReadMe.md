@@ -22,8 +22,7 @@ This is Version 0.5 of the Student Information Management System, a desktop appl
 
 - **Complete Student Profile Management**
   - Create, view, edit, and delete student profiles
-  - Required fields: Name, Academic Status
-  - Optional fields: Email, Programming Languages, Database Skills, Role, Interests
+  - Required fields: Full Name, Academic Status, Current Job Status, Job Details (if Employed), Programming Languages, Databases, Preferred Role
   - Full validation with inline error messages
   - TableView with automatic sorting by name (A→Z, case-insensitive)
 
