@@ -38,4 +38,26 @@ public class MainController {
             System.err.println("Error loading languages page: " + e.getMessage());
         }
     }
+    @FXML
+    protected void onStudentsButtonClick(javafx.event.ActionEvent event) {
+        try {
+            // Get the current stage from the event source
+            javafx.scene.Node source = (javafx.scene.Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+
+            // Load the languages view
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    Main.class.getResource("/cs151/application/create-student-view.fxml")
+            );
+            Scene scene = new Scene(fxmlLoader.load(), 700, 600);
+
+            // Set the new scene
+            stage.setTitle("Define Student Profile");
+            stage.setScene(scene);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error loading languages page: " + e.getMessage());
+        }
+    }
 }

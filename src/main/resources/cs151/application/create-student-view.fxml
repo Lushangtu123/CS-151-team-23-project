@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.FontWeight?>
+
+<AnchorPane
+        style="-fx-background-color: white;"
+        xmlns="http://javafx.com/javafx/17.0.12"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="cs151.controller.StudentController">
+
+    <ScrollPane fitToWidth="true" fitToHeight="true"
+                AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+    <VBox spacing="15" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
+
+        <padding>
+            <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+        </padding>
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Button fx:id="backButton" text="← Back" onAction="#onBackButtonClick"
+                    style="-fx-background-color: #757575; -fx-text-fill: white; -fx-cursor: hand;"/>
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Define Student Profile" />
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
+
+        <Separator />
+
+        <!-- Form Fields -->
+        <GridPane hgap="15" vgap="12">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50" />
+                <ColumnConstraints percentWidth="50" />
+            </columnConstraints>
+
+            <!-- Name -->
+            <Label text="Full Name *"/>
+            <TextField fx:id="nameField" promptText="Enter student name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+            <!-- Academic Status -->
+            <Label text="Academic Status *" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <ComboBox fx:id="academicStatusCombo" prefHeight="25.0" prefWidth="180.0" promptText="Select status" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+
+            <!-- Role -->
+            <Label text="Preferred Professional Role *" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="roleCombo" prefHeight="25.0" prefWidth="180.0" promptText="Select Role" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <!-- Languages -->
+            <Label text="Languages *" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <ComboBox fx:id="languagesCombo" prefHeight="25.0" prefWidth="180.0" promptText="+ Add / Select" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+
+            <!-- DB Skills -->
+            <Label text="Databases *" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox fx:id="dbSkillsCombo" prefHeight="25.0" prefWidth="180.0" promptText="+ Add / Select" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        </GridPane>
+
+        <Separator />
+
+        <!-- Job -->
+        <VBox spacing="10">
+            <Label text="Current Job Status" />
+            <HBox spacing="15">
+                <RadioButton fx:id="notEmployed" text="Not Employed" toggleGroup="$jobStatusGroup"/>
+                <RadioButton fx:id="employed" selected="true" text="Employed" toggleGroup="$jobStatusGroup" />
+            </HBox>
+        </VBox>
+
+        <Label text="Job Details " />
+        <TextField fx:id="jobDetail" prefHeight="25.0" prefWidth="495.0" promptText="Enter job detail" />
+
+        <Separator />
+        <!-- Comment -->
+        <VBox spacing="10">
+            <Label text="Initial Evaluation Comment" />
+            <TextArea fx:id="evaluationComment" prefRowCount="3" promptText="Enter initial evaluation or comments..." />
+        </VBox>
+
+        <!-- Flag -->
+        <VBox spacing="5">
+            <Label text="Flag" />
+            <HBox spacing="15">
+                <CheckBox fx:id="whitelistCheckbox" text="Whitelist" />
+                <CheckBox fx:id="blacklistCheckbox" text="Blacklist" />
+            </HBox>
+        </VBox>
+
+        <!-- Save Button -->
+        <HBox alignment="CENTER">
+            <Button fx:id="saveButton"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 7 15;"
+                    text="Save Student Profile" />
+        </HBox>
+
+    </VBox>
+    </ScrollPane>
+</AnchorPane>
