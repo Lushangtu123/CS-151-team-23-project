@@ -37,9 +37,6 @@ public class StudentsController {
     private TextField roleField;
     
     @FXML
-    private TextArea interestsArea;
-    
-    @FXML
     private Button saveButton;
     
     @FXML
@@ -232,11 +229,6 @@ public class StudentsController {
         roleCol.setPrefWidth(130);
         roleCol.setStyle("-fx-font-size: 15px;");
         
-        TableColumn<Student, String> interestsCol = new TableColumn<>("Interests");
-        interestsCol.setCellValueFactory(new PropertyValueFactory<>("interests"));
-        interestsCol.setPrefWidth(150);
-        interestsCol.setStyle("-fx-font-size: 15px;");
-        
         // Actions column
         TableColumn<Student, Void> actionsCol = new TableColumn<>("Actions");
         actionsCol.setPrefWidth(250);
@@ -286,7 +278,7 @@ public class StudentsController {
             }
         });
         
-        studentsTable.getColumns().addAll(nameCol, statusCol, langCol, dbCol, roleCol, interestsCol, actionsCol);
+        studentsTable.getColumns().addAll(nameCol, statusCol, langCol, dbCol, roleCol, actionsCol);
         
         // Load students
         ObservableList<Student> students = FXCollections.observableArrayList(
@@ -333,7 +325,7 @@ public class StudentsController {
         String name = nameField.getText().trim();
         String academicStatus = academicStatusCombo.getValue();
         String role = roleField.getText().trim();
-        String interests = interestsArea.getText().trim();
+        String interests = "";
         
         if (name.isEmpty()) {
             showMessage("Error: Name is required.", "error");
@@ -360,10 +352,6 @@ public class StudentsController {
             return;
         }
         
-        if (interests.isEmpty()) {
-            showMessage("Error: Interests is required.", "error");
-            return;
-        }
         
         // Create or update student
         Student student;
@@ -427,7 +415,6 @@ public class StudentsController {
         languagesListView.getSelectionModel().clearSelection();
         dbSkillsListView.getSelectionModel().clearSelection();
         roleField.clear();
-        interestsArea.clear();
         messageLabel.setText("");
         editingStudent = null;
         formTitleLabel.setText("Create New Student Profile");
@@ -468,7 +455,6 @@ public class StudentsController {
         }
         
         roleField.setText(student.getRole() != null ? student.getRole() : "");
-        interestsArea.setText(student.getInterests() != null ? student.getInterests() : "");
         
         // Update form title
         formTitleLabel.setText("Edit Student Profile: " + student.getName());
@@ -519,7 +505,6 @@ public class StudentsController {
         details.append("Languages: ").append(!student.getLanguagesAsString().isEmpty() ? student.getLanguagesAsString() : "N/A").append("\n");
         details.append("DB Skills: ").append(student.getDbSkills() != null ? student.getDbSkills() : "N/A").append("\n");
         details.append("Role: ").append(student.getRole() != null ? student.getRole() : "N/A").append("\n");
-        details.append("Interests: ").append(student.getInterests() != null ? student.getInterests() : "N/A");
         
         alert.setContentText(details.toString());
         alert.showAndWait();
