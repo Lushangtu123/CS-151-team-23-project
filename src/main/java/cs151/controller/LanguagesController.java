@@ -71,8 +71,8 @@ public class LanguagesController {
                     handleDelete(language);
                 });
                 
-                editButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
-                deleteButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
+                editButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 16; -fx-cursor: hand;");
+                deleteButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 16; -fx-cursor: hand;");
             }
             
             @Override
@@ -227,7 +227,7 @@ public class LanguagesController {
             javafx.fxml.FXMLLoader fxmlLoader = new javafx.fxml.FXMLLoader(
                 getClass().getResource("/cs151/application/hello-view.fxml")
             );
-            javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 700, 600);
+            javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 900, 800);
             stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();

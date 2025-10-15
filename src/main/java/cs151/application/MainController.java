@@ -26,7 +26,7 @@ public class MainController {
             FXMLLoader fxmlLoader = new FXMLLoader(
                 Main.class.getResource("/cs151/application/languages-view.fxml")
             );
-            Scene scene = new Scene(fxmlLoader.load(), 700, 600);
+            Scene scene = new Scene(fxmlLoader.load(), 900, 800);
             
             // Set the new scene
             stage.setTitle("Define Programming Languages");
@@ -53,7 +53,7 @@ public class MainController {
             FXMLLoader fxmlLoader = new FXMLLoader(
                 Main.class.getResource("/cs151/application/students-view.fxml")
             );
-            Scene scene = new Scene(fxmlLoader.load(), 1400, 800);
+            Scene scene = new Scene(fxmlLoader.load(), 1200, 900);
             
             // Set the new scene
             stage.setTitle("Student Management");

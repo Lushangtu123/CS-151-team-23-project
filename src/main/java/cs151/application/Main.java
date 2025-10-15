@@ -26,12 +26,12 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 600);
+        Scene scene = new Scene(fxmlLoader.load(), 900, 800);
         stage.setTitle("Student Information Management System - v0.5");
         stage.setScene(scene);
         stage.setResizable(true);
-        stage.setMinWidth(700);
-        stage.setMinHeight(600);
+        stage.setMinWidth(800);
+        stage.setMinHeight(700);
         stage.show();
     }
 

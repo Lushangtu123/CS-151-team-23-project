@@ -4,50 +4,61 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="30.0" xmlns:fx="http://javafx.com/fxml"
+<VBox alignment="CENTER" spacing="40.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="cs151.application.MainController"
-      style="-fx-background-color: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);">
+      style="-fx-background-color: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);"
+      minWidth="800" minHeight="700">
     <padding>
-        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
+        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0"/>
     </padding>
 
     <!-- Welcome Section -->
-    <VBox alignment="CENTER" spacing="10.0">
+    <VBox alignment="CENTER" spacing="18.0" maxWidth="750">
         <Label text="Student Information Management System" 
-               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+               wrapText="true"
+               textAlignment="CENTER"
+               style="-fx-font-size: 38px; -fx-font-weight: bold; -fx-text-fill: white; -fx-line-spacing: 8px;"/>
         <Label text="Monitor student academic and career pathways"
-               style="-fx-font-size: 14px; -fx-text-fill: #e0e0e0;"/>
+               wrapText="true"
+               textAlignment="CENTER"
+               style="-fx-font-size: 20px; -fx-text-fill: #e0e0e0; -fx-line-spacing: 5px;"/>
     </VBox>
 
     <!-- Navigation Buttons -->
-    <VBox spacing="15.0" alignment="CENTER" maxWidth="400">
+    <VBox spacing="20.0" alignment="CENTER" maxWidth="500">
         <Button text="Define Programming Languages" 
                 onAction="#onLanguagesButtonClick"
-                prefWidth="350"
-                prefHeight="50"
-                style="-fx-background-color: white; -fx-text-fill: #667eea; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10;">
+                prefWidth="460"
+                prefHeight="65"
+                wrapText="true"
+                style="-fx-background-color: white; -fx-text-fill: #667eea; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-padding: 15 25;">
         </Button>
         
         <Button text="Manage Student Profiles" 
                 onAction="#onStudentsButtonClick"
-                prefWidth="350"
-                prefHeight="50"
-                style="-fx-background-color: white; -fx-text-fill: #764ba2; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10;">
+                prefWidth="460"
+                prefHeight="65"
+                wrapText="true"
+                style="-fx-background-color: white; -fx-text-fill: #764ba2; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-padding: 15 25;">
         </Button>
         
         <Button text="Search &amp; Reports" 
                 disable="true"
-                prefWidth="350"
-                prefHeight="50"
-                style="-fx-background-color: #cccccc; -fx-text-fill: #666666; -fx-font-size: 16px; -fx-background-radius: 10;">
+                prefWidth="460"
+                prefHeight="65"
+                wrapText="true"
+                style="-fx-background-color: #cccccc; -fx-text-fill: #666666; -fx-font-size: 20px; -fx-background-radius: 10; -fx-padding: 15 25;">
         </Button>
         
         <Label text="(Search &amp; Reports coming in future versions)" 
-               style="-fx-text-fill: #e0e0e0; -fx-font-size: 12px; -fx-font-style: italic;"/>
+               wrapText="true"
+               textAlignment="CENTER"
+               maxWidth="460"
+               style="-fx-text-fill: #e0e0e0; -fx-font-size: 16px; -fx-font-style: italic;"/>
     </VBox>
 
     <!-- Footer -->
     <Label text="Version 0.5 | Team 23" 
-           style="-fx-text-fill: white; -fx-font-size: 12px;"/>
+           style="-fx-text-fill: white; -fx-font-size: 16px;"/>
            
 </VBox>
