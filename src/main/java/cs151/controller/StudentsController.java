@@ -328,7 +328,7 @@ public class StudentsController {
         String interests = "";
         
         if (name.isEmpty()) {
-            showMessage("Error: Name is required.", "error");
+            showMessage("Error: Full Name is required.", "error");
             return;
         }
         
