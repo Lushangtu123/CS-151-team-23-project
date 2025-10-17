@@ -41,7 +41,7 @@
         
         <!-- Name (Required) -->
         <VBox spacing="15.0">
-            <Text text="Name *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+            <Text text="Full Name *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
                 <VBox.margin>
                     <Insets top="28" bottom="28"/>
                 </VBox.margin>
