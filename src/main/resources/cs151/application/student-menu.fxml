@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cs151.controller.StudentMenuController"
+      spacing="20" alignment="CENTER">
+
+    <padding>
+        <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
+    </padding>
+
+    <Label text="Student Profile Menu" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+    <Button text="Add Student" onAction="#onAddStudentClick" prefWidth="200"/>   
+    <Button text="Student Table View" onAction="#onStudentTableClick" prefWidth="200"/>
+</VBox>

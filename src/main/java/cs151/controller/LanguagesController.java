@@ -37,15 +37,11 @@ public class LanguagesController {
     @FXML
     private Label messageLabel;
     
-    // Observable list to hold languages
-    // private ObservableList<Language> languagesList = FXCollections.observableArrayList(); ************
+   
     private final LanguageDAO dao = new LanguageDAO();
     private ObservableList<Language> languagesList;
-
-    
-    // Counter for generating IDs (in-memory only for v0.2)
-    // private int nextId = 1; ***************
-    
+  
+       
     /**
      * Initialize method called automatically by JavaFX
      * Sets up the table and event handlers
@@ -61,7 +57,7 @@ public class LanguagesController {
             private final Button deleteButton = new Button("Delete");
             
             {
-                editButton.setOnAction(event -> {
+               editButton.setOnAction(event -> {
                     Language language = getTableView().getItems().get(getIndex());
                     handleEdit(language);
                 });

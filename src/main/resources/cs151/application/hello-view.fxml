@@ -8,8 +8,9 @@
       fx:controller="cs151.application.MainController"
       style="-fx-background-color: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);"
       minWidth="800" minHeight="700">
+      
     <padding>
-        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0"/>
+        <Insets top="50.0" right="50.0" bottom="50.0" left="50.0"/>
     </padding>
 
     <!-- Welcome Section -->
@@ -31,24 +32,21 @@
                 prefWidth="460"
                 prefHeight="65"
                 wrapText="true"
-                style="-fx-background-color: white; -fx-text-fill: #667eea; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-padding: 15 25;">
-        </Button>
+                style="-fx-background-color: white; -fx-text-fill: #667eea; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-padding: 15 25;" />
         
         <Button text="Manage Student Profiles" 
                 onAction="#onStudentsButtonClick"
                 prefWidth="460"
                 prefHeight="65"
                 wrapText="true"
-                style="-fx-background-color: white; -fx-text-fill: #764ba2; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-padding: 15 25;">
-        </Button>
+                style="-fx-background-color: white; -fx-text-fill: #764ba2; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-padding: 15 25;" />
         
         <Button text="Search &amp; Reports" 
                 disable="true"
                 prefWidth="460"
                 prefHeight="65"
                 wrapText="true"
-                style="-fx-background-color: #cccccc; -fx-text-fill: #666666; -fx-font-size: 20px; -fx-background-radius: 10; -fx-padding: 15 25;">
-        </Button>
+                style="-fx-background-color: #cccccc; -fx-text-fill: #666666; -fx-font-size: 20px; -fx-background-radius: 10; -fx-padding: 15 25;" />
         
         <Label text="(Search &amp; Reports coming in future versions)" 
                wrapText="true"
@@ -60,5 +58,4 @@
     <!-- Footer -->
     <Label text="Version 0.5 | Team 23" 
            style="-fx-text-fill: white; -fx-font-size: 16px;"/>
-           
 </VBox>

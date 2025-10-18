@@ -1,185 +1,98 @@
 package cs151.model;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-/**
- * Represents a Student entity
- * Used for managing student profiles in the system
- */
 public class Student {
     private int id;
-    private String name;                    // Required
-    private String academicStatus;          // Required (e.g., Freshman, Sophomore, Junior, Senior, Graduate)
-    private String email;                   // Optional
-    private List<String> languages;         // Optional - programming languages the student knows
-    private String dbSkills;                // Optional - database skills
-    private String role;                    // Optional - role in team/project
-    private String interests;               // Optional - areas of interest
+    private String fullName;
+    private String academicStatus;
+    private boolean employed;
+    private String jobDetails;
+    private List<String> programmingLanguages;
+    private List<String> databases;
+    private String preferredRole;
+    private List<String> comments;
+    private String flag; 
 
-    /**
-     * Constructor for creating a new Student (without ID)
-     * @param name Student's name (required)
-     * @param academicStatus Student's academic status (required)
-     */
-    public Student(String name, String academicStatus) {
-        this.name = name;
-        this.academicStatus = academicStatus;
-        this.languages = new ArrayList<>();
-    }
-
-    /**
-     * Constructor with ID (used when loading from database)
-     * @param id The unique identifier
-     * @param name Student's name
-     * @param academicStatus Student's academic status
-     */
-    public Student(int id, String name, String academicStatus) {
+    public Student(int id, String fullName, String academicStatus, boolean employed, String jobDetails,
+                   List<String> programmingLanguages, List<String> databases, String preferredRole,
+                   List<String> comments, String flag) {
         this.id = id;
-        this.name = name;
+        this.fullName = fullName;
         this.academicStatus = academicStatus;
-        this.languages = new ArrayList<>();
+        this.employed = employed;
+        this.jobDetails = jobDetails;
+        this.programmingLanguages = programmingLanguages;
+        this.databases = databases;
+        this.preferredRole = preferredRole;
+        this.comments = comments;
+        this.flag = flag;
     }
 
-    /**
-     * Full constructor with all fields
-     */
-    public Student(int id, String name, String academicStatus, String email, 
-                   List<String> languages, String dbSkills, String role, String interests) {
-        this.id = id;
-        this.name = name;
-        this.academicStatus = academicStatus;
-        this.email = email;
-        this.languages = languages != null ? languages : new ArrayList<>();
-        this.dbSkills = dbSkills;
-        this.role = role;
-        this.interests = interests;
+    // Getters and setters
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
+
+    public String getAcademicStatus() { return academicStatus; }
+    public void setAcademicStatus(String academicStatus) { this.academicStatus = academicStatus; }
+
+    public boolean isEmployed() { return employed; }
+    public void setEmployed(boolean employed) { this.employed = employed; }
+
+    public String getJobDetails() { return jobDetails; }
+    public void setJobDetails(String jobDetails) { this.jobDetails = jobDetails; }
+
+    public List<String> getProgrammingLanguages() { return programmingLanguages; }
+    public void setProgrammingLanguages(List<String> programmingLanguages) { this.programmingLanguages = programmingLanguages; }
+
+    public List<String> getDatabases() { return databases; }
+    public void setDatabases(List<String> databases) { this.databases = databases; }
+
+    public String getPreferredRole() { return preferredRole; }
+    public void setPreferredRole(String preferredRole) { this.preferredRole = preferredRole; }
+
+    public List<String> getComments() { return comments; }
+    public void setComments(List<String> comments) { this.comments = comments; }
+
+    public String getFlag() { return flag; }
+    public void setFlag(String flag) { this.flag = flag; }
+
+    // Serialize to pipe-delimited record
+    public String toRecord() {
+        return String.join("|",
+            String.valueOf(id),
+            fullName,
+            academicStatus,
+            employed ? "Employed" : "Not Employed",
+            jobDetails,
+            String.join(",", programmingLanguages),
+            String.join(",", databases),
+            preferredRole,
+            String.join(",", comments),
+            flag != null ? flag : "None"
+        );
     }
 
-    // Getters and Setters
-    public int getId() {
-        return id;
-    }
+    // Deserialize from record
+    public static Student fromRecord(String line) {
+        String[] parts = line.split("\\|", -1); // -1 keeps empty fields
+        int id = Integer.parseInt(parts[0]);
+        String fullName = parts[1];
+        String academicStatus = parts[2];
+        boolean employed = "Employed".equals(parts[3]);
+        String jobDetails = parts[4];
+        List<String> programmingLanguages = Arrays.asList(parts[5].split(","));
+        List<String> databases = Arrays.asList(parts[6].split(","));
+        String preferredRole = parts[7];
+        List<String> comments = Arrays.asList(parts[8].split(","));
+        String flag = parts.length > 9 ? parts[9] : "None";
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAcademicStatus() {
-        return academicStatus;
-    }
-
-    public void setAcademicStatus(String academicStatus) {
-        this.academicStatus = academicStatus;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<String> getLanguages() {
-        return languages;
-    }
-
-    public void setLanguages(List<String> languages) {
-        this.languages = languages;
-    }
-
-    public String getDbSkills() {
-        return dbSkills;
-    }
-
-    public void setDbSkills(String dbSkills) {
-        this.dbSkills = dbSkills;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getInterests() {
-        return interests;
-    }
-
-    public void setInterests(String interests) {
-        this.interests = interests;
-    }
-
-    /**
-     * Get languages as a comma-separated string for display
-     */
-    public String getLanguagesAsString() {
-        return languages != null && !languages.isEmpty() 
-            ? String.join(", ", languages) 
-            : "";
-    }
-
-    /**
-     * Set languages from a comma-separated string
-     */
-    public void setLanguagesFromString(String languagesStr) {
-        this.languages = new ArrayList<>();
-        if (languagesStr != null && !languagesStr.trim().isEmpty()) {
-            String[] parts = languagesStr.split(",");
-            for (String part : parts) {
-                String trimmed = part.trim();
-                if (!trimmed.isEmpty()) {
-                    this.languages.add(trimmed);
-                }
-            }
-        }
-    }
-
-    /**
-     * Validates if the student profile has all required fields
-     * @return true if valid, false otherwise
-     */
-    public boolean isValid() {
-        return name != null && !name.trim().isEmpty() 
-            && academicStatus != null && !academicStatus.trim().isEmpty();
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", academicStatus='" + academicStatus + '\'' +
-                ", email='" + email + '\'' +
-                ", languages=" + languages +
-                ", dbSkills='" + dbSkills + '\'' +
-                ", role='" + role + '\'' +
-                ", interests='" + interests + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Student student = (Student) obj;
-        return id == student.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(id);
+        return new Student(id, fullName, academicStatus, employed, jobDetails,
+            programmingLanguages, databases, preferredRole, comments, flag);
     }
 }
-
