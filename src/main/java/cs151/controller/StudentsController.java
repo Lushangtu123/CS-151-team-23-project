@@ -9,11 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Controller for the Student Management page
@@ -35,6 +33,30 @@ public class StudentsController {
     
     @FXML
     private TextField roleField;
+
+    @FXML
+    private ComboBox<String> roleCombo;
+
+    @FXML
+    private RadioButton notEmployed;
+
+    @FXML
+    private RadioButton employed;
+
+    @FXML
+    private ToggleGroup jobStatusGroup;
+
+    @FXML
+    private TextField jobDetail;
+
+    @FXML
+    private TextArea evaluationComment;
+
+    @FXML
+    private CheckBox whitelistCheckbox;
+
+    @FXML
+    private CheckBox blacklistCheckbox;
     
     @FXML
     private Button saveButton;
@@ -57,7 +79,7 @@ public class StudentsController {
     private final StudentDAO studentDao = new StudentDAO();
     private final LanguageDAO languageDao = new LanguageDAO();
     private Student editingStudent = null; // Track if we're editing
-    
+
     // Available options for multi-select
     private final ObservableList<String> availableLanguages = FXCollections.observableArrayList();
     private final ObservableList<String> availableDbSkills = FXCollections.observableArrayList(
@@ -79,9 +101,32 @@ public class StudentsController {
         
         // Set up academic status options
         academicStatusCombo.setItems(FXCollections.observableArrayList(
-            "Freshman", "Sophomore", "Junior", "Senior", "Graduate", "PhD"
+            "Freshman", "Sophomore", "Junior", "Senior", "Graduate"
         ));
-        
+
+        //Set up preferred roles
+        roleCombo.setItems(FXCollections.observableArrayList("Back-End", "Front-End", "Full-Stack", "Data", "Other"));
+
+        //Set up radio buttons job status
+        jobStatusGroup = new ToggleGroup();
+        employed.setToggleGroup(jobStatusGroup);
+        notEmployed.setToggleGroup(jobStatusGroup);
+
+        jobDetail.disableProperty().bind(notEmployed.selectedProperty());
+
+        //Set up mutual exclusive flags
+        whitelistCheckbox.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+            if (isNowSelected) {
+                blacklistCheckbox.setSelected(false);
+            }
+        });
+
+        blacklistCheckbox.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+            if (isNowSelected) {
+                whitelistCheckbox.setSelected(false);
+            }
+        });
+
         // Set up multi-select ListViews with EXTRA LARGE size - 26px font, 100px height, balanced padding
         languagesListView.setItems(availableLanguages);
         languagesListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -102,7 +147,8 @@ public class StudentsController {
                 }
             }
         });
-        
+
+        //Set up multi-select for databases
         dbSkillsListView.setItems(availableDbSkills);
         dbSkillsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         dbSkillsListView.setCellFactory(lv -> new javafx.scene.control.ListCell<String>() {
@@ -324,9 +370,17 @@ public class StudentsController {
         // Validate all required fields
         String name = nameField.getText().trim();
         String academicStatus = academicStatusCombo.getValue();
-        String role = roleField.getText().trim();
-        String interests = "";
-        
+        String role = roleCombo.getValue();
+        String comment = evaluationComment.getText();
+        String jobStatus = ((RadioButton) jobStatusGroup.getSelectedToggle()).getText();
+        String job = jobDetail.getText();
+        String flagStatus = null;
+            if (whitelistCheckbox.isSelected()) {
+                flagStatus = "Whitelist";
+            } else if (blacklistCheckbox.isSelected()) {
+                flagStatus = "Blacklist";
+            }
+
         if (name.isEmpty()) {
             showMessage("Error: Full Name is required.", "error");
             return;
@@ -347,12 +401,21 @@ public class StudentsController {
             return;
         }
         
-        if (role.isEmpty()) {
+        if (role == null || role.isEmpty()) {
             showMessage("Error: Role is required.", "error");
             return;
         }
-        
-        
+
+        if (employed.isSelected() && job.isEmpty()) {
+            showMessage("Error: Job details required if student is employed",  "error");
+            return;
+        }
+
+        if (flagStatus == null) {
+            showMessage("Error: Flag student is required.", "error");
+        }
+
+
         // Create or update student
         Student student;
         
@@ -371,7 +434,10 @@ public class StudentsController {
         student.setLanguagesFromString(languagesStr);
         student.setDbSkills(dbSkillsStr);
         student.setRole(role);
-        student.setInterests(interests);
+        student.setJobStatus(jobStatus);
+        student.setJobDetail(job);
+        student.setFlagStatus(flagStatus);
+        student.setComment(comment);
         
         // Save to database
         boolean success;

@@ -12,10 +12,14 @@ public class Student {
     private String name;                    // Required
     private String academicStatus;          // Required (e.g., Freshman, Sophomore, Junior, Senior, Graduate)
     private String email;                   // Optional
-    private List<String> languages;         // Optional - programming languages the student knows
-    private String dbSkills;                // Optional - database skills
-    private String role;                    // Optional - role in team/project
+    private List<String> languages;         // Required - programming languages the student knows
+    private String dbSkills;                // Required - database skills
+    private String role;                    // Required - role in team/project
     private String interests;               // Optional - areas of interest
+    private String jobDetail;               // Required - only when status is employed.
+    private String jobStatus;               // Required - indicates if student is employed or not
+    private String flagStatus;              // Required - flag for future services
+    private String comment;
 
     /**
      * Constructor for creating a new Student (without ID)
@@ -45,7 +49,8 @@ public class Student {
      * Full constructor with all fields
      */
     public Student(int id, String name, String academicStatus, String email, 
-                   List<String> languages, String dbSkills, String role, String interests) {
+                   List<String> languages, String dbSkills, String role, String interests,
+                   String jobStatus, String flagStatus, String jobDetail, String comment) {
         this.id = id;
         this.name = name;
         this.academicStatus = academicStatus;
@@ -54,6 +59,10 @@ public class Student {
         this.dbSkills = dbSkills;
         this.role = role;
         this.interests = interests;
+        this.jobDetail = jobDetail;
+        this.jobStatus = jobStatus;
+        this.flagStatus = flagStatus;
+        this.comment = comment;
     }
 
     // Getters and Setters
@@ -121,6 +130,38 @@ public class Student {
         this.interests = interests;
     }
 
+    public String getJobStatus() {
+        return jobStatus;
+    }
+
+    public void setJobStatus(String jobStatus) {
+        this.jobStatus = jobStatus;
+    }
+
+    public String getJobDetail() {
+        return jobDetail;
+    }
+
+    public void setJobDetail(String jobDetail) {
+        this.jobDetail = jobDetail;
+    }
+
+    public String getFlagStatus() {
+        return flagStatus;
+    }
+
+    public void setFlagStatus(String flagStatus) {
+        this.flagStatus = flagStatus;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     /**
      * Get languages as a comma-separated string for display
      */
@@ -166,6 +207,10 @@ public class Student {
                 ", dbSkills='" + dbSkills + '\'' +
                 ", role='" + role + '\'' +
                 ", interests='" + interests + '\'' +
+                ", jobStatus='" + jobStatus + '\'' +
+                ", jobDetail='" + jobDetail + '\'' +
+                ", flagStatus='" + flagStatus + '\'' +
+                ", comment='" + comment + '\'' +
                 '}';
     }
 

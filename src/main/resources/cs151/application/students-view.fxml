@@ -117,20 +117,55 @@
         
         <!-- Role (Required) -->
         <VBox spacing="15.0">
-            <Text text="Role *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+            <Text text="Preferred Role *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
                 <VBox.margin>
                     <Insets top="28" bottom="28"/>
                 </VBox.margin>
             </Text>
-            <TextField fx:id="roleField" 
-                      promptText="e.g., Team Leader, Developer"
+            <ComboBox fx:id="roleCombo"
+                      promptText="Select role"
                       prefWidth="860"
                       maxWidth="860"
                       minHeight="75"
                       prefHeight="75"
-                      style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-font-size: 26px; -fx-padding: 25 20; -fx-background-insets: 0;"/>
+                      style="-fx-border-color: #ccc; -fx-font-size: 26px;"/>
         </VBox>
-        
+
+        <!-- Job -->
+        <VBox spacing="15.0" style="-fx-font-size: 22px;">
+            <Label text="Current Job Status" style="-fx-font-weight: bold; -fx-font-size: 28px;"/>
+            <HBox spacing="15">
+                <RadioButton fx:id="notEmployed" text="Not Employed" toggleGroup="$jobStatusGroup"/>
+                <RadioButton fx:id="employed" text="Employed" toggleGroup="$jobStatusGroup" />
+            </HBox>
+        </VBox>
+
+        <Label text="Job Details " style="-fx-font-weight: bold; -fx-font-size: 28px;"/>
+        <TextField fx:id="jobDetail"
+                   promptText="Enter job details"
+                   prefWidth="860"
+                   maxWidth="860"
+                   minHeight="75"
+                   prefHeight="75"
+                   style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-font-size: 22px; -fx-padding: 25 20; -fx-background-insets: 0;"/>
+
+        <!-- Comment -->
+        <VBox spacing="15.0" style="-fx-font-size: 22px;">
+            <Label text="Evaluation Comment" style="-fx-font-weight: bold; -fx-font-size: 28px;"/>
+            <TextArea fx:id="evaluationComment"
+                      prefRowCount="3"
+                      promptText="Enter initial evaluation or comments..."/>
+        </VBox>
+
+        <!-- Flag -->
+        <VBox spacing="15.0" style="-fx-font-size: 22px;">
+            <Label text="Flag" style="-fx-font-weight: bold; -fx-font-size: 28px;"/>
+            <HBox spacing="15">
+                <CheckBox fx:id="whitelistCheckbox" text="Whitelist" />
+                <CheckBox fx:id="blacklistCheckbox" text="Blacklist" />
+            </HBox>
+        </VBox>
+
         <!-- Buttons -->
         <HBox spacing="20.0" alignment="CENTER_LEFT" style="-fx-padding: 18 0 0 0;">
             <Button fx:id="saveButton" 
