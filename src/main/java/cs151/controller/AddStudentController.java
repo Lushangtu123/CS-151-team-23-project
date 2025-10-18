@@ -6,6 +6,7 @@ import cs151.model.Student;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.Label; 
 import java.util.List;
 
 public class AddStudentController {
@@ -15,6 +16,7 @@ public class AddStudentController {
     @FXML private RadioButton employedRadio;
     @FXML private RadioButton notEmployedRadio;
     @FXML private TextArea jobDetailsField;
+    @FXML private Label jobLabel; // NEW: for dynamic visibility
     @FXML private ComboBox<String> preferredRoleCombo;
     @FXML private TextArea commentsArea;
     @FXML private ComboBox<String> flagCombo;
@@ -43,8 +45,14 @@ public class AddStudentController {
         employedRadio.setToggleGroup(employmentGroup);
         notEmployedRadio.setToggleGroup(employmentGroup);
         notEmployedRadio.setSelected(true);
+
+        // NEW: toggle job label visibility
+        jobLabel.setVisible(false);
+        employmentGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
+            jobLabel.setVisible(employedRadio.isSelected());
+        });
     }
-   
+
     @FXML
     protected void onSaveStudent() {
         String name = fullNameField.getText().trim();
@@ -57,25 +65,25 @@ public class AddStudentController {
         String comments = commentsArea.getText().trim();
         String flag = flagCombo.getValue();
 
-        //  Required field check
+        // Required field check
         if (name.isEmpty() || status == null || langs.isEmpty() || dbs.isEmpty() || role == null) {
             showMessage("Please fill all required fields.", false);
-            return;
-        }
-
-        // Duplicate name check with dialog
-        if (studentDAO.isFullNameExists(name)) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Duplicate Name");
-            alert.setHeaderText("Student Already Exists");
-            alert.setContentText("A student with the name '" + name + "' already exists in the database.");
-            alert.showAndWait();
             return;
         }
 
         // Job details check
         if (employed && job.isEmpty()) {
             showMessage("Job details required if employed.", false);
+            return;
+        }
+
+        // Duplicate name check
+        if (studentDAO.isFullNameExists(name)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Duplicate Name");
+            alert.setHeaderText("Student Already Exists");
+            alert.setContentText("A student with the name '" + name + "' already exists in the database.");
+            alert.showAndWait();
             return;
         }
 
@@ -95,9 +103,7 @@ public class AddStudentController {
 
         studentDAO.save(student);
         showMessage("Student saved to database.", true);
-        
     }
-
 
     @FXML 
     protected void onCancel() {
@@ -110,5 +116,4 @@ public class AddStudentController {
             ? "-fx-text-fill: green; -fx-font-weight: bold;"
             : "-fx-text-fill: red; -fx-font-weight: bold;");
     }
-    
 }

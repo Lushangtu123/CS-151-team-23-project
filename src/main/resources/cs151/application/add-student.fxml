@@ -12,7 +12,7 @@
     <center>
         <VBox spacing="15" alignment="TOP_CENTER">
             <padding>
-                <Insets top="20" right="30" bottom="20" left="30"/>
+                <Insets top="20" right="30" bottom="10" left="30"/>
             </padding>
 
             <Label text="Add New Student" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
@@ -23,19 +23,19 @@
                     <ColumnConstraints percentWidth="70"/>
                 </columnConstraints>
 
-                <Label text="Full Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label text="Full Name *" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="fullNameField" promptText="Enter full name" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-                <Label text="Academic Status:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label text="Academic Status *" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <ComboBox fx:id="academicStatusCombo" promptText="Select status" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-                <Label text="Employment Status:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label text="Employment Status" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <HBox spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="1">
                     <RadioButton fx:id="employedRadio" text="Employed"/>
                     <RadioButton fx:id="notEmployedRadio" text="Not Employed"/>
                 </HBox>
 
-                <Label text="Job Details:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <Label fx:id="jobLabel" text="Job Details *" visible="false" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
                 <TextArea fx:id="jobDetailsField"
                           promptText="Enter job title, company, etc."
                           prefRowCount="2"
@@ -43,38 +43,41 @@
                           GridPane.rowIndex="3"
                           GridPane.columnIndex="1"/>
 
-                <Label text="Languages:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <Label text="Languages *" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
                 <HBox fx:id="languagesContainer" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
-                <Label text="Databases:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <Label text="Databases *" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
                 <HBox fx:id="databasesContainer" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
-                <Label text="Preferred Role:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <Label text="Preferred Role *" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
                 <ComboBox fx:id="preferredRoleCombo" promptText="Select role" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
 
-                <Label text="Comments:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <Label text="Comments" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
                 <TextArea fx:id="commentsArea" promptText="Optional notes" prefRowCount="2" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
 
-                <Label text="Flag:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <Label text="Flag" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
                 <ComboBox fx:id="flagCombo" promptText="Select flag" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
 
-               <HBox spacing="40" alignment="CENTER"
-      				GridPane.rowIndex="9" GridPane.columnSpan="2">
-    				<padding>
-        				<Insets top="20"/>
-    				</padding>
+                <HBox spacing="40" alignment="CENTER" GridPane.rowIndex="9" GridPane.columnSpan="2">
+                    <padding>
+                        <Insets top="20"/>
+                    </padding>
 
-    				<Button text="Save Student"
-            			onAction="#onSaveStudent"
-            			style="-fx-background-color: #806B50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button text="Save Student"
+                            onAction="#onSaveStudent"
+                            style="-fx-background-color: #806B50; -fx-text-fill: white; -fx-font-weight: bold;"/>
 
-    				<Button text="Exit"
-            			onAction="#onCancel"
-            			style="-fx-background-color: #144A32; -fx-text-fill: white; -fx-font-weight: bold;"/>
-				</HBox>
-
-             
+                    <Button text="Exit"
+                            onAction="#onCancel"
+                            style="-fx-background-color: #144A32; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
             </GridPane>
+
+            <!-- Required Note -->
+            <Label text="Fields marked with * are required."
+       			style="-fx-font-size: 14px; -fx-font-style: italic; -fx-text-fill: gray;"
+       			alignment="BASELINE_LEFT"
+       			maxWidth="Infinity" />
 
             <!-- Message Label -->
             <Label fx:id="messageLabel" style="-fx-font-weight: bold;"/>
