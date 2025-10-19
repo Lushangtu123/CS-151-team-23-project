@@ -28,10 +28,10 @@ public class StudentsController {
     private ComboBox<String> academicStatusCombo;
     
     @FXML
-    private ListView<String> languagesListView;
+    private VBox languagesCheckBoxContainer;
     
     @FXML
-    private ListView<String> dbSkillsListView;
+    private VBox dbSkillsCheckBoxContainer;
     
     @FXML
     private TextField roleField;
@@ -65,6 +65,10 @@ public class StudentsController {
         "SQLite", "Redis", "Cassandra", "DynamoDB", "Firebase"
     );
     
+    // CheckBox lists for multi-selection
+    private final List<CheckBox> languageCheckBoxes = new java.util.ArrayList<>();
+    private final List<CheckBox> dbSkillCheckBoxes = new java.util.ArrayList<>();
+    
     /**
      * Initialize method called automatically by JavaFX
      */
@@ -82,46 +86,16 @@ public class StudentsController {
             "Freshman", "Sophomore", "Junior", "Senior", "Graduate", "PhD"
         ));
         
-        // Set up multi-select ListViews with EXTRA LARGE size - 26px font, 100px height, balanced padding
-        languagesListView.setItems(availableLanguages);
-        languagesListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        languagesListView.setCellFactory(lv -> new javafx.scene.control.ListCell<String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setText(item);
-                    // Increased height to 100px with balanced padding for full text display
-                    setStyle("-fx-font-size: 26px; -fx-padding: 20 20 20 20; -fx-alignment: CENTER_LEFT; -fx-line-spacing: 5px;");
-                    setPrefHeight(100);
-                    setMinHeight(100);
-                    setMaxHeight(100);
-                }
-            }
-        });
+        // Set up CheckBoxes for languages
+        createLanguageCheckBoxes();
         
-        dbSkillsListView.setItems(availableDbSkills);
-        dbSkillsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        dbSkillsListView.setCellFactory(lv -> new javafx.scene.control.ListCell<String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setText(item);
-                    // Increased height to 100px with balanced padding for full text display
-                    setStyle("-fx-font-size: 26px; -fx-padding: 20 20 20 20; -fx-alignment: CENTER_LEFT; -fx-line-spacing: 5px;");
-                    setPrefHeight(100);
-                    setMinHeight(100);
-                    setMaxHeight(100);
-                }
-            }
-        });
+        // Set up CheckBoxes for database skills
+        createDbSkillCheckBoxes();
+        
+        // Set buttons to auto-size based on content
+        saveButton.setMinWidth(javafx.scene.control.Control.USE_PREF_SIZE);
+        clearButton.setMinWidth(javafx.scene.control.Control.USE_PREF_SIZE);
+        showListButton.setMinWidth(javafx.scene.control.Control.USE_PREF_SIZE);
         
         // Clear message when user starts typing
         nameField.textProperty().addListener((obs, old, val) -> messageLabel.setText(""));
@@ -181,6 +155,44 @@ public class StudentsController {
         languages.sort((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
         for (Language lang : languages) {
             availableLanguages.add(lang.getName());
+        }
+    }
+    
+    /**
+     * Create CheckBoxes for programming languages
+     */
+    private void createLanguageCheckBoxes() {
+        languageCheckBoxes.clear();
+        languagesCheckBoxContainer.getChildren().clear();
+        
+        for (String language : availableLanguages) {
+            CheckBox checkBox = new CheckBox(language);
+            checkBox.setStyle("-fx-font-size: 24px; -fx-padding: 8 0;");
+            checkBox.setMinHeight(50);
+            checkBox.setPrefHeight(50);
+            checkBox.setMaxWidth(Double.MAX_VALUE);
+            checkBox.setWrapText(true);
+            languageCheckBoxes.add(checkBox);
+            languagesCheckBoxContainer.getChildren().add(checkBox);
+        }
+    }
+    
+    /**
+     * Create CheckBoxes for database skills
+     */
+    private void createDbSkillCheckBoxes() {
+        dbSkillCheckBoxes.clear();
+        dbSkillsCheckBoxContainer.getChildren().clear();
+        
+        for (String dbSkill : availableDbSkills) {
+            CheckBox checkBox = new CheckBox(dbSkill);
+            checkBox.setStyle("-fx-font-size: 24px; -fx-padding: 8 0;");
+            checkBox.setMinHeight(50);
+            checkBox.setPrefHeight(50);
+            checkBox.setMaxWidth(Double.MAX_VALUE);
+            checkBox.setWrapText(true);
+            dbSkillCheckBoxes.add(checkBox);
+            dbSkillsCheckBoxContainer.getChildren().add(checkBox);
         }
     }
     
@@ -313,12 +325,18 @@ public class StudentsController {
      */
     @FXML
     protected void onSaveButtonClick() {
-        // Get selected languages
-        List<String> selectedLanguages = languagesListView.getSelectionModel().getSelectedItems();
+        // Get selected languages from CheckBoxes
+        List<String> selectedLanguages = languageCheckBoxes.stream()
+            .filter(CheckBox::isSelected)
+            .map(CheckBox::getText)
+            .collect(Collectors.toList());
         String languagesStr = String.join(", ", selectedLanguages);
         
-        // Get selected DB skills
-        List<String> selectedDbSkills = dbSkillsListView.getSelectionModel().getSelectedItems();
+        // Get selected DB skills from CheckBoxes
+        List<String> selectedDbSkills = dbSkillCheckBoxes.stream()
+            .filter(CheckBox::isSelected)
+            .map(CheckBox::getText)
+            .collect(Collectors.toList());
         String dbSkillsStr = String.join(", ", selectedDbSkills);
         
         // Validate all required fields
@@ -412,8 +430,17 @@ public class StudentsController {
     private void clearForm() {
         nameField.clear();
         academicStatusCombo.setValue(null);
-        languagesListView.getSelectionModel().clearSelection();
-        dbSkillsListView.getSelectionModel().clearSelection();
+        
+        // Clear all language CheckBoxes
+        for (CheckBox checkBox : languageCheckBoxes) {
+            checkBox.setSelected(false);
+        }
+        
+        // Clear all DB skill CheckBoxes
+        for (CheckBox checkBox : dbSkillCheckBoxes) {
+            checkBox.setSelected(false);
+        }
+        
         roleField.clear();
         messageLabel.setText("");
         editingStudent = null;
@@ -431,25 +458,33 @@ public class StudentsController {
         nameField.setText(student.getName());
         academicStatusCombo.setValue(student.getAcademicStatus());
         
+        // Clear all CheckBoxes first
+        for (CheckBox checkBox : languageCheckBoxes) {
+            checkBox.setSelected(false);
+        }
+        for (CheckBox checkBox : dbSkillCheckBoxes) {
+            checkBox.setSelected(false);
+        }
+        
         // Select languages
-        languagesListView.getSelectionModel().clearSelection();
         List<String> studentLanguages = student.getLanguages();
-        for (String lang : studentLanguages) {
-            int index = availableLanguages.indexOf(lang);
-            if (index >= 0) {
-                languagesListView.getSelectionModel().select(index);
+        for (CheckBox checkBox : languageCheckBoxes) {
+            if (studentLanguages.contains(checkBox.getText())) {
+                checkBox.setSelected(true);
             }
         }
         
         // Select DB skills
-        dbSkillsListView.getSelectionModel().clearSelection();
         if (student.getDbSkills() != null && !student.getDbSkills().isEmpty()) {
             String[] skills = student.getDbSkills().split(",");
+            List<String> skillList = new java.util.ArrayList<>();
             for (String skill : skills) {
-                String trimmedSkill = skill.trim();
-                int index = availableDbSkills.indexOf(trimmedSkill);
-                if (index >= 0) {
-                    dbSkillsListView.getSelectionModel().select(index);
+                skillList.add(skill.trim());
+            }
+            
+            for (CheckBox checkBox : dbSkillCheckBoxes) {
+                if (skillList.contains(checkBox.getText())) {
+                    checkBox.setSelected(true);
                 }
             }
         }

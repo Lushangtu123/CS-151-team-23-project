@@ -79,18 +79,23 @@
                         <Insets top="25" bottom="12"/>
                     </VBox.margin>
                 </Text>
-                <Text text="(Hold Ctrl/Cmd to select multiple)" wrappingWidth="860" style="-fx-font-size: 22px; -fx-fill: #666;">
+                <Text text="(Select all that apply)" wrappingWidth="860" style="-fx-font-size: 22px; -fx-fill: #666;">
                     <VBox.margin>
                         <Insets top="0" bottom="12"/>
                     </VBox.margin>
                 </Text>
             </VBox>
-            <ListView fx:id="languagesListView" 
-                     prefWidth="860"
-                     maxWidth="860"
-                     minHeight="400"
-                     prefHeight="400"
-                     style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-font-size: 26px;"/>
+            <ScrollPane fx:id="languagesScrollPane" 
+                       prefWidth="860"
+                       maxWidth="860"
+                       minHeight="400"
+                       prefHeight="400"
+                       style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-background: white; -fx-background-color: white;"
+                       fitToWidth="true">
+                <VBox fx:id="languagesCheckBoxContainer" 
+                      spacing="8.0" 
+                      style="-fx-padding: 15; -fx-background-color: white;"/>
+            </ScrollPane>
         </VBox>
         
         <!-- Database Skills (Required - Multi-select) -->
@@ -101,18 +106,23 @@
                         <Insets top="25" bottom="12"/>
                     </VBox.margin>
                 </Text>
-                <Text text="(Hold Ctrl/Cmd to select multiple)" wrappingWidth="860" style="-fx-font-size: 22px; -fx-fill: #666;">
+                <Text text="(Select all that apply)" wrappingWidth="860" style="-fx-font-size: 22px; -fx-fill: #666;">
                     <VBox.margin>
                         <Insets top="0" bottom="12"/>
                     </VBox.margin>
                 </Text>
             </VBox>
-            <ListView fx:id="dbSkillsListView" 
-                     prefWidth="860"
-                     maxWidth="860"
-                     minHeight="400"
-                     prefHeight="400"
-                     style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-font-size: 26px;"/>
+            <ScrollPane fx:id="dbSkillsScrollPane" 
+                       prefWidth="860"
+                       maxWidth="860"
+                       minHeight="400"
+                       prefHeight="400"
+                       style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-background: white; -fx-background-color: white;"
+                       fitToWidth="true">
+                <VBox fx:id="dbSkillsCheckBoxContainer" 
+                      spacing="8.0" 
+                      style="-fx-padding: 15; -fx-background-color: white;"/>
+            </ScrollPane>
         </VBox>
         
         <!-- Role (Required) -->
@@ -138,19 +148,19 @@
                    onAction="#onSaveButtonClick"
                    minHeight="55"
                    prefHeight="55"
-                   style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 18 45; -fx-font-size: 19px;"/>
+                   style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 15 45; -fx-font-size: 16px;"/>
             <Button fx:id="clearButton" 
                    text="Clear Form" 
                    onAction="#onClearButtonClick"
                    minHeight="55"
                    prefHeight="55"
-                   style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 18 45; -fx-font-size: 19px;"/>
+                   style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 15 45; -fx-font-size: 16px;"/>
             <Button fx:id="showListButton" 
                    text="Show Student List" 
                    onAction="#onShowListButtonClick"
                    minHeight="55"
                    prefHeight="55"
-                   style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 18 45; -fx-font-size: 19px;"/>
+                   style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 15 45; -fx-font-size: 16px;"/>
         </HBox>
         
         <!-- Message Label -->
