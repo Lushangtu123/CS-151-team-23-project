@@ -3,18 +3,38 @@
 **Team Number:** 23  
 **Section:** 02
 
-## Team Members and Contributions
+## Team Members and Contributions 
+**Version 0.5
+
+| Name | Contribution                                                                                            |
+|------|---------------------------------------------------------------------------------------------------------|
+| Van Anh Tran | Implemented StudentDAO, AddStudentController and StudentMenuController                                  |
+| Yinqi Chen | Designed and implemented students' fxml UI layouts, CSS styling, StudentTableController                 |
+| Harshika Vijayabharath | Implemented StudentController and testing                                                               |
+| Phuong Tong | Updating add-student form and MainController, implemented Student model, final review and documentation |
+
+**Version 0.3
 
 | Name | Contribution |
 |------|--------------|
-| Van Anh Tran | Created Language and Student model classes, implemented data validation logic, database testing and debugging, SQLite integration |
-| Yinqi Chen | Designed and implemented languages-view.fxml and students-view.fxml UI layouts, CSS styling, fixed merge conflicts |
-| Harshika Vijayabharath | Implemented LanguagesController and StudentsController with CRUD operations, setup table views with sorting|
-| Phuong Tong | Implemented LanguageDAO and StudentDAO for SQLite persistence, updated MainController navigation, integrated module-info.java, project documentation |
+| Van Anh Tran | Created Language model class, implemented data validation logic, database testing and debugging, SQLite integration |
+| Yinqi Chen | Designed and implemented languages-view.fxml UI layout, CSS styling, fixed merge conflicts |
+| Harshika Vijayabharath | Setup table view with sorting, Implemented LanguagesController with CRUD operations, final review
+| Phuong Tong | Implemented LanguageDAO for SQLite persistence, updated MainController navigation, integrated module-info.java, project documentation |
 
+**Version 0.2
+
+| Name | Contribution |
+|------|--------------|
+| Van Anh Tran | Created Language model class, implemented data validation logic, code testing and debugging |
+| Yinqi Chen | Designed and implemented languages-view.fxml UI layout, CSS styling |
+| Harshika Vijayabharath | Implemented LanguagesController with CRUD operations, table view setup |
+| Phuong Tong | Updated MainController navigation, integrated module-info.java, project documentation |
 ## Project Description
 
 This is Version 0.5 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
+
+**Note**: This version uses **CheckBox multi-selection** for programming languages and database skills, providing a more intuitive user interface.
 
 ## Version 0.5 Features
 
@@ -100,15 +120,18 @@ This is Version 0.5 of the Student Information Management System, a desktop appl
 │   │   │   │   │   ├── StudentDAO.java        (Student database access)
 │   │   │   │   │   └── package-info.java
 │   │   │   │   └── model/
-│   │   │   │       ├── Language.java          (Language entity)
-│   │   │   │       └── Student.java           (Student entity)
+│   │   │   │       ├── Language.java               (Language entity)
+│   │   │   │       ├── Student.java                (Student entity)
+│   │   │   │       └── MultiSelectDropdown.java    (Multiselect entity)
 │   │   │   └── module-info.java
 │   │   └── resources/
 │   │       └── cs151/
 │   │           └── application/
-│   │               ├── hello-view.fxml        (Home page)
-│   │               ├── languages-view.fxml    (Languages page)
-│   │               └── students-view.fxml     (Students page)
+│   │               ├── hello-view.fxml         (Home page)
+│   │               ├── languages-view.fxml     (Languages page)
+│   │               ├── add-student.fxml        (Create student page)
+│   │               ├── student-menu.fxml       (Navigation in manage student page)
+│   │               └── student-table.fxml      (Alltudents page)
 ├── student.db                                 (SQLite database)
 ├── ReadMe.md
 ├── pom.xml
@@ -121,12 +144,18 @@ This is Version 0.5 of the Student Information Management System, a desktop appl
 
 ### Using Maven:
 ```bash
-mvn clean javafx:run
+mvn clean compile
+mvn javafx:run
 ```
+
+**What you'll see:**
+- Main menu with "Define Programming Languages" and "Manage Student Profiles"  
+- Student management page with **CheckBox multi-selection** for languages and databases
+- All data persisted in SQLite database
 
 ### Using IDE:
 1. Import the project as a Maven project
-2. Ensure JDK 23 (Zulu) is configured
+2. Ensure JDK 21+ is configured
 3. Run the `Main.java` class located in `cs151.application` package
 
 ## Database Information
@@ -186,16 +215,4 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
-
-
-
-
-
-
-
-
-
-
-
-
 
