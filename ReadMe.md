@@ -6,12 +6,12 @@
 ## Team Members and Contributions 
 **Version 0.5
 
-| Name | Contribution                                                                                            |
-|------|---------------------------------------------------------------------------------------------------------|
-| Van Anh Tran | Implemented StudentDAO, AddStudentController and StudentMenuController                                  |
-| Yinqi Chen | Designed and implemented students' fxml UI layouts, CSS styling, StudentTableController                 |
-| Harshika Vijayabharath | Implemented StudentController and testing                                                               |
-| Phuong Tong | Updating add-student form and MainController, implemented Student model, final review and documentation |
+| Name | Contribution                                                                                                      |
+|------|-------------------------------------------------------------------------------------------------------------------|
+| Van Anh Tran | Implemented StudentDAO, AddStudentController and MultiSelectDropdown model                                        |
+| Yinqi Chen | Designed and implemented students' fxml UI layouts, CSS styling, StudentTableController and StudentMenuController |
+| Harshika Vijayabharath | Implemented StudentController and testing students' data                                                          |
+| Phuong Tong | Updating add-student form and MainController, implemented Student model, final review and documentation           |
 
 **Version 0.3
 
