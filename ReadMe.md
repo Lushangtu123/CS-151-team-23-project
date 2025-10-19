@@ -17,7 +17,7 @@
 |------|--------------|
 | Van Anh Tran | Created Language and Student model classes, implemented data validation logic, database testing and debugging, SQLite integration |
 | Yinqi Chen | Designed and implemented languages-view.fxml and students-view.fxml UI layouts, CSS styling, fixed merge conflicts |
-| Harshika Vijayabharath | Implemented LanguagesController and StudentsController with CRUD operations, setup table views with sorting|
+| Harshika Vijayabharath | Implemented LanguagesController with CRUD operations, setup table views with sorting|
 | Phuong Tong | Implemented LanguageDAO and StudentDAO for SQLite persistence, updated MainController navigation, integrated module-info.java, project documentation |
 
 ## Project Description
@@ -194,6 +194,7 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
 
 
 
