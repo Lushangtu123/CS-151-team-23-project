@@ -46,10 +46,10 @@ public class AddStudentController {
         notEmployedRadio.setToggleGroup(employmentGroup);
         notEmployedRadio.setSelected(true);
 
-        // NEW: toggle job label visibility
-        jobLabel.setVisible(false);
+        // Required job details if employed
+        jobLabel.setVisible(true);
         employmentGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
-            jobLabel.setVisible(employedRadio.isSelected());
+            jobDetailsField.setDisable(!employedRadio.isSelected());
         });
     }
 
