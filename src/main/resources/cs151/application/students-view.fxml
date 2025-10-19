@@ -71,6 +71,38 @@
                      style="-fx-border-color: #ccc; -fx-font-size: 26px;"/>
         </VBox>
         
+        <!-- Employment Status (Required) -->
+        <VBox spacing="15.0">
+            <Text text="Employment Status *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                <VBox.margin>
+                    <Insets top="28" bottom="28"/>
+                </VBox.margin>
+            </Text>
+            <HBox spacing="20.0">
+                <RadioButton fx:id="employedRadio" text="Employed" 
+                            style="-fx-font-size: 24px;"/>
+                <RadioButton fx:id="notEmployedRadio" text="Not Employed" 
+                            style="-fx-font-size: 24px;"/>
+            </HBox>
+        </VBox>
+        
+        <!-- Job Details (Conditional) -->
+        <VBox spacing="15.0" fx:id="jobDetailsSection">
+            <Text text="Job Details" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                <VBox.margin>
+                    <Insets top="28" bottom="28"/>
+                </VBox.margin>
+            </Text>
+            <TextArea fx:id="jobDetailsField" 
+                     promptText="Enter job title, company, etc."
+                     prefWidth="860"
+                     maxWidth="860"
+                     minHeight="120"
+                     prefHeight="120"
+                     wrapText="true"
+                     style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-font-size: 22px; -fx-padding: 15;"/>
+        </VBox>
+        
         <!-- Programming Languages (Required - Multi-select) -->
         <VBox spacing="15.0">
             <VBox spacing="8.0">
@@ -127,18 +159,51 @@
         
         <!-- Role (Required) -->
         <VBox spacing="15.0">
-            <Text text="Role *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+            <Text text="Preferred Role *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
                 <VBox.margin>
                     <Insets top="28" bottom="28"/>
                 </VBox.margin>
             </Text>
-            <TextField fx:id="roleField" 
-                      promptText="e.g., Team Leader, Developer"
-                      prefWidth="860"
-                      maxWidth="860"
-                      minHeight="75"
-                      prefHeight="75"
-                      style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-font-size: 26px; -fx-padding: 25 20; -fx-background-insets: 0;"/>
+            <ComboBox fx:id="preferredRoleCombo" 
+                     promptText="Select preferred role"
+                     prefWidth="860"
+                     maxWidth="860"
+                     minHeight="75"
+                     prefHeight="75"
+                     style="-fx-border-color: #ccc; -fx-font-size: 26px;"/>
+        </VBox>
+        
+        <!-- Comments (Optional) -->
+        <VBox spacing="15.0">
+            <Text text="Comments" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                <VBox.margin>
+                    <Insets top="28" bottom="28"/>
+                </VBox.margin>
+            </Text>
+            <TextArea fx:id="commentsArea" 
+                     promptText="Optional notes or comments"
+                     prefWidth="860"
+                     maxWidth="860"
+                     minHeight="120"
+                     prefHeight="120"
+                     wrapText="true"
+                     style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-font-size: 22px; -fx-padding: 15;"/>
+        </VBox>
+        
+        <!-- Flag (Optional) -->
+        <VBox spacing="15.0">
+            <Text text="Flag" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                <VBox.margin>
+                    <Insets top="28" bottom="28"/>
+                </VBox.margin>
+            </Text>
+            <ComboBox fx:id="flagCombo" 
+                     promptText="Select flag"
+                     prefWidth="860"
+                     maxWidth="860"
+                     minHeight="75"
+                     prefHeight="75"
+                     style="-fx-border-color: #ccc; -fx-font-size: 26px;"/>
         </VBox>
         
         <!-- Buttons -->

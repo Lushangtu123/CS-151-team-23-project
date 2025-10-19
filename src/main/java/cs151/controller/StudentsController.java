@@ -28,13 +28,31 @@ public class StudentsController {
     private ComboBox<String> academicStatusCombo;
     
     @FXML
+    private RadioButton employedRadio;
+    
+    @FXML
+    private RadioButton notEmployedRadio;
+    
+    @FXML
+    private TextArea jobDetailsField;
+    
+    @FXML
+    private VBox jobDetailsSection;
+    
+    @FXML
     private VBox languagesCheckBoxContainer;
     
     @FXML
     private VBox dbSkillsCheckBoxContainer;
     
     @FXML
-    private TextField roleField;
+    private ComboBox<String> preferredRoleCombo;
+    
+    @FXML
+    private TextArea commentsArea;
+    
+    @FXML
+    private ComboBox<String> flagCombo;
     
     @FXML
     private Button saveButton;
@@ -69,6 +87,9 @@ public class StudentsController {
     private final List<CheckBox> languageCheckBoxes = new java.util.ArrayList<>();
     private final List<CheckBox> dbSkillCheckBoxes = new java.util.ArrayList<>();
     
+    // Toggle group for employment status
+    private final ToggleGroup employmentGroup = new ToggleGroup();
+    
     /**
      * Initialize method called automatically by JavaFX
      */
@@ -85,6 +106,28 @@ public class StudentsController {
         academicStatusCombo.setItems(FXCollections.observableArrayList(
             "Freshman", "Sophomore", "Junior", "Senior", "Graduate", "PhD"
         ));
+        
+        // Set up employment status radio buttons
+        employedRadio.setToggleGroup(employmentGroup);
+        notEmployedRadio.setToggleGroup(employmentGroup);
+        notEmployedRadio.setSelected(true);
+        jobDetailsField.setDisable(true);
+        
+        // Listen for employment status changes
+        employmentGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
+            jobDetailsField.setDisable(!employedRadio.isSelected());
+        });
+        
+        // Set up preferred role options
+        preferredRoleCombo.setItems(FXCollections.observableArrayList(
+            "Front-End", "Back-End", "Full-Stack", "Data", "Other"
+        ));
+        
+        // Set up flag options
+        flagCombo.setItems(FXCollections.observableArrayList(
+            "None", "Whitelist", "Blacklist"
+        ));
+        flagCombo.getSelectionModel().select("None");
         
         // Set up CheckBoxes for languages
         createLanguageCheckBoxes();
@@ -325,6 +368,12 @@ public class StudentsController {
      */
     @FXML
     protected void onSaveButtonClick() {
+        // Get form values
+        String name = nameField.getText().trim();
+        String academicStatus = academicStatusCombo.getValue();
+        boolean employed = employedRadio.isSelected();
+        String jobDetails = jobDetailsField.getText().trim();
+        
         // Get selected languages from CheckBoxes
         List<String> selectedLanguages = languageCheckBoxes.stream()
             .filter(CheckBox::isSelected)
@@ -339,11 +388,9 @@ public class StudentsController {
             .collect(Collectors.toList());
         String dbSkillsStr = String.join(", ", selectedDbSkills);
         
-        // Validate all required fields
-        String name = nameField.getText().trim();
-        String academicStatus = academicStatusCombo.getValue();
-        String role = roleField.getText().trim();
-        String interests = "";
+        String preferredRole = preferredRoleCombo.getValue();
+        String comments = commentsArea.getText().trim();
+        String flag = flagCombo.getValue();
         
         if (name.isEmpty()) {
             showMessage("Error: Name is required.", "error");
@@ -365,8 +412,14 @@ public class StudentsController {
             return;
         }
         
-        if (role.isEmpty()) {
-            showMessage("Error: Role is required.", "error");
+        if (preferredRole == null || preferredRole.isEmpty()) {
+            showMessage("Error: Preferred Role is required.", "error");
+            return;
+        }
+        
+        // Job details required if employed
+        if (employed && jobDetails.isEmpty()) {
+            showMessage("Error: Job details required if employed.", "error");
             return;
         }
         
@@ -388,8 +441,21 @@ public class StudentsController {
         student.setEmail(null); // No email field
         student.setLanguagesFromString(languagesStr);
         student.setDbSkills(dbSkillsStr);
-        student.setRole(role);
-        student.setInterests(interests);
+        student.setRole(preferredRole);
+        
+        // Store additional info in interests field
+        StringBuilder interestsBuilder = new StringBuilder();
+        interestsBuilder.append("Employment: ").append(employed ? "Employed" : "Not Employed");
+        if (employed && !jobDetails.isEmpty()) {
+            interestsBuilder.append(" | Job: ").append(jobDetails);
+        }
+        if (!comments.isEmpty()) {
+            interestsBuilder.append(" | Comments: ").append(comments);
+        }
+        if (flag != null && !flag.equals("None")) {
+            interestsBuilder.append(" | Flag: ").append(flag);
+        }
+        student.setInterests(interestsBuilder.toString());
         
         // Save to database
         boolean success;
@@ -430,6 +496,9 @@ public class StudentsController {
     private void clearForm() {
         nameField.clear();
         academicStatusCombo.setValue(null);
+        notEmployedRadio.setSelected(true);
+        jobDetailsField.clear();
+        jobDetailsField.setDisable(true);
         
         // Clear all language CheckBoxes
         for (CheckBox checkBox : languageCheckBoxes) {
@@ -441,7 +510,10 @@ public class StudentsController {
             checkBox.setSelected(false);
         }
         
-        roleField.clear();
+        preferredRoleCombo.setValue(null);
+        commentsArea.clear();
+        flagCombo.setValue("None");
+        
         messageLabel.setText("");
         editingStudent = null;
         formTitleLabel.setText("Create New Student Profile");
@@ -489,7 +561,44 @@ public class StudentsController {
             }
         }
         
-        roleField.setText(student.getRole() != null ? student.getRole() : "");
+        preferredRoleCombo.setValue(student.getRole() != null ? student.getRole() : null);
+        
+        // Parse interests field to extract employment, job details, comments, and flag
+        String interests = student.getInterests();
+        if (interests != null && !interests.isEmpty()) {
+            // Parse the interests string
+            if (interests.contains("Employment: Employed")) {
+                employedRadio.setSelected(true);
+                jobDetailsField.setDisable(false);
+                
+                // Extract job details
+                if (interests.contains("| Job: ")) {
+                    int jobStart = interests.indexOf("| Job: ") + 7;
+                    int jobEnd = interests.indexOf(" |", jobStart);
+                    if (jobEnd == -1) jobEnd = interests.length();
+                    jobDetailsField.setText(interests.substring(jobStart, jobEnd));
+                }
+            } else {
+                notEmployedRadio.setSelected(true);
+                jobDetailsField.setDisable(true);
+            }
+            
+            // Extract comments
+            if (interests.contains("| Comments: ")) {
+                int commentsStart = interests.indexOf("| Comments: ") + 12;
+                int commentsEnd = interests.indexOf(" |", commentsStart);
+                if (commentsEnd == -1) commentsEnd = interests.length();
+                commentsArea.setText(interests.substring(commentsStart, commentsEnd));
+            }
+            
+            // Extract flag
+            if (interests.contains("| Flag: ")) {
+                int flagStart = interests.indexOf("| Flag: ") + 8;
+                flagCombo.setValue(interests.substring(flagStart).trim());
+            } else {
+                flagCombo.setValue("None");
+            }
+        }
         
         // Update form title
         formTitleLabel.setText("Edit Student Profile: " + student.getName());
