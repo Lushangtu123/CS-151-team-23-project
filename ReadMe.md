@@ -144,8 +144,7 @@ This is Version 0.5 of the Student Information Management System, a desktop appl
 
 ### Using Maven:
 ```bash
-mvn clean compile
-mvn javafx:run
+mvn clean javafx:run
 ```
 
 **What you'll see:**
