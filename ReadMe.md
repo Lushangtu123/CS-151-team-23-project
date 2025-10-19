@@ -3,8 +3,16 @@
 **Team Number:** 23  
 **Section:** 02
 
-## Team Members and Contributions
+## Team Members and Contributions Version 0.5
 
+| Name | Contribution |
+|------|--------------|
+| Van Anh Tran | Implemented StudentDAO and SQLite integration |
+| Yinqi Chen | Designed and implemented student-view.fxml UI layouts, CSS styling, fixed merge conflicts |
+| Harshika Vijayabharath | Implemented StudentController and testing|
+| Phuong Tong | Updated MainController navigation, integrated module-info.java, project documentation |
+
+**Version 0.4
 | Name | Contribution |
 |------|--------------|
 | Van Anh Tran | Created Language and Student model classes, implemented data validation logic, database testing and debugging, SQLite integration |
@@ -186,6 +194,7 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
+
 
 
 
