@@ -1,6 +1,8 @@
 package cs151.controller;
 
 import cs151.data.StudentDAO;
+import cs151.data.LanguageDAO;
+import cs151.model.Language;
 import cs151.model.MultiSelectDropDown;
 import cs151.model.Student;
 import javafx.fxml.FXML;
@@ -28,6 +30,7 @@ public class AddStudentController {
     private MultiSelectDropDown languagesDropdown;
     private MultiSelectDropDown databasesDropdown;
     private final StudentDAO studentDAO = new StudentDAO();
+    private final LanguageDAO languageDAO = new LanguageDAO();
 
     @FXML
     public void initialize() {
@@ -36,7 +39,10 @@ public class AddStudentController {
         flagCombo.getItems().addAll("None", "Whitelist", "Blacklist");
         flagCombo.getSelectionModel().select("None");
 
-        languagesDropdown = new MultiSelectDropDown(List.of("Java", "Python", "C++"));
+        List<Language>  languages = languageDAO.getAllLanguages();
+        List<String> availableLanguages = languages.stream().map(Language::getName).toList();
+
+        languagesDropdown = new MultiSelectDropDown(availableLanguages);
         databasesDropdown = new MultiSelectDropDown(List.of("MySQL", "Postgres", "MongoDB", "SQLite", "Oracle"));
 
         languagesContainer.getChildren().add(languagesDropdown);
