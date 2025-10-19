@@ -100,7 +100,7 @@
                      minHeight="120"
                      prefHeight="120"
                      wrapText="true"
-                     style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-font-size: 22px; -fx-padding: 15;"/>
+                     style="-fx-font-size: 22px;"/>
         </VBox>
         
         <!-- Programming Languages (Required - Multi-select) -->
@@ -187,7 +187,7 @@
                      minHeight="120"
                      prefHeight="120"
                      wrapText="true"
-                     style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-font-size: 22px; -fx-padding: 15;"/>
+                     style="-fx-font-size: 22px;"/>
         </VBox>
         
         <!-- Flag (Optional) -->

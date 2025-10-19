@@ -251,7 +251,7 @@ public class StudentsController {
         
         // Create TableView for the dialog
         TableView<Student> studentsTable = new TableView<>();
-        studentsTable.setPrefWidth(1200);
+        studentsTable.setPrefWidth(1600);
         studentsTable.setPrefHeight(500);
         studentsTable.setStyle("-fx-font-size: 15px;");
         studentsTable.setFixedCellSize(45);
@@ -259,30 +259,89 @@ public class StudentsController {
         // Set up columns
         TableColumn<Student, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nameCol.setPrefWidth(150);
+        nameCol.setPrefWidth(120);
         nameCol.setStyle("-fx-font-size: 15px;");
         
         TableColumn<Student, String> statusCol = new TableColumn<>("Academic Status");
         statusCol.setCellValueFactory(new PropertyValueFactory<>("academicStatus"));
-        statusCol.setPrefWidth(140);
+        statusCol.setPrefWidth(120);
         statusCol.setStyle("-fx-font-size: 15px;");
         
         TableColumn<Student, String> langCol = new TableColumn<>("Languages");
         langCol.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getLanguagesAsString())
         );
-        langCol.setPrefWidth(200);
+        langCol.setPrefWidth(150);
         langCol.setStyle("-fx-font-size: 15px;");
         
         TableColumn<Student, String> dbCol = new TableColumn<>("DB Skills");
         dbCol.setCellValueFactory(new PropertyValueFactory<>("dbSkills"));
-        dbCol.setPrefWidth(180);
+        dbCol.setPrefWidth(150);
         dbCol.setStyle("-fx-font-size: 15px;");
         
         TableColumn<Student, String> roleCol = new TableColumn<>("Role");
         roleCol.setCellValueFactory(new PropertyValueFactory<>("role"));
-        roleCol.setPrefWidth(130);
+        roleCol.setPrefWidth(100);
         roleCol.setStyle("-fx-font-size: 15px;");
+        
+        TableColumn<Student, String> employmentCol = new TableColumn<>("Employment");
+        employmentCol.setCellValueFactory(cellData -> {
+            String interests = cellData.getValue().getInterests();
+            String employment = "N/A";
+            if (interests != null && interests.contains("Employment: ")) {
+                if (interests.contains("Employment: Employed")) {
+                    employment = "Employed";
+                } else if (interests.contains("Employment: Not Employed")) {
+                    employment = "Not Employed";
+                }
+            }
+            return new javafx.beans.property.SimpleStringProperty(employment);
+        });
+        employmentCol.setPrefWidth(110);
+        employmentCol.setStyle("-fx-font-size: 15px;");
+        
+        TableColumn<Student, String> jobDetailsCol = new TableColumn<>("Job Details");
+        jobDetailsCol.setCellValueFactory(cellData -> {
+            String interests = cellData.getValue().getInterests();
+            String jobDetails = "";
+            if (interests != null && interests.contains("| Job: ")) {
+                int jobStart = interests.indexOf("| Job: ") + 7;
+                int jobEnd = interests.indexOf(" |", jobStart);
+                if (jobEnd == -1) jobEnd = interests.length();
+                jobDetails = interests.substring(jobStart, jobEnd);
+            }
+            return new javafx.beans.property.SimpleStringProperty(jobDetails);
+        });
+        jobDetailsCol.setPrefWidth(150);
+        jobDetailsCol.setStyle("-fx-font-size: 15px;");
+        
+        TableColumn<Student, String> commentsCol = new TableColumn<>("Comments");
+        commentsCol.setCellValueFactory(cellData -> {
+            String interests = cellData.getValue().getInterests();
+            String comments = "";
+            if (interests != null && interests.contains("| Comments: ")) {
+                int commentsStart = interests.indexOf("| Comments: ") + 12;
+                int commentsEnd = interests.indexOf(" |", commentsStart);
+                if (commentsEnd == -1) commentsEnd = interests.length();
+                comments = interests.substring(commentsStart, commentsEnd);
+            }
+            return new javafx.beans.property.SimpleStringProperty(comments);
+        });
+        commentsCol.setPrefWidth(150);
+        commentsCol.setStyle("-fx-font-size: 15px;");
+        
+        TableColumn<Student, String> flagCol = new TableColumn<>("Flag");
+        flagCol.setCellValueFactory(cellData -> {
+            String interests = cellData.getValue().getInterests();
+            String flag = "None";
+            if (interests != null && interests.contains("| Flag: ")) {
+                int flagStart = interests.indexOf("| Flag: ") + 8;
+                flag = interests.substring(flagStart).trim();
+            }
+            return new javafx.beans.property.SimpleStringProperty(flag);
+        });
+        flagCol.setPrefWidth(100);
+        flagCol.setStyle("-fx-font-size: 15px;");
         
         // Actions column
         TableColumn<Student, Void> actionsCol = new TableColumn<>("Actions");
@@ -333,7 +392,7 @@ public class StudentsController {
             }
         });
         
-        studentsTable.getColumns().addAll(nameCol, statusCol, langCol, dbCol, roleCol, actionsCol);
+        studentsTable.getColumns().addAll(nameCol, statusCol, langCol, dbCol, roleCol, employmentCol, jobDetailsCol, commentsCol, flagCol, actionsCol);
         
         // Load students
         ObservableList<Student> students = FXCollections.observableArrayList(
@@ -649,6 +708,44 @@ public class StudentsController {
         details.append("Languages: ").append(!student.getLanguagesAsString().isEmpty() ? student.getLanguagesAsString() : "N/A").append("\n");
         details.append("DB Skills: ").append(student.getDbSkills() != null ? student.getDbSkills() : "N/A").append("\n");
         details.append("Role: ").append(student.getRole() != null ? student.getRole() : "N/A").append("\n");
+        
+        // Parse and display additional fields from interests
+        String interests = student.getInterests();
+        if (interests != null && !interests.isEmpty()) {
+            // Employment Status
+            if (interests.contains("Employment: ")) {
+                if (interests.contains("Employment: Employed")) {
+                    details.append("Employment Status: Employed").append("\n");
+                } else if (interests.contains("Employment: Not Employed")) {
+                    details.append("Employment Status: Not Employed").append("\n");
+                }
+            }
+            
+            // Job Details
+            if (interests.contains("| Job: ")) {
+                int jobStart = interests.indexOf("| Job: ") + 7;
+                int jobEnd = interests.indexOf(" |", jobStart);
+                if (jobEnd == -1) jobEnd = interests.length();
+                String jobDetails = interests.substring(jobStart, jobEnd);
+                details.append("Job Details: ").append(jobDetails).append("\n");
+            }
+            
+            // Comments
+            if (interests.contains("| Comments: ")) {
+                int commentsStart = interests.indexOf("| Comments: ") + 12;
+                int commentsEnd = interests.indexOf(" |", commentsStart);
+                if (commentsEnd == -1) commentsEnd = interests.length();
+                String comments = interests.substring(commentsStart, commentsEnd);
+                details.append("Comments: ").append(comments).append("\n");
+            }
+            
+            // Flag
+            if (interests.contains("| Flag: ")) {
+                int flagStart = interests.indexOf("| Flag: ") + 8;
+                String flag = interests.substring(flagStart).trim();
+                details.append("Flag: ").append(flag).append("\n");
+            }
+        }
         
         alert.setContentText(details.toString());
         alert.showAndWait();
