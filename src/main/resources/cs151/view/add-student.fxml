@@ -37,8 +37,8 @@
 
                 <Label text="Employment Status" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
                 <HBox spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="1">
-                    <RadioButton fx:id="employedRadio" text="Employed" selected="true" style="-fx-font-weight: bold;" />
-                    <RadioButton fx:id="notEmployedRadio" text="Not Employed" style="-fx-font-weight: bold;" />
+                    <RadioButton fx:id="employedRadio" text="Employed" selected="true"  />
+                    <RadioButton fx:id="notEmployedRadio" text="Not Employed"  />
                 </HBox>
 
                 <Label fx:id="jobLabel" text="Job Details *" visible="false" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
