@@ -27,7 +27,7 @@
                 </columnConstraints>
 
                <Label text="Full Name *" 
-       				GridPane.rowIndex="0" GridPane.columnIndex="0"
+       				GridPane.rowIndex="0" GridPane.columnIndex="0" 
        				style="-fx-font-weight: bold;" />
 
                 <TextField fx:id="fullNameField" promptText="Enter full name" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
