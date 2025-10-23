@@ -6,10 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 /**
@@ -103,7 +101,6 @@ public class LanguagesController {
     @FXML
     protected void onSaveButtonClick() {
         String languageName = languageNameField.getText().trim();
-
         if (languageName.isEmpty()) {
             showMessage("Please add a language", "error");
             return;

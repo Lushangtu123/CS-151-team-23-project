@@ -5,12 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import cs151.controller.SearchStudentController;
-import cs151.data.StudentDAO;
-import cs151.model.Student;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 /**

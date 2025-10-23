@@ -227,7 +227,6 @@ public class StudentDAO {
             stmt.setString(5, student.getPreferredRole());
             stmt.setString(6, student.getFlag());
             stmt.setInt(7, student.getId());
-
             stmt.executeUpdate();
 
             updateLanguages(student);

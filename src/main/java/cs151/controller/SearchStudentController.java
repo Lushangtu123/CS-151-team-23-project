@@ -8,7 +8,6 @@ import cs151.model.Student;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +150,4 @@ public class SearchStudentController {
             ? "No matching student profiles found."
             : results.size() + " student profile(s) found.");
     }
-
-
 }

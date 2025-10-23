@@ -6,7 +6,6 @@ import javafx.stage.Popup;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Region;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
