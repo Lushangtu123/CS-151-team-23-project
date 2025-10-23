@@ -1,5 +1,8 @@
 package cs151.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import cs151.data.LanguageDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,10 +28,6 @@ public class StudentMenuController {
 
 	    openFixedWindow("/cs151/view/add-student.fxml", "Add Student");
 	}
-
-
-
-
 
     @FXML
     private void onSearchStudentClick(ActionEvent event) {

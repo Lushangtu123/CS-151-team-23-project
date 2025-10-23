@@ -7,7 +7,10 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cs151.controller.AddStudentController">
+            fx:controller="cs151.controller.AddStudentController"
+            style="-fx-background-image: url('/add-student-bg.jpg'); 
+             -fx-background-size: cover; 
+             -fx-background-position: center center;">
 
     <center>
         <VBox spacing="15" alignment="TOP_CENTER">
@@ -23,19 +26,22 @@
                     <ColumnConstraints percentWidth="70"/>
                 </columnConstraints>
 
-                <Label text="Full Name *" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+               <Label text="Full Name *" 
+       				GridPane.rowIndex="0" GridPane.columnIndex="0"
+       				style="-fx-font-weight: bold;" />
+
                 <TextField fx:id="fullNameField" promptText="Enter full name" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-                <Label text="Academic Status *" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label text="Academic Status *" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
                 <ComboBox fx:id="academicStatusCombo" promptText="Select status" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-                <Label text="Employment Status" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label text="Employment Status" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
                 <HBox spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="1">
-                    <RadioButton fx:id="employedRadio" text="Employed" selected="true"/>
-                    <RadioButton fx:id="notEmployedRadio" text="Not Employed"/>
+                    <RadioButton fx:id="employedRadio" text="Employed" selected="true" style="-fx-font-weight: bold;" />
+                    <RadioButton fx:id="notEmployedRadio" text="Not Employed" style="-fx-font-weight: bold;" />
                 </HBox>
 
-                <Label fx:id="jobLabel" text="Job Details *" visible="false" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <Label fx:id="jobLabel" text="Job Details *" visible="false" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
                 <TextArea fx:id="jobDetailsField"
                           promptText="Enter job title, company, etc."
                           prefRowCount="2"
@@ -44,19 +50,19 @@
                           GridPane.rowIndex="3"
                           GridPane.columnIndex="1"/>
 
-                <Label text="Languages *" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <Label text="Languages *" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
                 <HBox fx:id="languagesContainer" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
-                <Label text="Databases *" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <Label text="Databases *" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
                 <HBox fx:id="databasesContainer" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
-                <Label text="Preferred Role *" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <Label text="Preferred Role *" GridPane.rowIndex="6" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
                 <ComboBox fx:id="preferredRoleCombo" promptText="Select role" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
 
-                <Label text="Comments" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <Label text="Comments" GridPane.rowIndex="7" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
                 <TextArea fx:id="commentsArea" promptText="Optional notes" prefRowCount="2" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
 
-                <Label text="Flag" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <Label text="Flag" GridPane.rowIndex="8" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
 					<HBox spacing="10" GridPane.rowIndex="8" GridPane.columnIndex="1">
     				<CheckBox fx:id="blackListCheck" text="BlackList"/>
     				<CheckBox fx:id="whiteListCheck" text="WhiteList"/>
@@ -72,12 +78,12 @@
                     <Button fx:id="saveButton"
                     		text="Save Student"
                             onAction="#onSaveStudent"
-                            style="-fx-background-color: #806B50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                            style="-fx-background-color: #806B50; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 17px"/>
 
                     <Button fx:id="cancelButton"
                     		text="Exit"
                             onAction="#onCancel"
-                            style="-fx-background-color: #144A32; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                            style="-fx-background-color: #144A32; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 17px"/>
                 </HBox>
             </GridPane>
 
