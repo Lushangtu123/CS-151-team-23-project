@@ -31,7 +31,7 @@
 
                 <Label text="Employment Status" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <HBox spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="1">
-                    <RadioButton fx:id="employedRadio" text="Employed"/>
+                    <RadioButton fx:id="employedRadio" text="Employed" selected="true"/>
                     <RadioButton fx:id="notEmployedRadio" text="Not Employed"/>
                 </HBox>
 
@@ -40,6 +40,7 @@
                           promptText="Enter job title, company, etc."
                           prefRowCount="2"
                           wrapText="true"
+                          visible="true"
                           GridPane.rowIndex="3"
                           GridPane.columnIndex="1"/>
 
@@ -56,18 +57,25 @@
                 <TextArea fx:id="commentsArea" promptText="Optional notes" prefRowCount="2" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
 
                 <Label text="Flag" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-                <ComboBox fx:id="flagCombo" promptText="Select flag" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+					<HBox spacing="10" GridPane.rowIndex="8" GridPane.columnIndex="1">
+    				<CheckBox fx:id="blackListCheck" text="BlackList"/>
+    				<CheckBox fx:id="whiteListCheck" text="WhiteList"/>
+    				<CheckBox fx:id="noneCheck" text="None"/>
+				</HBox>
+
 
                 <HBox spacing="40" alignment="CENTER" GridPane.rowIndex="9" GridPane.columnSpan="2">
                     <padding>
                         <Insets top="20"/>
                     </padding>
 
-                    <Button text="Save Student"
+                    <Button fx:id="saveButton"
+                    		text="Save Student"
                             onAction="#onSaveStudent"
                             style="-fx-background-color: #806B50; -fx-text-fill: white; -fx-font-weight: bold;"/>
 
-                    <Button text="Exit"
+                    <Button fx:id="cancelButton"
+                    		text="Exit"
                             onAction="#onCancel"
                             style="-fx-background-color: #144A32; -fx-text-fill: white; -fx-font-weight: bold;"/>
                 </HBox>

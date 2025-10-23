@@ -90,4 +90,8 @@ public class LanguageDAO {
             e.printStackTrace();
         }
     }
+    // Constructor to ensure Language table exists, automatically create Language table if missing
+    public LanguageDAO() {
+        initTable();  
+    }
 }

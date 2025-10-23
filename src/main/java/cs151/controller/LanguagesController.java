@@ -6,8 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 /**
@@ -16,27 +18,13 @@ import javafx.stage.Stage;
  */
 public class LanguagesController {
     
-    @FXML
-    private TextField languageNameField;
-    
-    @FXML
-    private Button saveButton;
-    
-    @FXML
-    private Button backButton;
-    
-    @FXML
-    private TableView<Language> languagesTable;
-    
-    @FXML
-    private TableColumn<Language, String> nameColumn;
-    
-    @FXML
-    private TableColumn<Language, Void> actionsColumn;
-    
-    @FXML
-    private Label messageLabel;
-    
+    @FXML private TextField languageNameField;    
+    @FXML private Button saveButton;    
+    @FXML private Button backButton;    
+    @FXML private TableView<Language> languagesTable;    
+    @FXML private TableColumn<Language, String> nameColumn;
+    @FXML private TableColumn<Language, Void> actionsColumn;    
+    @FXML private Label messageLabel;    
    
     private final LanguageDAO dao = new LanguageDAO();
     private ObservableList<Language> languagesList;
@@ -107,7 +95,7 @@ public class LanguagesController {
         languagesTable.sort();
 
         // Clear message when user starts typing
-        languageNameField.textProperty().addListener((obs, oldVal, newVal) -> {
+        languageNameField.textProperty().addListener((_,_ ,_ ) -> {
             messageLabel.setText("");
         });
     }
@@ -160,7 +148,6 @@ public class LanguagesController {
                 return;
             }
 
-
             dao.updateLanguage(language.getId(), newName);
             languagesList.setAll(dao.getAllLanguages()); // Refresh list
             showMessage("Language updated successfully!", "success");
@@ -204,13 +191,13 @@ public class LanguagesController {
      * @param type The type of message ("success" or "error")
      */
     private void showMessage(String message, String type) {
-        messageLabel.setText(message);
-        if (type.equals("success")) {
-            messageLabel.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
-        } else {
-            messageLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
-        }
+        messageLabel.setText(message);        
+        messageLabel.setStyle(
+            "-fx-text-fill: " + (type.equals("success") ? "green" : "red") +
+            "; -fx-font-weight: bold; -fx-font-size: 16px;"
+        );
     }
+
     
     /**
      * Handles the Back button click
@@ -221,7 +208,7 @@ public class LanguagesController {
         try {
             Stage stage = (Stage) backButton.getScene().getWindow();
             javafx.fxml.FXMLLoader fxmlLoader = new javafx.fxml.FXMLLoader(
-                getClass().getResource("/cs151/application/hello-view.fxml")
+                getClass().getResource("/cs151/view/main-view.fxml")
             );
             javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 900, 800);
             stage.setScene(scene);

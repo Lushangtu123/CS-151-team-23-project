@@ -3,6 +3,8 @@ module cs151.application {
     requires javafx.fxml;
     requires com.dlsc.formsfx;
 	requires java.sql;
+	requires javafx.graphics;
+	requires javafx.base;
 
     // Open packages to JavaFX for reflection
     opens cs151.application to javafx.fxml;

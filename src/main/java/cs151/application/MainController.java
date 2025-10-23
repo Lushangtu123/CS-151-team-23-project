@@ -5,6 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import cs151.controller.SearchStudentController;
+import cs151.data.StudentDAO;
+import cs151.model.Student;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 /**
@@ -13,10 +19,6 @@ import javafx.event.ActionEvent;
  */
 public class MainController {
 
-    /**
-     * Handles navigation to the Define Programming Languages page.
-     * Triggered when user clicks the "Define Programming Languages" button.
-     */
     @FXML
     protected void onLanguagesButtonClick(ActionEvent event) {
         try {
@@ -24,7 +26,7 @@ public class MainController {
             Stage stage = (Stage) source.getScene().getWindow();
 
             FXMLLoader fxmlLoader = new FXMLLoader(
-                Main.class.getResource("/cs151/application/languages-view.fxml")
+                Main.class.getResource("/cs151/view/languages-view.fxml")
             );
             Scene scene = new Scene(fxmlLoader.load(), 900, 800);
 
@@ -36,15 +38,11 @@ public class MainController {
         }
     }
 
-    /**
-     * Opens a new window with the Student Profile Menu.
-     * Triggered when user clicks the "Manage Student Profiles" button.
-     */
     @FXML
     protected void onStudentsButtonClick(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
-                Main.class.getResource("/cs151/application/student-menu.fxml")
+                Main.class.getResource("/cs151/view/student-menu.fxml")
             );
             Scene scene = new Scene(fxmlLoader.load(), 400, 300);
 
@@ -58,4 +56,5 @@ public class MainController {
             System.err.println("Error opening student menu: " + e.getMessage());
         }
     }
+ 
 }

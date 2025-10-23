@@ -16,5 +16,7 @@
     <Label text="Student Profile Menu" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
 
     <Button text="Add Student" onAction="#onAddStudentClick" prefWidth="200"/>   
-    <Button text="Student Table View" onAction="#onStudentTableClick" prefWidth="200"/>
+	<Button text="Search Students" onAction="#onSearchStudentClick" prefWidth="200"/>
+	<Button text="Student View - Edit - Delete" onAction="#onStudentTableClick" prefWidth="200"/>
+
 </VBox>

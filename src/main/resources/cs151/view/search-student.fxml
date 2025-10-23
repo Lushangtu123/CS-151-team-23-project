@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="rootVBox" spacing="15" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cs151.controller.SearchStudentController">
+
+    <!-- Title -->
+    <Label text="Search Student"
+       style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-alignment: center;"
+       maxWidth="Infinity"
+       alignment="CENTER"/>
+
+
+    <!-- Search Criteria Section -->
+	<VBox spacing="10" style="-fx-padding: 10 20 10 60;">
+    	<Label text="Search Criteria" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+    	<HBox spacing="10" alignment="CENTER_LEFT">
+    		<CheckBox fx:id="nameCheck" minHeight="30"/>
+    		<Label text="Full Name" minWidth="150" minHeight="30"/>
+    		<TextField fx:id="nameField" promptText="Enter full name" prefWidth="250" minHeight="30"/>
+		</HBox>
+
+    	<HBox spacing="10">
+    		<CheckBox fx:id="statusCheck"/>
+    		<Label text="Academic Status" minWidth="150"/>
+    		<ComboBox fx:id="statusCombo" prefWidth="250" promptText="Select academic status"/>    
+		</HBox>
+
+    	<HBox spacing="10">
+    <CheckBox fx:id="languageCheck"/>
+    <Label text="Language Skill" minWidth="150"/>
+    <ComboBox fx:id="languageCombo" prefWidth="250" promptText="Select language"/>
+</HBox>
+
+
+    	<HBox spacing="10">
+    		<CheckBox fx:id="databaseCheck"/>
+    		<Label text="Database Skill" minWidth="150"/>
+    		<ComboBox fx:id="databaseCombo" prefWidth="250" promptText="Select database skill"/>
+		</HBox>
+
+    	<HBox spacing="10">
+    		<CheckBox fx:id="roleCheck"/>
+    		<Label text="Preferred Role" minWidth="150"/>
+    		<ComboBox fx:id="roleCombo" prefWidth="250" promptText="Select preferred role"/>
+		</HBox>
+
+	</VBox>
+
+
+    <!-- Search Button -->
+    <HBox alignment="CENTER">
+    	<Button text="Search" onAction="#onSearchClick" prefWidth="100"/>
+	</HBox>
+
+
+    <!-- Result Message -->
+    <Label fx:id="resultMessage"
+       text=""
+       style="-fx-text-fill: green;"
+       maxWidth="Infinity"
+       alignment="CENTER"/>
+
+
+    <!-- TableView for Search Results -->
+    <TableView fx:id="resultsTable" prefHeight="400" prefWidth="1000">
+        <columns>
+            <TableColumn fx:id="nameColumn" text="Full Name" prefWidth="150"/>
+            <TableColumn fx:id="statusColumn" text="Academic Status" prefWidth="120"/>
+            <TableColumn fx:id="employedColumn" text="Employed" prefWidth="80"/>
+            <TableColumn fx:id="jobColumn" text="Job Details" prefWidth="150"/>
+            <TableColumn fx:id="languagesColumn" text="Languages" prefWidth="150"/>
+            <TableColumn fx:id="databasesColumn" text="Databases" prefWidth="150"/>
+            <TableColumn fx:id="roleColumn" text="Preferred Role" prefWidth="120"/>
+            <TableColumn fx:id="flagColumn" text="Flag" prefWidth="80"/>
+        </columns>
+    </TableView>
+</VBox>

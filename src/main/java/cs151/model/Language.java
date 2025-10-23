@@ -8,41 +8,22 @@ public class Language {
     private int id;
     private String name;
 
-    /**
-     * Constructor for creating a new Language
-     * @param name The name of the programming language
-     */
+    
+    // Constructor for creating a new Language   
     public Language(String name) {
         this.name = name;
     }
-
-    /**
-     * Constructor with ID (used when loading from database)
-     * @param id The unique identifier
-     * @param name The name of the programming language
-     */
     public Language(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
     // Getters and Setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id;   }
+    public String getName() { return name;    }
+    public void setName(String name) { this.name = name;     }
+    
     @Override
     public String toString() {
         return name;
@@ -54,10 +35,5 @@ public class Language {
         if (obj == null || getClass() != obj.getClass()) return false;
         Language language = (Language) obj;
         return name.equalsIgnoreCase(language.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return name.toLowerCase().hashCode();
     }
 }
