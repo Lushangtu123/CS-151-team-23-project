@@ -1,6 +1,7 @@
 package cs151.application;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -33,6 +34,11 @@ public class Main extends Application {
         stage.setMinWidth(800);
         stage.setMinHeight(700);
         stage.show();
+        //  Ensure all windows close when the main window is closed
+        stage.setOnCloseRequest(event -> {
+            System.out.println("Main window closed. Exiting application...");
+            Platform.exit(); // Closes all JavaFX windows and exits the app
+        });
     }
 
     /**
