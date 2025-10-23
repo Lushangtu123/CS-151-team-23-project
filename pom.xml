@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cs151</groupId>
-    <artifactId>HelloWorld</artifactId>
+    <artifactId>StudentInfoManagement</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>HelloWorld</name>
+    <name>Student Management System</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
