@@ -79,6 +79,9 @@ public class StudentTableController {
             private final HBox box = new HBox(10, editBtn, deleteBtn);
 
             {
+            	editBtn.setStyle("-fx-background-color: #B0C270; -fx-text-fill: white; -fx-font-weight: bold;");   
+                deleteBtn.setStyle("-fx-background-color: #BA829A; -fx-text-fill: white; -fx-font-weight: bold;"); 
+                
                 editBtn.setOnAction(e -> {
                     Student student = getTableView().getItems().get(getIndex());
                     openEditWindow(student);
