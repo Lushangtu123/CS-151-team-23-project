@@ -8,9 +8,11 @@ import cs151.model.Student;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SearchStudentController {
@@ -38,6 +40,7 @@ public class SearchStudentController {
     @FXML private TableColumn<Student, String> databasesColumn;
     @FXML private TableColumn<Student, String> roleColumn;
     @FXML private TableColumn<Student, String> flagColumn;
+    @FXML private TableColumn<Student, Void> actionColumn;
 
     private final StudentDAO dao = new StudentDAO();
 
@@ -73,6 +76,67 @@ public class SearchStudentController {
         databasesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDatabasesAsString()));
         roleColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPreferredRole()));
         flagColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getFlag()));
+        
+        // Setup action column with delete button
+        setupActionColumn();
+    }
+    
+    /**
+     * Sets up the action column with delete button for each row
+     */
+    private void setupActionColumn() {
+        actionColumn.setCellFactory(column -> new TableCell<>() {
+            private final Button deleteBtn = new Button("Delete");
+            private final HBox box = new HBox(10, deleteBtn);
+            
+            {
+                deleteBtn.setStyle("-fx-background-color: #BA829A; -fx-text-fill: white; -fx-font-weight: bold;");
+                
+                deleteBtn.setOnAction(event -> {
+                    Student student = getTableView().getItems().get(getIndex());
+                    confirmAndDelete(student);
+                });
+            }
+            
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : box);
+            }
+        });
+    }
+    
+    /**
+     * Confirms and deletes a student from the database and table
+     * @param student The student to delete
+     */
+    private void confirmAndDelete(Student student) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirm Deletion");
+        confirm.setHeaderText("Delete Student: " + student.getFullName());
+        confirm.setContentText("Are you sure you want to permanently delete this student profile?");
+        
+        Optional<ButtonType> result = confirm.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Delete from database
+            dao.delete(student.getId());
+            
+            // Remove from table
+            resultsTable.getItems().remove(student);
+            
+            // Update result message
+            int remaining = resultsTable.getItems().size();
+            resultMessage.setText(remaining == 0 
+                ? "No matching student profiles found." 
+                : remaining + " student profile(s) found.");
+            
+            // Show success message
+            Alert success = new Alert(Alert.AlertType.INFORMATION);
+            success.setTitle("Success");
+            success.setHeaderText(null);
+            success.setContentText("Student profile deleted successfully.");
+            success.showAndWait();
+        }
     }
 
     @FXML

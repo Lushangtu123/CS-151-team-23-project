@@ -56,6 +56,6 @@
     </VBox>
 
     <!-- Footer -->
-    <Label text="Version 0.5 | Team 23" 
+    <Label text="Version 0.6 | Team 23" 
            style="-fx-text-fill: white; -fx-font-size: 16px;"/>
 </VBox>

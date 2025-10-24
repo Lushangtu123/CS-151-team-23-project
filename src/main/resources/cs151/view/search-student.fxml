@@ -70,7 +70,7 @@
 
 
     <!-- TableView for Search Results -->
-    <TableView fx:id="resultsTable" prefHeight="400" prefWidth="1000">
+    <TableView fx:id="resultsTable" prefHeight="400" prefWidth="1100">
         <columns>
             <TableColumn fx:id="nameColumn" text="Full Name" prefWidth="150"/>
             <TableColumn fx:id="statusColumn" text="Academic Status" prefWidth="120"/>
@@ -80,6 +80,7 @@
             <TableColumn fx:id="databasesColumn" text="Databases" prefWidth="150"/>
             <TableColumn fx:id="roleColumn" text="Preferred Role" prefWidth="120"/>
             <TableColumn fx:id="flagColumn" text="Flag" prefWidth="80"/>
+            <TableColumn fx:id="actionColumn" text="Actions" prefWidth="100"/>
         </columns>
     </TableView>
 </VBox>
