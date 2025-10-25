@@ -1,17 +1,26 @@
-# Student Information Management System - Version 0.5
+# Student Information Management System - Version 0.6
 
 **Team Number:** 23  
 **Section:** 02
 
 ## Team Members and Contributions 
+**Version 0.6
+
+| Name | Contribution                                                                                            |
+|------|---------------------------------------------------------------------------------------------------------|
+| Van Anh Tran | Implemented DataInitializer with pre-populated data, SearchStudentsController functionality            |
+| Yinqi Chen | Designed and implemented search-students-view.fxml UI layout, filter system, CSS styling               |
+| Harshika Vijayabharath | Implemented search and filter logic, testing                                                            |
+| Phuong Tong | Updated MainController navigation, integrated search page, implemented deletion feature, documentation |
+
 **Version 0.5
 
-| Name | Contribution                                                                    |
-|------|---------------------------------------------------------------------------------|
-| Van Anh Tran | Implemented StudentDAO for SQLite persistence                                   |
-| Yinqi Chen | Designed and implemented students-view.fxml UI layouts, CSS styling             |
-| Harshika Vijayabharath | Implemented StudentController and testing                                       |
-| Phuong Tong | Updating create student form and MainController, final review and documentation |
+| Name | Contribution                                                                                                      |
+|------|-------------------------------------------------------------------------------------------------------------------|
+| Van Anh Tran | Implemented StudentDAO, AddStudentController and MultiSelectDropdown model                                        |
+| Yinqi Chen | Designed and implemented students' fxml UI layouts, CSS styling, StudentTableController and StudentMenuController |
+| Harshika Vijayabharath | Implemented StudentController and testing students' data                                                          |
+| Phuong Tong | Updating add-student form and MainController, implemented Student model, final review and documentation           |
 
 **Version 0.3
 
@@ -32,31 +41,47 @@
 | Phuong Tong | Updated MainController navigation, integrated module-info.java, project documentation |
 ## Project Description
 
-This is Version 0.5 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
+This is Version 0.6 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
 
-**Note**: This version uses **CheckBox multi-selection** for programming languages and database skills, providing a more intuitive user interface.
+**Note**: This version includes **pre-populated data** (3 programming languages and 5 student profiles) and a fully functional **Search Student Profiles** page with advanced filtering and deletion capabilities.
 
-## Version 0.5 Features
+## Version 0.6 Features
 
-### ✅ New in This Version 0.5
+### ✅ New in This Version 0.6
 
-- **Complete Student Profile Management**
-  - Create, view, edit, and delete student profiles
-  - Required fields: Full Name, Academic Status, Current Job Status, Job Details (if Employed), Programming Languages, Databases, Preferred Role
-  - Full validation with inline error messages
-  - TableView with automatic sorting by name (A→Z, case-insensitive)
+- **Pre-populated Database**
+  - Application automatically initializes with **exactly 3 programming languages**: Java, Python, JavaScript
+  - Application automatically initializes with **exactly 5 student profiles** with diverse backgrounds
+  - Data initialization happens on first run or when database is empty
+  - Ensures consistent starting data for demonstration and testing
 
-- **Enhanced Language Management**
-  - Reference checking before deletion
-  - Prevents deletion of languages assigned to students
-  - Option to unassign and delete languages
-  - Improved data integrity
+- **Search Student Profiles Page** ✅ (UC-03)
+  - Dedicated search page accessible from home page
+  - **Advanced filtering system**:
+    - Filter by name (text search)
+    - Filter by academic status (Freshman, Sophomore, Junior, Senior, Graduate, PhD)
+    - Filter by programming language
+    - Filter by preferred role (Front-End, Back-End, Full-Stack, Data, Other)
+  - **TableView display** with comprehensive columns:
+    - ID, Name, Academic Status, Email
+    - Programming Languages, Database Skills, Preferred Role
+    - Employment Status (Employed/Not Employed)
+  - **Search results automatically sorted** by name (A→Z, case-insensitive)
+  - Real-time result count display
+  - Apply filters and clear filters functionality
+  - Refresh data button
 
-- **Advanced Persistence Layer**
-  - StudentDAO with full CRUD operations
-  - LanguageDAO with reference checking
-  - All data stored in SQLite database
-  - Supports complex queries and sorting
+- **Delete Student Profiles** ✅
+  - **Delete button for each student** in the search results table
+  - Confirmation dialog before deletion
+  - **Permanently removes student from database**
+  - Automatically updates the table and result count after deletion
+  - Success/error messages for user feedback
+
+- **Enhanced Navigation**
+  - New "Search Student Profiles" button on home page
+  - Back to home functionality from all pages
+  - Consistent navigation across all views
 
 ### Implemented Features:
 
@@ -87,11 +112,26 @@ This is Version 0.5 of the Student Information Management System, a desktop appl
   - Email format validation
   - Multi-language support (comma-separated)
 
+#### **UC-03: Search Student Profiles** ✅ (NEW in v0.6)
+- **Search Student Profiles Page**:
+  - ✅ `searchStudents(filters)` - Search students with multiple filter criteria
+  - ✅ `filterByName(text)` - Filter by student name (case-insensitive partial match)
+  - ✅ `filterByAcademicStatus(status)` - Filter by academic status
+  - ✅ `filterByLanguage(language)` - Filter by programming language
+  - ✅ `filterByRole(role)` - Filter by preferred role
+  - ✅ `displayStudentsInTable()` - Display all matching students in **TableView**
+  - ✅ `deleteStudent(id)` - Permanently delete student from database
+  - ✅ `viewStudentDetails(id)` - View full student profile in dialog
+  - ✅ `refreshResults()` - Reload all students from database
+  - Apply filters and clear filters functionality
+  - Real-time result count display
+  - Automatic sorting by name (A→Z, case-insensitive)
+
 ### Features Coming in Future Versions:
-- Search and filter functionality
 - Advanced reporting and analytics
 - Team formation tools
 - Export data to CSV/PDF
+- Import data from external sources
 
 ## Technical Requirements
 
@@ -110,25 +150,32 @@ This is Version 0.5 of the Student Information Management System, a desktop appl
 │   │   ├── java/
 │   │   │   ├── cs151/
 │   │   │   │   ├── application/
-│   │   │   │   │   ├── Main.java              (Entry point)
-│   │   │   │   │   └── MainController.java    (Home page controller)
+│   │   │   │   │   ├── Main.java                    (Entry point with data initialization)
+│   │   │   │   │   └── MainController.java          (Home page controller)
 │   │   │   │   ├── controller/
-│   │   │   │   │   ├── LanguagesController.java (Languages CRUD controller)
-│   │   │   │   │   └── StudentsController.java  (Students CRUD controller)
+│   │   │   │   │   ├── LanguagesController.java     (Languages CRUD controller)
+│   │   │   │   │   ├── StudentsController.java      (Students CRUD controller)
+│   │   │   │   │   └── SearchStudentsController.java (Search & filter controller) [NEW]
 │   │   │   │   ├── data/
-│   │   │   │   │   ├── LanguageDAO.java       (Language database access)
-│   │   │   │   │   ├── StudentDAO.java        (Student database access)
+│   │   │   │   │   ├── LanguageDAO.java             (Language database access)
+│   │   │   │   │   ├── StudentDAO.java              (Student database access)
+│   │   │   │   │   ├── DataInitializer.java         (Initialize database with data) [NEW]
 │   │   │   │   │   └── package-info.java
 │   │   │   │   └── model/
-│   │   │   │       ├── Language.java               (Language entity)
-│   │   │   │       └── Student.java                (Student entity)
+│   │   │   │       ├── Language.java                (Language entity)
+│   │   │   │       ├── Student.java                 (Student entity)
+│   │   │   │       └── MultiSelectDropDown.java     (Multiselect entity)
 │   │   │   └── module-info.java
 │   │   └── resources/
 │   │       └── cs151/
 │   │           └── application/
-│   │               ├── hello-view.fxml         (Home page)
-│   │               ├── languages-view.fxml     (Languages page)
-│   │               └── students-view.fxml      (All students page)
+│   │               ├── hello-view.fxml              (Home page)
+│   │               ├── languages-view.fxml          (Languages page)
+│   │               ├── add-student.fxml             (Create student page)
+│   │               ├── students-view.fxml           (Manage students page)
+│   │               ├── student-menu.fxml            (Navigation in manage student page)
+│   │               ├── student-table.fxml           (All students page)
+│   │               └── search-students-view.fxml    (Search students page) [NEW in v0.6]
 ├── student.db                                 (SQLite database)
 ├── ReadMe.md
 ├── pom.xml
@@ -145,7 +192,9 @@ mvn clean javafx:run
 ```
 
 **What you'll see:**
-- Main menu with "Define Programming Languages" and "Manage Student Profiles"  
+- Main menu with "Define Programming Languages", "Manage Student Profiles", and "Search Student Profiles"
+- Database automatically initializes with **3 programming languages** and **5 student profiles**
+- Search page with advanced filtering by name, academic status, language, and role
 - Student management page with **CheckBox multi-selection** for languages and databases
 - All data persisted in SQLite database
 
@@ -160,21 +209,47 @@ mvn clean javafx:run
 - **Location**: Project root directory
 - **Tables**: 
   - `Language` (id INTEGER PRIMARY KEY, name TEXT)
+    - Pre-populated with: Java, Python, JavaScript
   - `Student` (id INTEGER PRIMARY KEY, name TEXT, academicStatus TEXT, email TEXT, languages TEXT, dbSkills TEXT, role TEXT, interests TEXT)
+    - Pre-populated with: 5 diverse student profiles (Alice Johnson, Bob Smith, Carol Martinez, David Lee, Emma Wilson)
 - **JDBC Driver**: SQLite JDBC 3.50.3.0 (included in Maven dependencies)
 - **Relationships**: Languages stored as comma-separated strings in Student records
+- **Initialization**: Database automatically initializes with required data on first run
 
 ## Notes
 
 - Data is now **permanently stored** in SQLite database
+- Database **automatically initializes** with 3 programming languages and 5 student profiles on first run
 - All programming languages and student profiles persist between application sessions
 - The application runs as a single-user desktop application (no login required)
 - Database file is automatically created on first run if it doesn't exist
-- Student tables are automatically created when accessing Student Management page
+- **Search Student Profiles page** provides advanced filtering and deletion capabilities
+- Deletion from search page is **permanent** and cannot be undone
 
 ## Version History
 
-- **v0.5** (Current): 
+- **v0.6** (Current): 
+  - ✅ **Pre-populated Database**
+    - DataInitializer class automatically populates database
+    - Exactly 3 programming languages (Java, Python, JavaScript)
+    - Exactly 5 student profiles with diverse backgrounds
+    - Data initialization happens on first run
+  - ✅ **Search Student Profiles Page** (UC-03)
+    - Dedicated search page with advanced filtering
+    - Filter by name, academic status, language, and role
+    - TableView with comprehensive student information
+    - View detailed student profile dialog
+    - Delete functionality with confirmation
+    - Real-time result count and messaging
+    - Refresh data capability
+  - ✅ **Enhanced Navigation**
+    - Added "Search Student Profiles" button to home page
+    - Updated navigation flow across all pages
+    - Consistent back-to-home functionality
+  - Updated version number to 0.6 throughout application
+  - Updated ReadMe with comprehensive documentation
+  
+- **v0.5**: 
   - ✅ **Complete Student Profile Management** (UC-02)
     - Created Student model with required and optional fields
     - Implemented StudentDAO with full CRUD operations
