@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * Handles CRUD operations for student profiles
  */
 public class StudentsController {
-    
+
     @FXML
     private TextField nameField;
     
@@ -50,9 +50,12 @@ public class StudentsController {
     
     @FXML
     private TextArea commentsArea;
-    
+
     @FXML
-    private ComboBox<String> flagCombo;
+    private CheckBox whitelistCheckbox;
+
+    @FXML
+    private CheckBox blacklistCheckbox;
     
     @FXML
     private Button saveButton;
@@ -117,18 +120,25 @@ public class StudentsController {
         employmentGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
             jobDetailsField.setDisable(!employedRadio.isSelected());
         });
-        
+
+        //Set up mutual exclusive flags
+        whitelistCheckbox.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+            if (isNowSelected) {
+                blacklistCheckbox.setSelected(false);
+            }
+        });
+
+        blacklistCheckbox.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+            if (isNowSelected) {
+                whitelistCheckbox.setSelected(false);
+            }
+        });
+
         // Set up preferred role options
         preferredRoleCombo.setItems(FXCollections.observableArrayList(
             "Front-End", "Back-End", "Full-Stack", "Data", "Other"
         ));
-        
-        // Set up flag options
-        flagCombo.setItems(FXCollections.observableArrayList(
-            "None", "Whitelist", "Blacklist"
-        ));
-        flagCombo.getSelectionModel().select("None");
-        
+
         // Set up CheckBoxes for languages
         createLanguageCheckBoxes();
         
@@ -449,7 +459,12 @@ public class StudentsController {
         
         String preferredRole = preferredRoleCombo.getValue();
         String comments = commentsArea.getText().trim();
-        String flag = flagCombo.getValue();
+        String flag = null;
+        if (whitelistCheckbox.isSelected()) {
+            flag = "Whitelist";
+        } else if (blacklistCheckbox.isSelected()) {
+            flag = "Blacklist";
+        }
         
         if (name.isEmpty()) {
             showMessage("Error: Name is required.", "error");
@@ -571,8 +586,9 @@ public class StudentsController {
         
         preferredRoleCombo.setValue(null);
         commentsArea.clear();
-        flagCombo.setValue("None");
-        
+        whitelistCheckbox.setSelected(false);
+        blacklistCheckbox.setSelected(false);
+
         messageLabel.setText("");
         editingStudent = null;
         formTitleLabel.setText("Create New Student Profile");
@@ -653,10 +669,14 @@ public class StudentsController {
             // Extract flag
             if (interests.contains("| Flag: ")) {
                 int flagStart = interests.indexOf("| Flag: ") + 8;
-                flagCombo.setValue(interests.substring(flagStart).trim());
+                String flagValue = interests.substring(flagStart).trim();
+                whitelistCheckbox.setSelected(flagValue.equalsIgnoreCase("Whitelist"));
+                blacklistCheckbox.setSelected(flagValue.equalsIgnoreCase("Blacklist"));
             } else {
-                flagCombo.setValue("None");
+                whitelistCheckbox.setSelected(false);
+                blacklistCheckbox.setSelected(false);
             }
+
         }
         
         // Update form title

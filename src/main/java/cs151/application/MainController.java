@@ -64,4 +64,27 @@ public class MainController {
             System.err.println("Error loading students page: " + e.getMessage());
         }
     }
+
+    @FXML
+    protected void onSearchButtonClick(javafx.event.ActionEvent event) {
+        try {
+            // Get the current stage from the event source
+            javafx.scene.Node source = (javafx.scene.Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+
+            // Load the students view
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    Main.class.getResource("/cs151/application/search-view.fxml")
+            );
+            Scene scene = new Scene(fxmlLoader.load(), 900, 700);
+
+            // Set the new scene
+            stage.setTitle("Searching Student");
+            stage.setScene(scene);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error loading students page: " + e.getMessage());
+        }
+    }
 }

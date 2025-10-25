@@ -41,8 +41,16 @@
                 wrapText="true"
                 style="-fx-background-color: white; -fx-text-fill: #764ba2; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-padding: 15 25;">
         </Button>
+
+        <Button text="Search Students"
+                onAction="#onSearchButtonClick"
+                prefWidth="460"
+                prefHeight="65"
+                wrapText="true"
+                style="-fx-background-color: white; -fx-text-fill: #764ba2; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-padding: 15 25;">
+        </Button>
         
-        <Button text="Search &amp; Reports" 
+        <Button text="Generating Reports"
                 disable="true"
                 prefWidth="460"
                 prefHeight="65"
@@ -50,7 +58,7 @@
                 style="-fx-background-color: #cccccc; -fx-text-fill: #666666; -fx-font-size: 20px; -fx-background-radius: 10; -fx-padding: 15 25;">
         </Button>
         
-        <Label text="(Search &amp; Reports coming in future versions)" 
+        <Label text="(Reports coming in future versions)"
                wrapText="true"
                textAlignment="CENTER"
                maxWidth="460"
@@ -58,7 +66,7 @@
     </VBox>
 
     <!-- Footer -->
-    <Label text="Version 0.5 | Team 23" 
+    <Label text="Version 0.6 | Team 23"
            style="-fx-text-fill: white; -fx-font-size: 16px;"/>
            
 </VBox>

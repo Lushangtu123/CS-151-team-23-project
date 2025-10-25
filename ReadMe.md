@@ -6,12 +6,12 @@
 ## Team Members and Contributions 
 **Version 0.5
 
-| Name | Contribution                                                                                            |
-|------|---------------------------------------------------------------------------------------------------------|
-| Van Anh Tran | Implemented StudentDAO, AddStudentController and StudentMenuController                                  |
-| Yinqi Chen | Designed and implemented students' fxml UI layouts, CSS styling, StudentTableController                 |
-| Harshika Vijayabharath | Implemented StudentController and testing                                                               |
-| Phuong Tong | Updating add-student form and MainController, implemented Student model, final review and documentation |
+| Name | Contribution                                                                    |
+|------|---------------------------------------------------------------------------------|
+| Van Anh Tran | Implemented StudentDAO for SQLite persistence                                   |
+| Yinqi Chen | Designed and implemented students-view.fxml UI layouts, CSS styling             |
+| Harshika Vijayabharath | Implemented StudentController and testing                                       |
+| Phuong Tong | Updating create student form and MainController, final review and documentation |
 
 **Version 0.3
 
@@ -121,17 +121,14 @@ This is Version 0.5 of the Student Information Management System, a desktop appl
 │   │   │   │   │   └── package-info.java
 │   │   │   │   └── model/
 │   │   │   │       ├── Language.java               (Language entity)
-│   │   │   │       ├── Student.java                (Student entity)
-│   │   │   │       └── MultiSelectDropdown.java    (Multiselect entity)
+│   │   │   │       └── Student.java                (Student entity)
 │   │   │   └── module-info.java
 │   │   └── resources/
 │   │       └── cs151/
 │   │           └── application/
 │   │               ├── hello-view.fxml         (Home page)
 │   │               ├── languages-view.fxml     (Languages page)
-│   │               ├── add-student.fxml        (Create student page)
-│   │               ├── student-menu.fxml       (Navigation in manage student page)
-│   │               └── student-table.fxml      (Alltudents page)
+│   │               └── students-view.fxml      (All students page)
 ├── student.db                                 (SQLite database)
 ├── ReadMe.md
 ├── pom.xml
