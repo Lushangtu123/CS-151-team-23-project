@@ -1,26 +1,17 @@
-# Student Information Management System - Version 0.6
+# Student Information Management System - Version 0.5
 
 **Team Number:** 23  
 **Section:** 02
 
 ## Team Members and Contributions 
-**Version 0.6
-
-| Name | Contribution |
-|------|--------------|
-| Van Anh Tran | Implemented DataInitializer for populating 3 languages and 5 students, enhanced data validation |
-| Yinqi Chen | Updated UI for search results with delete functionality, version updates |
-| Harshika Vijayabharath | Enhanced SearchStudentController with delete functionality, testing |
-| Phuong Tong | Project finalization, documentation updates, deployment preparation |
-
 **Version 0.5
 
-| Name | Contribution                                                                                                      |
-|------|-------------------------------------------------------------------------------------------------------------------|
-| Van Anh Tran | Implemented StudentDAO, AddStudentController and MultiSelectDropdown model                                        |
-| Yinqi Chen | Designed and implemented students' fxml UI layouts, CSS styling, StudentTableController and StudentMenuController |
-| Harshika Vijayabharath | Implemented StudentController and testing students' data                                                          |
-| Phuong Tong | Updating add-student form and MainController, implemented Student model, final review and documentation           |
+| Name | Contribution                                                                    |
+|------|---------------------------------------------------------------------------------|
+| Van Anh Tran | Implemented StudentDAO for SQLite persistence                                   |
+| Yinqi Chen | Designed and implemented students-view.fxml UI layouts, CSS styling             |
+| Harshika Vijayabharath | Implemented StudentController and testing                                       |
+| Phuong Tong | Updating create student form and MainController, final review and documentation |
 
 **Version 0.3
 
@@ -41,32 +32,13 @@
 | Phuong Tong | Updated MainController navigation, integrated module-info.java, project documentation |
 ## Project Description
 
-This is Version 0.6 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
+This is Version 0.5 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
 
-## Version 0.6 Features
+**Note**: This version uses **CheckBox multi-selection** for programming languages and database skills, providing a more intuitive user interface.
 
-### ✅ New in This Version 0.6
+## Version 0.5 Features
 
-- **Pre-populated Data**
-  - Automatically populates database with exactly **3 Programming Languages** (Java, Python, JavaScript)
-  - Automatically populates database with exactly **5 Student Profiles** with diverse information
-  - Data initialization runs on application startup
-  - Ensures consistent data for testing and demonstration
-
-- **Enhanced Search & Delete Functionality**
-  - Search students by multiple criteria (name, academic status, language, database, role)
-  - **Delete functionality in search results** - users can delete student profiles directly from search results
-  - Permanent deletion from database with confirmation dialogs
-  - Real-time table updates after deletion
-  - User-friendly success/error messages
-
-- **Complete TableView Implementation**
-  - All student listings use JavaFX TableView component
-  - Automatic alphabetical sorting (A→Z, case-insensitive)
-  - Action columns with Edit and Delete buttons
-  - Comprehensive column display (name, status, employment, languages, databases, role, flag)
-
-### ✅ Features from Version 0.5
+### ✅ New in This Version 0.5
 
 - **Complete Student Profile Management**
   - Create, view, edit, and delete student profiles
@@ -115,24 +87,11 @@ This is Version 0.6 of the Student Information Management System, a desktop appl
   - Email format validation
   - Multi-language support (comma-separated)
 
-#### **UC-03: Search Student Profiles** ✅
-- **Search Students Page**:
-  - ✅ Accessible from Home Page → Manage Student Profiles → Search Students
-  - ✅ `searchByMultiCriteria(criteria)` - Search by name, academic status, programming language, database skill, or preferred role
-  - ✅ Multi-criteria search with checkboxes to select active search fields
-  - ✅ Results displayed in **JavaFX TableView** with all student information
-  - ✅ `deleteStudent(id)` - Delete any student profile directly from search results
-  - ✅ Confirmation dialog before deletion
-  - ✅ Permanent removal from SQLite database
-  - ✅ Real-time table refresh after deletion
-  - Search result count display
-  - Empty result handling with user-friendly messages
-
 ### Features Coming in Future Versions:
+- Search and filter functionality
 - Advanced reporting and analytics
 - Team formation tools
 - Export data to CSV/PDF
-- Batch operations
 
 ## Technical Requirements
 
@@ -162,17 +121,14 @@ This is Version 0.6 of the Student Information Management System, a desktop appl
 │   │   │   │   │   └── package-info.java
 │   │   │   │   └── model/
 │   │   │   │       ├── Language.java               (Language entity)
-│   │   │   │       ├── Student.java                (Student entity)
-│   │   │   │       └── MultiSelectDropdown.java    (Multiselect entity)
+│   │   │   │       └── Student.java                (Student entity)
 │   │   │   └── module-info.java
 │   │   └── resources/
 │   │       └── cs151/
 │   │           └── application/
 │   │               ├── hello-view.fxml         (Home page)
 │   │               ├── languages-view.fxml     (Languages page)
-│   │               ├── add-student.fxml        (Create student page)
-│   │               ├── student-menu.fxml       (Navigation in manage student page)
-│   │               └── student-table.fxml      (Alltudents page)
+│   │               └── students-view.fxml      (All students page)
 ├── student.db                                 (SQLite database)
 ├── ReadMe.md
 ├── pom.xml
@@ -188,9 +144,14 @@ This is Version 0.6 of the Student Information Management System, a desktop appl
 mvn clean javafx:run
 ```
 
+**What you'll see:**
+- Main menu with "Define Programming Languages" and "Manage Student Profiles"  
+- Student management page with **CheckBox multi-selection** for languages and databases
+- All data persisted in SQLite database
+
 ### Using IDE:
 1. Import the project as a Maven project
-2. Ensure JDK 23 (Zulu) is configured
+2. Ensure JDK 21+ is configured
 3. Run the `Main.java` class located in `cs151.application` package
 
 ## Database Information
@@ -211,41 +172,9 @@ mvn clean javafx:run
 - Database file is automatically created on first run if it doesn't exist
 - Student tables are automatically created when accessing Student Management page
 
-## Initial Data
-
-The application comes pre-populated with sample data for demonstration and testing:
-
-### Programming Languages (3)
-1. **Java** - Object-oriented programming language
-2. **Python** - High-level general-purpose programming language  
-3. **JavaScript** - Web development programming language
-
-### Student Profiles (5)
-1. **Alice Johnson** - Senior, Employed at Google, Full-Stack role
-2. **Bob Smith** - Junior, Not Employed, Front-End role
-3. **Carol Williams** - Graduate, Data Scientist at Microsoft, Data role
-4. **David Brown** - Sophomore, Not Employed, Back-End role
-5. **Eva Martinez** - Senior, Full Stack Developer at Amazon, Full-Stack role
-
-All sample data includes complete information such as programming languages, database skills, preferred roles, and comments.
-
 ## Version History
 
-- **v0.6** (Current):
-  - ✅ **Pre-populated Data** - Application automatically initializes with 3 programming languages and 5 student profiles
-  - ✅ **Search Student Profiles** (UC-03)
-    - Multi-criteria search functionality
-    - TableView implementation for search results
-    - Delete functionality in search results page
-    - Permanent deletion from database with confirmation
-  - ✅ **Enhanced Delete Operations**
-    - Delete from search results page
-    - Delete from student table view page
-    - Confirmation dialogs for all deletions
-  - Updated version numbers across the application
-  - Comprehensive documentation updates
-
-- **v0.5**: 
+- **v0.5** (Current): 
   - ✅ **Complete Student Profile Management** (UC-02)
     - Created Student model with required and optional fields
     - Implemented StudentDAO with full CRUD operations
@@ -276,62 +205,10 @@ All sample data includes complete information such as programming languages, dat
   
 - **v0.1**: Initial project setup
 
-## Project Submission Guidelines
-
-### Cleaning the Project Before Submission
-
-Before zipping the project, ensure it is properly cleaned:
-
-```bash
-# Clean all build artifacts
-mvn clean
-
-# This will remove:
-# - target/ directory (compiled classes and build outputs)
-# - All Maven temporary files
-```
-
-### Zipping the Project
-
-1. Navigate to the parent directory containing the project folder
-2. Create a zip file with the format: `dev-00-0.6.zip`
-3. Ensure the zip contains the root project folder (CS-151-team-23-project-2)
-4. After unzipping, the folder structure should be: `dev-00-0.6/` containing `src/`, `pom.xml`, `ReadMe.md`, etc.
-
-**Command to create zip:**
-```bash
-cd ..
-zip -r dev-00-0.6.zip CS-151-team-23-project-2 -x "*/target/*" "*/.*" "*/.DS_Store"
-```
-
-### What's Included in the Submission
-- ✅ Source code (`src/` directory)
-- ✅ Maven configuration (`pom.xml`)
-- ✅ This ReadMe file with complete documentation
-- ✅ SQLite database file (`student.db`) with pre-populated data
-- ✅ FXML view files and resources
-- ❌ Build artifacts (cleaned before submission)
-- ❌ IDE-specific files (.idea, .classpath, .project)
-
 ---
 
 **Client:** Professor Ahmad Yazdankhah  
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

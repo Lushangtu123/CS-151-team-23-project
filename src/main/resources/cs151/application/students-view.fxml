@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cs151.controller.StudentsController"
+            fitToWidth="true"
+            style="-fx-background-color: #f5f5f5; -fx-background: #f5f5f5;">
+
+    <VBox spacing="20.0"
+      alignment="TOP_CENTER"
+      style="-fx-background-color: #f5f5f5;">
+    
+    <padding>
+        <Insets top="20.0" right="25.0" bottom="20.0" left="25.0"/>
+    </padding>
+    
+    <!-- Header -->
+    <HBox alignment="CENTER" spacing="12.0" maxWidth="900">
+        <Button fx:id="backButton" text="← Back" onAction="#onBackButtonClick"
+                style="-fx-background-color: #757575; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 10 24; -fx-font-size: 16px;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label text="Student Management" 
+               style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+    
+    <Separator maxWidth="900"/>
+    
+    <!-- Add/Edit Student Form -->
+    <VBox spacing="22.0" style="-fx-background-color: white; -fx-padding: 28; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-font-size: 16px;" maxWidth="900" minWidth="900">
+        <Label fx:id="formTitleLabel" text="Create New Student Profile" 
+               wrapText="true"
+               maxWidth="860"
+               minHeight="80"
+               prefHeight="80"
+               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-line-spacing: 12px; -fx-padding: 15 0 20 0;"/>
+        
+        <!-- Name (Required) -->
+        <VBox spacing="15.0">
+            <Text text="Name *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                <VBox.margin>
+                    <Insets top="28" bottom="28"/>
+                </VBox.margin>
+            </Text>
+            <TextField fx:id="nameField" 
+                      promptText="Enter student name"
+                      prefWidth="860"
+                      maxWidth="860"
+                      minHeight="75"
+                      prefHeight="75"
+                      style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-font-size: 26px; -fx-padding: 25 20; -fx-background-insets: 0;"/>
+        </VBox>
+        
+        <!-- Academic Status (Required) -->
+        <VBox spacing="15.0">
+            <Text text="Academic Status *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                <VBox.margin>
+                    <Insets top="28" bottom="28"/>
+                </VBox.margin>
+            </Text>
+            <ComboBox fx:id="academicStatusCombo" 
+                     promptText="Select status"
+                     prefWidth="860"
+                     maxWidth="860"
+                     minHeight="75"
+                     prefHeight="75"
+                     style="-fx-border-color: #ccc; -fx-font-size: 26px;"/>
+        </VBox>
+        
+        <!-- Employment Status (Required) -->
+        <VBox spacing="15.0">
+            <Text text="Employment Status *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                <VBox.margin>
+                    <Insets top="28" bottom="28"/>
+                </VBox.margin>
+            </Text>
+            <HBox spacing="20.0">
+                <RadioButton fx:id="employedRadio" text="Employed" 
+                            style="-fx-font-size: 24px;"/>
+                <RadioButton fx:id="notEmployedRadio" text="Not Employed" 
+                            style="-fx-font-size: 24px;"/>
+            </HBox>
+        </VBox>
+        
+        <!-- Job Details (Conditional) -->
+        <VBox spacing="15.0" fx:id="jobDetailsSection">
+            <Text text="Job Details" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                <VBox.margin>
+                    <Insets top="28" bottom="28"/>
+                </VBox.margin>
+            </Text>
+            <TextArea fx:id="jobDetailsField" 
+                     promptText="Enter job title, company, etc."
+                     prefWidth="860"
+                     maxWidth="860"
+                     minHeight="120"
+                     prefHeight="120"
+                     wrapText="true"
+                     style="-fx-font-size: 22px;"/>
+        </VBox>
+        
+        <!-- Programming Languages (Required - Multi-select) -->
+        <VBox spacing="15.0">
+            <VBox spacing="8.0">
+                <Text text="Programming Languages *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                    <VBox.margin>
+                        <Insets top="25" bottom="12"/>
+                    </VBox.margin>
+                </Text>
+                <Text text="(Select all that apply)" wrappingWidth="860" style="-fx-font-size: 22px; -fx-fill: #666;">
+                    <VBox.margin>
+                        <Insets top="0" bottom="12"/>
+                    </VBox.margin>
+                </Text>
+            </VBox>
+            <ScrollPane fx:id="languagesScrollPane" 
+                       prefWidth="860"
+                       maxWidth="860"
+                       minHeight="400"
+                       prefHeight="400"
+                       style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-background: white; -fx-background-color: white;"
+                       fitToWidth="true">
+                <VBox fx:id="languagesCheckBoxContainer" 
+                      spacing="8.0" 
+                      style="-fx-padding: 15; -fx-background-color: white;"/>
+            </ScrollPane>
+        </VBox>
+        
+        <!-- Database Skills (Required - Multi-select) -->
+        <VBox spacing="15.0">
+            <VBox spacing="8.0">
+                <Text text="Database Skills *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                    <VBox.margin>
+                        <Insets top="25" bottom="12"/>
+                    </VBox.margin>
+                </Text>
+                <Text text="(Select all that apply)" wrappingWidth="860" style="-fx-font-size: 22px; -fx-fill: #666;">
+                    <VBox.margin>
+                        <Insets top="0" bottom="12"/>
+                    </VBox.margin>
+                </Text>
+            </VBox>
+            <ScrollPane fx:id="dbSkillsScrollPane" 
+                       prefWidth="860"
+                       maxWidth="860"
+                       minHeight="400"
+                       prefHeight="400"
+                       style="-fx-border-color: #ccc; -fx-border-radius: 3; -fx-background: white; -fx-background-color: white;"
+                       fitToWidth="true">
+                <VBox fx:id="dbSkillsCheckBoxContainer" 
+                      spacing="8.0" 
+                      style="-fx-padding: 15; -fx-background-color: white;"/>
+            </ScrollPane>
+        </VBox>
+        
+        <!-- Role (Required) -->
+        <VBox spacing="15.0">
+            <Text text="Preferred Role *" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                <VBox.margin>
+                    <Insets top="28" bottom="28"/>
+                </VBox.margin>
+            </Text>
+            <ComboBox fx:id="preferredRoleCombo" 
+                     promptText="Select preferred role"
+                     prefWidth="860"
+                     maxWidth="860"
+                     minHeight="75"
+                     prefHeight="75"
+                     style="-fx-border-color: #ccc; -fx-font-size: 26px;"/>
+        </VBox>
+        
+        <!-- Comments (Optional) -->
+        <VBox spacing="15.0">
+            <Text text="Comments" wrappingWidth="860" style="-fx-font-weight: bold; -fx-font-size: 28px; -fx-fill: black;">
+                <VBox.margin>
+                    <Insets top="28" bottom="28"/>
+                </VBox.margin>
+            </Text>
+            <TextArea fx:id="commentsArea" 
+                     promptText="Optional notes or comments"
+                     prefWidth="860"
+                     maxWidth="860"
+                     minHeight="120"
+                     prefHeight="120"
+                     wrapText="true"
+                     style="-fx-font-size: 22px;"/>
+        </VBox>
+
+        <!-- Flag -->
+        <VBox spacing="15.0" style="-fx-font-size: 22px;">
+            <Label text="Flag" style="-fx-font-weight: bold; -fx-font-size: 28px;"/>
+            <HBox spacing="15">
+                <CheckBox fx:id="whitelistCheckbox" text="Whitelist" />
+                <CheckBox fx:id="blacklistCheckbox" text="Blacklist" />
+            </HBox>
+        </VBox>
+        
+        <!-- Buttons -->
+        <HBox spacing="20.0" alignment="CENTER_LEFT" style="-fx-padding: 18 0 0 0;">
+            <Button fx:id="saveButton" 
+                   text="Save Student" 
+                   onAction="#onSaveButtonClick"
+                   minHeight="55"
+                   prefHeight="55"
+                   style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 15 45; -fx-font-size: 16px;"/>
+            <Button fx:id="clearButton" 
+                   text="Clear Form" 
+                   onAction="#onClearButtonClick"
+                   minHeight="55"
+                   prefHeight="55"
+                   style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 15 45; -fx-font-size: 16px;"/>
+            <Button fx:id="showListButton" 
+                   text="Show Student List" 
+                   onAction="#onShowListButtonClick"
+                   minHeight="55"
+                   prefHeight="55"
+                   style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 15 45; -fx-font-size: 16px;"/>
+        </HBox>
+        
+        <!-- Message Label -->
+        <Label fx:id="messageLabel" text="" minHeight="38" prefHeight="38" wrapText="true" maxWidth="860" style="-fx-font-size: 18px; -fx-line-spacing: 7px; -fx-padding: 6 0;"/>
+        
+        <Label text="* All fields are required" wrapText="true" maxWidth="860" minHeight="32" prefHeight="32" style="-fx-font-size: 17px; -fx-text-fill: #d32f2f; -fx-font-weight: bold; -fx-line-spacing: 7px; -fx-padding: 5 0;"/>
+    </VBox>
+    
+    
+</VBox>
+</ScrollPane>
+

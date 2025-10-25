@@ -1,202 +1,255 @@
 package cs151.data;
 
 import cs151.model.Student;
-import cs151.model.Language;
-import cs151.model.Comment;
-import java.util.stream.Collectors;
-
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-
+/**
+ * Data Access Object for Student entity
+ * Handles all database operations for students
+ */
 public class StudentDAO {
     private static final String DB_URL = "jdbc:sqlite:student.db";
 
-    public StudentDAO() {
-        // Create DB and table if not exists, insert a test student if necessary.
+    /**
+     * Initialize Student table if it doesn't exist
+     */
+    public void initTable() {
+        String sql = """
+            CREATE TABLE IF NOT EXISTS Student (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                academicStatus TEXT NOT NULL,
+                email TEXT,
+                languages TEXT,
+                dbSkills TEXT,
+                role TEXT,
+                interests TEXT
+            );
+        """;
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
-   
-            // Use Java text block for CREATE TABLE 
-            stmt.execute("""
-                CREATE TABLE IF NOT EXISTS students (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    fullName TEXT,
-                    academicStatus TEXT,
-                    employed INTEGER,
-                    jobDetails TEXT,
-                    programmingLanguages TEXT,
-                    databases TEXT,
-                    preferredRole TEXT,
-                    comments TEXT,
-                    flag TEXT
-                )
-            """);
- 
-            // Quick check to list number of rows present (for early diagnostics)
-            try (ResultSet rs2 = stmt.executeQuery("SELECT COUNT(*) FROM students")) {
-                if (rs2.next()) {
-                    System.out.println("DEBUG: Students table row count = " + rs2.getInt(1));
-                } else {
-                    System.out.println("DEBUG: Could not determine students table row count.");
-                }
-            } catch (SQLException e) {
-                System.err.println("DEBUG: Error reading students count: " + e.getMessage());
-                e.printStackTrace();
-            }
-
+            stmt.execute(sql);
         } catch (SQLException e) {
-            System.err.println("DEBUG: Unable to connect/create DB: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    // Save a student to DB
-    public void save(Student student) {
-        String sql = "INSERT INTO students (fullName, academicStatus, employed, jobDetails, programmingLanguages, databases, preferredRole, comments, flag) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, student.getFullName());
-            pstmt.setString(2, student.getAcademicStatus());
-            pstmt.setInt(3, student.isEmployed() ? 1 : 0);
-            pstmt.setString(4, student.getJobDetails());
-            pstmt.setString(5, student.getProgrammingLanguages().stream().map(Language::getName).collect(Collectors.joining(",")));
-            pstmt.setString(6, String.join(",", student.getDatabases()));
-            pstmt.setString(7, student.getPreferredRole());
-            pstmt.setString(8, student.getComments().stream()
-                    .map(Comment::getText)
-                    .collect(Collectors.joining(",")));
-            pstmt.setString(9, student.getFlag());
-
-            int updated = pstmt.executeUpdate();
-            System.out.println("DEBUG: save() executed, rows affected: " + updated);
-        } catch (SQLException e) {
-            System.err.println("DEBUG: save() error: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    // Find all students
-    public List<Student> findAll() {
-        String sql = "SELECT * FROM students";
-    //    System.out.println("DEBUG: findAll() -> SQL: " + sql);
-        return executeQuery(sql, Collections.emptyList());
-    }
-
-    // Find by name (used by StudentsController.onSearchStudent)
-    public List<Student> findByName(String name) {
-        String sql = "SELECT * FROM students WHERE LOWER(fullName) = LOWER(?)";
-    //    System.out.println("DEBUG: findByName() -> SQL: " + sql + " | param: " + name.trim());
-        return executeQuery(sql, List.of(name.trim()));
-    }
-
-
-    // A multi-criteria search (kept intact)
-    public List<Student> findByMultiCriteria(Map<String, String> criteria) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM students WHERE 1=1");
-        List<String> values = new ArrayList<>();
-
-        if (criteria.containsKey("Full Name")) {
-            sql.append(" AND LOWER(fullName) = LOWER(?)");
-            values.add(criteria.get("Full Name").trim());
-        }
-        if (criteria.containsKey("Academic Status")) {
-            sql.append(" AND LOWER(academicStatus) LIKE LOWER(?)");
-            values.add("%" + criteria.get("Academic Status").trim() + "%");
-        }
-        if (criteria.containsKey("Programming Language")) {
-            sql.append(" AND LOWER(programmingLanguages) LIKE LOWER(?)");
-            values.add("%" + criteria.get("Programming Language").trim() + "%");
-        }
-        if (criteria.containsKey("Database Skill")) {
-            sql.append(" AND LOWER(databases) LIKE LOWER(?)");
-            values.add("%" + criteria.get("Database Skill").trim() + "%");
-        }
-        if (criteria.containsKey("Preferred Role")) {
-            sql.append(" AND LOWER(preferredRole) LIKE LOWER(?)");
-            values.add("%" + criteria.get("Preferred Role").trim() + "%");
+    /**
+     * Save a new student to the database
+     * @param student The student to save
+     * @return true if successful, false otherwise
+     */
+    public boolean saveStudent(Student student) {
+        if (!student.isValid()) {
+            return false;
         }
 
-     //   System.out.println("DEBUG: findByMultiCriteria() -> SQL: " + sql + " | params: " + values);
-        return executeQuery(sql.toString(), values);
-    }
-
-
-
-    // Convert a ResultSet row into a Student object
-    private Student rowToStudent(ResultSet rs) throws SQLException {
-        int id = rs.getInt("id");
-        String fullName = rs.getString("fullName");
-        String academicStatus = rs.getString("academicStatus");
-        boolean employed = rs.getInt("employed") == 1;
-        String jobDetails = rs.getString("jobDetails");
-
-        List<Language> programmingLanguages = Arrays.stream(Optional.ofNullable(rs.getString("programmingLanguages")).orElse("")
-                .split(","))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .map(Language::new)
-                .collect(Collectors.toList());
-
-        List<String> databases = Arrays.stream(Optional.ofNullable(rs.getString("databases")).orElse("")
-                .split(","))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .collect(Collectors.toList());
-
-        String preferredRole = rs.getString("preferredRole");
-
-        List<Comment> comments = Arrays.stream(Optional.ofNullable(rs.getString("comments")).orElse("")
-                .split(","))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .map(text -> new Comment(0, id, text))
-                .collect(Collectors.toList());
-
-        String flag = Optional.ofNullable(rs.getString("flag")).orElse("None");
-
-        return new Student(id, fullName, academicStatus, employed, jobDetails,
-                programmingLanguages, databases, preferredRole, comments, flag);
-    }
-
-    // Execute a parameterized query and return list of students
-    private List<Student> executeQuery(String sql, List<String> values) {
-        List<Student> students = new ArrayList<>();
-
-        //System.out.println("DEBUG: executeQuery() -> SQL: " + sql + " | params: " + values);
-
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            // bind parameters if any
-            for (int i = 0; i < values.size(); i++) {
-                pstmt.setString(i + 1, values.get(i));
-                System.out.println("DEBUG:   bind param " + (i+1) + " = [" + values.get(i) + "]");
-            }
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                int rowCount = 0;
-                while (rs.next()) {
-                    Student s = rowToStudent(rs);
-                    System.out.println("DEBUG:   row -> id=" + s.getId() + " name=[" + s.getFullName() + "]");
-                    students.add(s);
-                    rowCount++;
-                }
-                //System.out.println("DEBUG: executeQuery() -> rows returned = " + rowCount);
-            }
-
-        } catch (SQLException e) {
-            System.err.println("DEBUG: executeQuery() SQLException: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return students;
-    }
-    public boolean isFullNameExists(String name) {
-        String sql = "SELECT COUNT(*) FROM students WHERE LOWER(fullName) = LOWER(?)";
+        String sql = """
+            INSERT INTO Student(name, academicStatus, email, languages, dbSkills, role, interests)
+            VALUES(?, ?, ?, ?, ?, ?, ?)
+        """;
+        
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, name);
+            stmt.setString(1, student.getName());
+            stmt.setString(2, student.getAcademicStatus());
+            stmt.setString(3, student.getEmail());
+            stmt.setString(4, student.getLanguagesAsString());
+            stmt.setString(5, student.getDbSkills());
+            stmt.setString(6, student.getRole());
+            stmt.setString(7, student.getInterests());
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Retrieve all students from the database, sorted by name (A-Z, case-insensitive)
+     * @return List of all students sorted alphabetically by name
+     */
+    public List<Student> getAllStudentsSortedByName() {
+        return getAllStudents("name", "ASC");
+    }
+
+    /**
+     * Retrieve all students with custom sorting
+     * @param sortBy Column to sort by (e.g., "name", "academicStatus")
+     * @param order Sort order ("ASC" or "DESC")
+     * @return List of students sorted according to parameters
+     */
+    public List<Student> getAllStudents(String sortBy, String order) {
+        List<Student> list = new ArrayList<>();
+        
+        // Validate sortBy to prevent SQL injection
+        String validSortBy = switch (sortBy.toLowerCase()) {
+            case "name", "academicstatus", "email" -> sortBy;
+            default -> "name";
+        };
+        
+        // Validate order
+        String validOrder = "DESC".equalsIgnoreCase(order) ? "DESC" : "ASC";
+        
+        String sql = "SELECT * FROM Student ORDER BY " + validSortBy + " COLLATE NOCASE " + validOrder;
+        
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                Student student = new Student(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("academicStatus")
+                );
+                student.setEmail(rs.getString("email"));
+                
+                // Parse languages from comma-separated string
+                String languagesStr = rs.getString("languages");
+                if (languagesStr != null && !languagesStr.isEmpty()) {
+                    student.setLanguagesFromString(languagesStr);
+                }
+                
+                student.setDbSkills(rs.getString("dbSkills"));
+                student.setRole(rs.getString("role"));
+                student.setInterests(rs.getString("interests"));
+                
+                list.add(student);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    /**
+     * Get a student by ID
+     * @param id The student ID
+     * @return The student, or null if not found
+     */
+    public Student getStudentById(int id) {
+        String sql = "SELECT * FROM Student WHERE id = ?";
+        
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                Student student = new Student(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("academicStatus")
+                );
+                student.setEmail(rs.getString("email"));
+                student.setLanguagesFromString(rs.getString("languages"));
+                student.setDbSkills(rs.getString("dbSkills"));
+                student.setRole(rs.getString("role"));
+                student.setInterests(rs.getString("interests"));
+                return student;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Update an existing student
+     * @param student The student with updated information
+     * @return true if successful, false otherwise
+     */
+    public boolean updateStudent(Student student) {
+        if (!student.isValid()) {
+            return false;
+        }
+
+        String sql = """
+            UPDATE Student 
+            SET name = ?, academicStatus = ?, email = ?, languages = ?, 
+                dbSkills = ?, role = ?, interests = ?
+            WHERE id = ?
+        """;
+        
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, student.getName());
+            stmt.setString(2, student.getAcademicStatus());
+            stmt.setString(3, student.getEmail());
+            stmt.setString(4, student.getLanguagesAsString());
+            stmt.setString(5, student.getDbSkills());
+            stmt.setString(6, student.getRole());
+            stmt.setString(7, student.getInterests());
+            stmt.setInt(8, student.getId());
+            
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Delete a student by ID
+     * @param id The student ID to delete
+     * @return true if successful, false otherwise
+     */
+    public boolean deleteStudent(int id) {
+        String sql = "DELETE FROM Student WHERE id = ?";
+        
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Validate student profile
+     * @param student The student to validate
+     * @return Error message if invalid, empty string if valid
+     */
+    public String validateStudent(Student student) {
+        if (student.getName() == null || student.getName().trim().isEmpty()) {
+            return "Name is required";
+        }
+        
+        if (student.getAcademicStatus() == null || student.getAcademicStatus().trim().isEmpty()) {
+            return "Academic Status is required";
+        }
+        
+        // Validate email format if provided
+        if (student.getEmail() != null && !student.getEmail().trim().isEmpty()) {
+            String email = student.getEmail().trim();
+            if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+                return "Invalid email format";
+            }
+        }
+        
+        return ""; // Valid
+    }
+
+    /**
+     * Check if a language is referenced by any student
+     * @param languageName The language name to check
+     * @return true if the language is used by at least one student
+     */
+    public boolean isLanguageReferenced(String languageName) {
+        String sql = "SELECT COUNT(*) FROM Student WHERE languages LIKE ?";
+        
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            // Check if the language appears in the comma-separated list
+            stmt.setString(1, "%" + languageName + "%");
             ResultSet rs = stmt.executeQuery();
             return rs.getInt(1) > 0;
         } catch (SQLException e) {
@@ -204,144 +257,28 @@ public class StudentDAO {
             return false;
         }
     }
-    
-    public void update(Student student) {
-        String sql = """
-            UPDATE students SET
-                fullName = ?,
-                academicStatus = ?,
-                employed = ?,
-                jobDetails = ?,
-                preferredRole = ?,
-                flag = ?
-            WHERE id = ?
-        """;
 
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, student.getFullName());
-            stmt.setString(2, student.getAcademicStatus());
-            stmt.setBoolean(3, student.isEmployed());
-            stmt.setString(4, student.getJobDetails());
-            stmt.setString(5, student.getPreferredRole());
-            stmt.setString(6, student.getFlag());
-            stmt.setInt(7, student.getId());
-            stmt.executeUpdate();
-
-            updateLanguages(student);
-            updateDatabases(student);
-            updateComments(student);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+    /**
+     * Remove a language from all students who have it
+     * @param languageName The language to remove
+     * @return Number of students updated
+     */
+    public int unassignLanguageFromAllStudents(String languageName) {
+        List<Student> students = getAllStudents("name", "ASC");
+        int updatedCount = 0;
+        
+        for (Student student : students) {
+            List<String> languages = student.getLanguages();
+            if (languages.contains(languageName)) {
+                languages.remove(languageName);
+                student.setLanguages(languages);
+                if (updateStudent(student)) {
+                    updatedCount++;
+                }
+            }
         }
+        
+        return updatedCount;
     }
-
-    // --- Language helpers ---
-    private void updateLanguages(Student student) {
-        deleteLanguages(student.getId());
-        for (Language lang : student.getProgrammingLanguages()) {
-            saveLanguageForStudent(student.getId(), lang.getName());
-        }
-    }
-
-    private void deleteLanguages(int studentId) {
-        String sql = "DELETE FROM StudentLanguage WHERE studentId = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, studentId);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveLanguageForStudent(int studentId, String languageName) {
-        String sql = "INSERT INTO StudentLanguage(studentId, languageName) VALUES(?, ?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, studentId);
-            stmt.setString(2, languageName);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // --- Database helpers ---
-    private void updateDatabases(Student student) {
-        deleteDatabases(student.getId());
-        for (String db : student.getDatabases()) {
-            saveDatabaseForStudent(student.getId(), db);
-        }
-    }
-
-    private void deleteDatabases(int studentId) {
-        String sql = "DELETE FROM StudentDatabase WHERE studentId = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, studentId);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveDatabaseForStudent(int studentId, String dbName) {
-        String sql = "INSERT INTO StudentDatabase(studentId, databaseName) VALUES(?, ?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, studentId);
-            stmt.setString(2, dbName);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // --- Comment helpers ---
-    private void updateComments(Student student) {
-        deleteComments(student.getId());
-        for (Comment comment : student.getComments()) {
-            saveCommentForStudent(student.getId(), comment.getText());
-        }
-    }
-
-    private void deleteComments(int studentId) {
-        String sql = "DELETE FROM Comment WHERE studentId = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, studentId);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveCommentForStudent(int studentId, String text) {
-        String sql = "INSERT INTO Comment(studentId, text) VALUES(?, ?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, studentId);
-            stmt.setString(2, text);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // --- Delete student ---
-    public void delete(int studentId) {
-        String sql = "DELETE FROM students WHERE id = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, studentId);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-       
-    }
-    
 }
+

@@ -16,18 +16,36 @@ import javafx.stage.Stage;
  */
 public class LanguagesController {
     
-    @FXML private TextField languageNameField;    
-    @FXML private Button saveButton;    
-    @FXML private Button backButton;    
-    @FXML private TableView<Language> languagesTable;    
-    @FXML private TableColumn<Language, String> nameColumn;
-    @FXML private TableColumn<Language, Void> actionsColumn;    
-    @FXML private Label messageLabel;    
-   
+    @FXML
+    private TextField languageNameField;
+    
+    @FXML
+    private Button saveButton;
+    
+    @FXML
+    private Button backButton;
+    
+    @FXML
+    private TableView<Language> languagesTable;
+    
+    @FXML
+    private TableColumn<Language, String> nameColumn;
+    
+    @FXML
+    private TableColumn<Language, Void> actionsColumn;
+    
+    @FXML
+    private Label messageLabel;
+    
+    // Observable list to hold languages
+    // private ObservableList<Language> languagesList = FXCollections.observableArrayList(); ************
     private final LanguageDAO dao = new LanguageDAO();
     private ObservableList<Language> languagesList;
-  
-       
+
+    
+    // Counter for generating IDs (in-memory only for v0.2)
+    // private int nextId = 1; ***************
+    
     /**
      * Initialize method called automatically by JavaFX
      * Sets up the table and event handlers
@@ -43,7 +61,7 @@ public class LanguagesController {
             private final Button deleteButton = new Button("Delete");
             
             {
-               editButton.setOnAction(event -> {
+                editButton.setOnAction(event -> {
                     Language language = getTableView().getItems().get(getIndex());
                     handleEdit(language);
                 });
@@ -93,7 +111,7 @@ public class LanguagesController {
         languagesTable.sort();
 
         // Clear message when user starts typing
-        languageNameField.textProperty().addListener((_,_ ,_ ) -> {
+        languageNameField.textProperty().addListener((obs, oldVal, newVal) -> {
             messageLabel.setText("");
         });
     }
@@ -101,6 +119,7 @@ public class LanguagesController {
     @FXML
     protected void onSaveButtonClick() {
         String languageName = languageNameField.getText().trim();
+
         if (languageName.isEmpty()) {
             showMessage("Please add a language", "error");
             return;
@@ -145,6 +164,7 @@ public class LanguagesController {
                 return;
             }
 
+
             dao.updateLanguage(language.getId(), newName);
             languagesList.setAll(dao.getAllLanguages()); // Refresh list
             showMessage("Language updated successfully!", "success");
@@ -188,13 +208,13 @@ public class LanguagesController {
      * @param type The type of message ("success" or "error")
      */
     private void showMessage(String message, String type) {
-        messageLabel.setText(message);        
-        messageLabel.setStyle(
-            "-fx-text-fill: " + (type.equals("success") ? "green" : "red") +
-            "; -fx-font-weight: bold; -fx-font-size: 16px;"
-        );
+        messageLabel.setText(message);
+        if (type.equals("success")) {
+            messageLabel.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+        } else {
+            messageLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+        }
     }
-
     
     /**
      * Handles the Back button click
@@ -205,7 +225,7 @@ public class LanguagesController {
         try {
             Stage stage = (Stage) backButton.getScene().getWindow();
             javafx.fxml.FXMLLoader fxmlLoader = new javafx.fxml.FXMLLoader(
-                getClass().getResource("/cs151/view/main-view.fxml")
+                getClass().getResource("/cs151/application/hello-view.fxml")
             );
             javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 900, 800);
             stage.setScene(scene);

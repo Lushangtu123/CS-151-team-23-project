@@ -1,81 +1,185 @@
 package cs151.model;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * Represents a Student entity
+ * Used for managing student profiles in the system
+ */
 public class Student {
     private int id;
-    private String fullName;
-    private String academicStatus;
-    private boolean employed;
-    private String jobDetails;
-    private List<Language> programmingLanguages;
-    private List<String> databases;
-    private String preferredRole;
-    private List<Comment> comments;
-    private String flag; 
+    private String name;                    // Required
+    private String academicStatus;          // Required (e.g., Freshman, Sophomore, Junior, Senior, Graduate)
+    private String email;                   // Optional
+    private List<String> languages;         // Optional - programming languages the student knows
+    private String dbSkills;                // Optional - database skills
+    private String role;                    // Optional - role in team/project
+    private String interests;               // Optional - areas of interest
 
-    public Student(int id, String fullName, String academicStatus, boolean employed, String jobDetails,
-                   List<Language> programmingLanguages, List<String> databases, String preferredRole,
-                   List<Comment> comments, String flag) {
-        this.id = id;
-        this.fullName = fullName;
+    /**
+     * Constructor for creating a new Student (without ID)
+     * @param name Student's name (required)
+     * @param academicStatus Student's academic status (required)
+     */
+    public Student(String name, String academicStatus) {
+        this.name = name;
         this.academicStatus = academicStatus;
-        this.employed = employed;
-        this.jobDetails = jobDetails;
-        this.programmingLanguages = programmingLanguages;
-        this.databases = databases;
-        this.preferredRole = preferredRole;
-        this.comments = comments;
-        this.flag = flag;
+        this.languages = new ArrayList<>();
     }
 
-    // Getters and setters
+    /**
+     * Constructor with ID (used when loading from database)
+     * @param id The unique identifier
+     * @param name Student's name
+     * @param academicStatus Student's academic status
+     */
+    public Student(int id, String name, String academicStatus) {
+        this.id = id;
+        this.name = name;
+        this.academicStatus = academicStatus;
+        this.languages = new ArrayList<>();
+    }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    /**
+     * Full constructor with all fields
+     */
+    public Student(int id, String name, String academicStatus, String email, 
+                   List<String> languages, String dbSkills, String role, String interests) {
+        this.id = id;
+        this.name = name;
+        this.academicStatus = academicStatus;
+        this.email = email;
+        this.languages = languages != null ? languages : new ArrayList<>();
+        this.dbSkills = dbSkills;
+        this.role = role;
+        this.interests = interests;
+    }
 
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
 
-    public String getAcademicStatus() { return academicStatus; }
-    public void setAcademicStatus(String academicStatus) { this.academicStatus = academicStatus; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public boolean isEmployed() { return employed; }
-    public void setEmployed(boolean employed) { this.employed = employed; }
+    public String getName() {
+        return name;
+    }
 
-    public String getJobDetails() { return jobDetails; }
-    public void setJobDetails(String jobDetails) { this.jobDetails = jobDetails; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public List<Language> getProgrammingLanguages() { return programmingLanguages; }
-    public void setProgrammingLanguages(List<Language> programmingLanguages) { this.programmingLanguages = programmingLanguages; }
+    public String getAcademicStatus() {
+        return academicStatus;
+    }
 
-    public List<String> getDatabases() { return databases; }
-    public void setDatabases(List<String> databases) { this.databases = databases; }
+    public void setAcademicStatus(String academicStatus) {
+        this.academicStatus = academicStatus;
+    }
 
-    public String getPreferredRole() { return preferredRole; }
-    public void setPreferredRole(String preferredRole) { this.preferredRole = preferredRole; }
+    public String getEmail() {
+        return email;
+    }
 
-    public List<Comment> getComments() { return comments; }
-    public void setComments(List<Comment> comments) { this.comments = comments; }    
-    
-    public String getFlag() { return flag; }
-    public void setFlag(String flag) { this.flag = flag; }
-    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
+    }
+
+    public String getDbSkills() {
+        return dbSkills;
+    }
+
+    public void setDbSkills(String dbSkills) {
+        this.dbSkills = dbSkills;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getInterests() {
+        return interests;
+    }
+
+    public void setInterests(String interests) {
+        this.interests = interests;
+    }
+
+    /**
+     * Get languages as a comma-separated string for display
+     */
     public String getLanguagesAsString() {
-        return programmingLanguages == null ? "" :
-            programmingLanguages.stream()
-                .map(lang -> lang.getName().toLowerCase())
-                .collect(Collectors.joining(" | "));
+        return languages != null && !languages.isEmpty() 
+            ? String.join(", ", languages) 
+            : "";
     }
 
-    public String getDatabasesAsString() {
-        return databases == null ? "" :
-            databases.stream()
-                .map(String::toLowerCase)
-                .collect(Collectors.joining(" | "));
+    /**
+     * Set languages from a comma-separated string
+     */
+    public void setLanguagesFromString(String languagesStr) {
+        this.languages = new ArrayList<>();
+        if (languagesStr != null && !languagesStr.trim().isEmpty()) {
+            String[] parts = languagesStr.split(",");
+            for (String part : parts) {
+                String trimmed = part.trim();
+                if (!trimmed.isEmpty()) {
+                    this.languages.add(trimmed);
+                }
+            }
+        }
     }
 
-    
-    
+    /**
+     * Validates if the student profile has all required fields
+     * @return true if valid, false otherwise
+     */
+    public boolean isValid() {
+        return name != null && !name.trim().isEmpty() 
+            && academicStatus != null && !academicStatus.trim().isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", academicStatus='" + academicStatus + '\'' +
+                ", email='" + email + '\'' +
+                ", languages=" + languages +
+                ", dbSkills='" + dbSkills + '\'' +
+                ", role='" + role + '\'' +
+                ", interests='" + interests + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Student student = (Student) obj;
+        return id == student.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
+    }
 }
+
