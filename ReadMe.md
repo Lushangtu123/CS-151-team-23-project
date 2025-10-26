@@ -6,12 +6,12 @@
 ## Team Members and Contributions 
 **Version 0.6
 
-| Name | Contribution                                                                                            |
-|------|---------------------------------------------------------------------------------------------------------|
-| Van Anh Tran | Implemented DataInitializer with pre-populated data, SearchStudentsController functionality            |
-| Yinqi Chen | Designed and implemented search-students-view.fxml UI layout, filter system, CSS styling               |
-| Harshika Vijayabharath | Implemented search and filter logic, testing                                                            |
-| Phuong Tong | Updated MainController navigation, integrated search page, implemented deletion feature, documentation |
+| Name | Contribution                                                                             |
+|------|------------------------------------------------------------------------------------------|
+| Van Anh Tran | Implemented SearchController functionality                                               |
+| Yinqi Chen | Designed and implemented search-view.fxml UI layout, filter system, CSS styling          |
+| Harshika Vijayabharath | Updated MainController navigation, update flag as checkbox from previous version, testing |
+| Phuong Tong | Integrated search page, implemented deletion feature, documentation, final review |
 
 **Version 0.5
 
@@ -57,29 +57,18 @@ This is Version 0.6 of the Student Information Management System, a desktop appl
 
 - **Search Student Profiles Page** ✅ (UC-03)
   - Dedicated search page accessible from home page
-  - **Advanced filtering system**:
-    - Filter by name (text search)
-    - Filter by academic status (Freshman, Sophomore, Junior, Senior, Graduate, PhD)
-    - Filter by programming language
-    - Filter by preferred role (Front-End, Back-End, Full-Stack, Data, Other)
-  - **TableView display** with comprehensive columns:
-    - ID, Name, Academic Status, Email
-    - Programming Languages, Database Skills, Preferred Role
-    - Employment Status (Employed/Not Employed)
-  - **Search results automatically sorted** by name (A→Z, case-insensitive)
-  - Real-time result count display
-  - Apply filters and clear filters functionality
-  - Refresh data button
+  - User can type in search box to search about students 
+  - Results display in a table format with a Delete action button that handles student profile deletion
 
 - **Delete Student Profiles** ✅
   - **Delete button for each student** in the search results table
   - Confirmation dialog before deletion
   - **Permanently removes student from database**
-  - Automatically updates the table and result count after deletion
+  - Automatically updates the table after deletion
   - Success/error messages for user feedback
 
 - **Enhanced Navigation**
-  - New "Search Student Profiles" button on home page
+  - New "Search Students" button on home page
   - Back to home functionality from all pages
   - Consistent navigation across all views
 
