@@ -74,7 +74,10 @@ public class StudentsController {
     
     @FXML
     private Label formTitleLabel;
-    
+
+    private Label countLabel;
+
+
     private final StudentDAO studentDao = new StudentDAO();
     private final LanguageDAO languageDao = new LanguageDAO();
     private Student editingStudent = null; // Track if we're editing
@@ -107,7 +110,7 @@ public class StudentsController {
         
         // Set up academic status options
         academicStatusCombo.setItems(FXCollections.observableArrayList(
-            "Freshman", "Sophomore", "Junior", "Senior", "Graduate", "PhD"
+            "Freshman", "Sophomore", "Junior", "Senior", "Graduate"
         ));
         
         // Set up employment status radio buttons
@@ -381,6 +384,9 @@ public class StudentsController {
                         studentDao.getAllStudentsSortedByName()
                     );
                     studentsTable.setItems(students);
+
+                    //Update student count
+                    countLabel.setText("Total: " + students.size() + " student" + (students.size() != 1 ? "s" : ""));
                 });
                 
                 viewBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
@@ -419,7 +425,7 @@ public class StudentsController {
         javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(10);
         content.setPadding(new javafx.geometry.Insets(10));
         
-        Label countLabel = new Label("Total: " + students.size() + " student" + (students.size() != 1 ? "s" : ""));
+        countLabel = new Label("Total: " + students.size() + " student" + (students.size() != 1 ? "s" : ""));
         countLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
         
         content.getChildren().addAll(countLabel, studentsTable);

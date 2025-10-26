@@ -63,7 +63,12 @@ public class SearchController {
         // Start with empty table
         studentTable.setItems(FXCollections.observableArrayList());
 
-        // Live search listener
+        Label placeholder = new Label("Start typing to search for a student...");
+        placeholder.setStyle("-fx-text-fill: gray; -fx-font-style: italic; -fx-font-size: 14px;");
+        studentTable.setPlaceholder(placeholder);
+
+
+        // Live search: Results appear as user type
         searchField.textProperty().addListener((obs, oldVal, newVal) -> searchStudents(newVal));
     }
 
@@ -96,6 +101,7 @@ public class SearchController {
     private void searchStudents(String query) {
         if (query == null || query.trim().isEmpty()) {
             studentTable.setItems(FXCollections.observableArrayList());
+            studentTable.setPlaceholder(new Label("Start typing to search for a student..."));
             return;
         }
 
@@ -111,6 +117,10 @@ public class SearchController {
                                 (s.getLanguagesAsString() != null && s.getLanguagesAsString().toLowerCase().contains(lowerQuery))
                 )
                 .collect(Collectors.toList());
+
+        if (filtered.isEmpty()) {
+            studentTable.setPlaceholder(new Label("No students found matching your search."));
+        }
 
         studentTable.setItems(FXCollections.observableArrayList(filtered));
     }

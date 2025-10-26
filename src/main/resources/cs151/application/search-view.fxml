@@ -27,9 +27,13 @@
         <!-- Search Bar Section -->
         <HBox spacing="10">
             <TextField fx:id="searchField"
+                       prefHeight="40"
                        promptText="Search by name, academic status, role, language known, or database skills"
+                       style="-fx-font-size: 15px;"
                        HBox.hgrow="ALWAYS"/>
-            <Button text="Search" onAction="#onSearchClicked"/>
+            <Button prefHeight="35"
+                    style="-fx-background-color: #989eb3; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 15px;"
+                    text="Search" onAction="#onSearchClicked"/>
         </HBox>
 
         <!-- Student Table -->
