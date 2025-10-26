@@ -144,28 +144,23 @@ This is Version 0.6 of the Student Information Management System, a desktop appl
 │   │   │   │   ├── controller/
 │   │   │   │   │   ├── LanguagesController.java     (Languages CRUD controller)
 │   │   │   │   │   ├── StudentsController.java      (Students CRUD controller)
-│   │   │   │   │   └── SearchStudentsController.java (Search & filter controller) [NEW]
+│   │   │   │   │   └── SearchController.java        (Search & filter controller)
 │   │   │   │   ├── data/
 │   │   │   │   │   ├── LanguageDAO.java             (Language database access)
 │   │   │   │   │   ├── StudentDAO.java              (Student database access)
-│   │   │   │   │   ├── DataInitializer.java         (Initialize database with data) [NEW]
 │   │   │   │   │   └── package-info.java
 │   │   │   │   └── model/
 │   │   │   │       ├── Language.java                (Language entity)
-│   │   │   │       ├── Student.java                 (Student entity)
-│   │   │   │       └── MultiSelectDropDown.java     (Multiselect entity)
+│   │   │   │       └── Student.java                 (Student entity)
 │   │   │   └── module-info.java
 │   │   └── resources/
 │   │       └── cs151/
 │   │           └── application/
 │   │               ├── hello-view.fxml              (Home page)
 │   │               ├── languages-view.fxml          (Languages page)
-│   │               ├── add-student.fxml             (Create student page)
-│   │               ├── students-view.fxml           (Manage students page)
-│   │               ├── student-menu.fxml            (Navigation in manage student page)
-│   │               ├── student-table.fxml           (All students page)
-│   │               └── search-students-view.fxml    (Search students page) [NEW in v0.6]
-├── student.db                                 (SQLite database)
+│   │               ├── search-view.fxml             (Search student page)
+│   │               └── students-view.fxml           (Manage students page) 
+├── student.db                                       (SQLite database)
 ├── ReadMe.md
 ├── pom.xml
 └── .gitignore
