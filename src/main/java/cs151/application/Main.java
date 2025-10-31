@@ -27,7 +27,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 800);
-        stage.setTitle("Student Information Management System - v0.6");
+        stage.setTitle("Student Information Management System - v0.7");
         stage.setScene(scene);
         stage.setResizable(true);
         stage.setMinWidth(800);

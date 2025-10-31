@@ -37,17 +37,15 @@
         </HBox>
 
         <!-- Student Table -->
-        <HBox alignment="CENTER">
-            <TableView fx:id="studentTable" prefWidth="850" VBox.vgrow="ALWAYS">
+            <TableView fx:id="studentTable" prefWidth="950" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="nameColumn" text="Name" prefWidth="150"/>
-                    <TableColumn fx:id="academicStatusColumn" text="Academic Status" prefWidth="120"/>
-                    <TableColumn fx:id="languagesColumn" text="Languages" prefWidth="180"/>
-                    <TableColumn fx:id="dbSkillsColumn" text="DB Skills" prefWidth="200"/>
-                    <TableColumn fx:id="roleColumn" text="Role" prefWidth="100"/>
-                    <TableColumn fx:id="actionColumn" text="Actions" prefWidth="100"/>
+                    <TableColumn fx:id="academicStatusColumn" text="Academic Status" prefWidth="150"/>
+                    <TableColumn fx:id="languagesColumn" text="Languages" prefWidth="200"/>
+                    <TableColumn fx:id="dbSkillsColumn" text="DB Skills" prefWidth="210"/>
+                    <TableColumn fx:id="roleColumn" text="Role" prefWidth="90"/>
+                    <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150"/>
                 </columns>
             </TableView>
-        </HBox>
     </VBox>
 </AnchorPane>

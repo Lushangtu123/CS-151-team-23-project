@@ -229,6 +229,7 @@ public class LanguagesController {
             );
             javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 900, 800);
             stage.setScene(scene);
+            stage.setTitle("Student Management System");
         } catch (Exception e) {
             e.printStackTrace();
             showMessage("Error returning to home page: " + e.getMessage(), "error");

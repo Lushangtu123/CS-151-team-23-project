@@ -25,7 +25,10 @@ public class StudentDAO {
                 languages TEXT,
                 dbSkills TEXT,
                 role TEXT,
-                interests TEXT
+                employmentStatus TEXT,
+                jobDetails TEXT,
+                comments TEXT,
+                flag TEXT
             );
         """;
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -47,8 +50,9 @@ public class StudentDAO {
         }
 
         String sql = """
-            INSERT INTO Student(name, academicStatus, email, languages, dbSkills, role, interests)
-            VALUES(?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO Student(name, academicStatus, email, languages, dbSkills, role,
+                                        employmentStatus, jobDetails, comments, flag)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """;
         
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -59,7 +63,10 @@ public class StudentDAO {
             stmt.setString(4, student.getLanguagesAsString());
             stmt.setString(5, student.getDbSkills());
             stmt.setString(6, student.getRole());
-            stmt.setString(7, student.getInterests());
+            stmt.setString(7, student.getEmploymentStatus());
+            stmt.setString(8, student.getJobDetails());
+            stmt.setString(9, student.getComments());
+            stmt.setString(10, student.getFlag());
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -116,8 +123,12 @@ public class StudentDAO {
                 
                 student.setDbSkills(rs.getString("dbSkills"));
                 student.setRole(rs.getString("role"));
-                student.setInterests(rs.getString("interests"));
-                
+                student.setEmploymentStatus(rs.getString("employmentStatus"));
+                student.setJobDetails(rs.getString("jobDetails"));
+                student.setComments(rs.getString("comments"));
+                student.setFlag(rs.getString("flag"));
+
+
                 list.add(student);
             }
         } catch (SQLException e) {
@@ -149,7 +160,10 @@ public class StudentDAO {
                 student.setLanguagesFromString(rs.getString("languages"));
                 student.setDbSkills(rs.getString("dbSkills"));
                 student.setRole(rs.getString("role"));
-                student.setInterests(rs.getString("interests"));
+                student.setEmploymentStatus(rs.getString("employmentStatus"));
+                student.setJobDetails(rs.getString("jobDetails"));
+                student.setComments(rs.getString("comments"));
+                student.setFlag(rs.getString("flag"));
                 return student;
             }
         } catch (SQLException e) {
@@ -169,9 +183,10 @@ public class StudentDAO {
         }
 
         String sql = """
-            UPDATE Student 
-            SET name = ?, academicStatus = ?, email = ?, languages = ?, 
-                dbSkills = ?, role = ?, interests = ?
+            UPDATE Student
+            SET name = ?, academicStatus = ?, email = ?, languages = ?,\s
+                   dbSkills = ?, role = ?, employmentStatus = ?, jobDetails = ?,\s
+                   comments = ?, flag = ?
             WHERE id = ?
         """;
         
@@ -183,8 +198,11 @@ public class StudentDAO {
             stmt.setString(4, student.getLanguagesAsString());
             stmt.setString(5, student.getDbSkills());
             stmt.setString(6, student.getRole());
-            stmt.setString(7, student.getInterests());
-            stmt.setInt(8, student.getId());
+            stmt.setString(7, student.getEmploymentStatus());
+            stmt.setString(8, student.getJobDetails());
+            stmt.setString(9, student.getComments());
+            stmt.setString(10, student.getFlag());
+            stmt.setInt(11, student.getId());
             
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;

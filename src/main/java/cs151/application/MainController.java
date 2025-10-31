@@ -76,10 +76,10 @@ public class MainController {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     Main.class.getResource("/cs151/application/search-view.fxml")
             );
-            Scene scene = new Scene(fxmlLoader.load(), 900, 700);
+            Scene scene = new Scene(fxmlLoader.load(), 1000, 800);
 
             // Set the new scene
-            stage.setTitle("Searching Student");
+            stage.setTitle("Search Students");
             stage.setScene(scene);
 
         } catch (Exception e) {

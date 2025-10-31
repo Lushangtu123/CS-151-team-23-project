@@ -1,5 +1,6 @@
 package cs151.controller;
 
+import cs151.controller.services.StudentsActionsHandler;
 import cs151.data.StudentDAO;
 import cs151.model.Student;
 import javafx.collections.FXCollections;
@@ -36,7 +37,7 @@ public class SearchController {
     private TableColumn<Student, String> roleColumn;
 
     @FXML
-    private TableColumn<Student, Void> actionColumn;
+    private TableColumn<Student, Void> actionsColumn;
 
     @FXML
     private Button backButton;
@@ -44,11 +45,12 @@ public class SearchController {
     @FXML
     private Label messageLabel;
 
-    private final StudentDAO studentDAO = new StudentDAO();
+    private final StudentDAO studentDao = new StudentDAO();
+    private final StudentsActionsHandler actionsHandler = new StudentsActionsHandler(studentDao);
 
     @FXML
     public void initialize() {
-        studentDAO.initTable();
+        studentDao.initTable();
 
         // Initialize data columns
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
@@ -58,7 +60,7 @@ public class SearchController {
         roleColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getRole()));
 
         // Add action column to hold Delete
-        addDeleteButtonToTable();
+        addActionColumnToTable();
 
         // Start with empty table
         studentTable.setItems(FXCollections.observableArrayList());
@@ -72,16 +74,26 @@ public class SearchController {
         searchField.textProperty().addListener((obs, oldVal, newVal) -> searchStudents(newVal));
     }
 
-    private void addDeleteButtonToTable() {
-        actionColumn.setCellFactory(column -> new TableCell<>() {
+    private void addActionColumnToTable() {
+        actionsColumn.setCellFactory(column -> new TableCell<>() {
+            private final Button viewBtn = new Button("View");
             private final Button deleteBtn = new Button("Delete");
 
             {
+                viewBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
                 deleteBtn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
+
+                // Handle view action
+                viewBtn.setOnAction(event -> actionsHandler.handleView(getCurrentStudent()));
+                // Handle delete action
                 deleteBtn.setOnAction(event -> {
-                    Student student = getTableView().getItems().get(getIndex());
-                    handleDelete(student);
+                    boolean deleted = actionsHandler.handleDelete(getCurrentStudent());
+                    if (deleted) searchStudents(searchField.getText());
                 });
+            }
+
+            private Student getCurrentStudent() {
+                return getTableView().getItems().get(getIndex());
             }
 
             @Override
@@ -90,8 +102,8 @@ public class SearchController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    HBox container = new HBox(deleteBtn);
-                    container.setSpacing(5);
+                    HBox container = new HBox(10, viewBtn, deleteBtn); // spacing = 10
+                    container.setStyle("-fx-alignment: center;");
                     setGraphic(container);
                 }
             }
@@ -105,7 +117,7 @@ public class SearchController {
             return;
         }
 
-        List<Student> students = studentDAO.getAllStudents("name", "ASC");
+        List<Student> students = studentDao.getAllStudents("name", "ASC");
         String lowerQuery = query.toLowerCase();
 
         List<Student> filtered = students.stream()
@@ -130,21 +142,6 @@ public class SearchController {
         searchStudents(searchField.getText());
     }
 
-    private void handleDelete(Student student) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Confirm Deletion");
-        confirm.setHeaderText("Delete Student");
-        confirm.setContentText("Are you sure you want to delete \"" + student.getName() + "\"?");
-        confirm.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                boolean deleted = studentDAO.deleteStudent(student.getId());
-                if (deleted) {
-                    searchStudents(searchField.getText()); // refresh table
-                }
-            }
-        });
-    }
-
     @FXML
     private void onBackButtonClick() {
         try {
@@ -154,6 +151,7 @@ public class SearchController {
             );
             javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 900, 800);
             stage.setScene(scene);
+            stage.setTitle("Student Information Management System");
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Error returning to home page: " + e.getMessage());

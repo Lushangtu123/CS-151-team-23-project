@@ -1,5 +1,6 @@
 package cs151.controller;
 
+import cs151.controller.services.StudentsActionsHandler;
 import cs151.data.LanguageDAO;
 import cs151.data.StudentDAO;
 import cs151.model.Language;
@@ -80,6 +81,7 @@ public class StudentsController {
 
     private final StudentDAO studentDao = new StudentDAO();
     private final LanguageDAO languageDao = new LanguageDAO();
+    private final StudentsActionsHandler actionsHandler = new StudentsActionsHandler(studentDao);
     private Student editingStudent = null; // Track if we're editing
     
     // Available options for multi-select
@@ -298,67 +300,45 @@ public class StudentsController {
         roleCol.setStyle("-fx-font-size: 15px;");
         
         TableColumn<Student, String> employmentCol = new TableColumn<>("Employment");
-        employmentCol.setCellValueFactory(cellData -> {
-            String interests = cellData.getValue().getInterests();
-            String employment = "N/A";
-            if (interests != null && interests.contains("Employment: ")) {
-                if (interests.contains("Employment: Employed")) {
-                    employment = "Employed";
-                } else if (interests.contains("Employment: Not Employed")) {
-                    employment = "Not Employed";
-                }
-            }
-            return new javafx.beans.property.SimpleStringProperty(employment);
-        });
+        employmentCol.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(
+                        cellData.getValue().getEmploymentStatus() != null ? cellData.getValue().getEmploymentStatus() : "N/A"
+                )
+        );
         employmentCol.setPrefWidth(110);
         employmentCol.setStyle("-fx-font-size: 15px;");
         
         TableColumn<Student, String> jobDetailsCol = new TableColumn<>("Job Details");
-        jobDetailsCol.setCellValueFactory(cellData -> {
-            String interests = cellData.getValue().getInterests();
-            String jobDetails = "";
-            if (interests != null && interests.contains("| Job: ")) {
-                int jobStart = interests.indexOf("| Job: ") + 7;
-                int jobEnd = interests.indexOf(" |", jobStart);
-                if (jobEnd == -1) jobEnd = interests.length();
-                jobDetails = interests.substring(jobStart, jobEnd);
-            }
-            return new javafx.beans.property.SimpleStringProperty(jobDetails);
-        });
+        jobDetailsCol.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(
+                        cellData.getValue().getJobDetails() != null ? cellData.getValue().getJobDetails() : "N/A"
+                )
+        );
         jobDetailsCol.setPrefWidth(150);
         jobDetailsCol.setStyle("-fx-font-size: 15px;");
         
         TableColumn<Student, String> commentsCol = new TableColumn<>("Comments");
-        commentsCol.setCellValueFactory(cellData -> {
-            String interests = cellData.getValue().getInterests();
-            String comments = "";
-            if (interests != null && interests.contains("| Comments: ")) {
-                int commentsStart = interests.indexOf("| Comments: ") + 12;
-                int commentsEnd = interests.indexOf(" |", commentsStart);
-                if (commentsEnd == -1) commentsEnd = interests.length();
-                comments = interests.substring(commentsStart, commentsEnd);
-            }
-            return new javafx.beans.property.SimpleStringProperty(comments);
-        });
+        commentsCol.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(
+                        cellData.getValue().getComments() != null ? cellData.getValue().getComments() : "N/A"
+                )
+        );
         commentsCol.setPrefWidth(150);
         commentsCol.setStyle("-fx-font-size: 15px;");
         
         TableColumn<Student, String> flagCol = new TableColumn<>("Flag");
-        flagCol.setCellValueFactory(cellData -> {
-            String interests = cellData.getValue().getInterests();
-            String flag = "None";
-            if (interests != null && interests.contains("| Flag: ")) {
-                int flagStart = interests.indexOf("| Flag: ") + 8;
-                flag = interests.substring(flagStart).trim();
-            }
-            return new javafx.beans.property.SimpleStringProperty(flag);
-        });
+        flagCol.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(
+                        cellData.getValue().getFlag() != null ? cellData.getValue().getFlag() : "None"
+                )
+        );
         flagCol.setPrefWidth(100);
         flagCol.setStyle("-fx-font-size: 15px;");
         
         // Actions column
         TableColumn<Student, Void> actionsCol = new TableColumn<>("Actions");
         actionsCol.setPrefWidth(250);
+
         actionsCol.setCellFactory(column -> new TableCell<>() {
             private final Button viewBtn = new Button("View");
             private final Button editBtn = new Button("Edit");
@@ -367,7 +347,7 @@ public class StudentsController {
             {
                 viewBtn.setOnAction(e -> {
                     Student student = getTableView().getItems().get(getIndex());
-                    handleView(student);
+                    actionsHandler.handleView(student);
                 });
                 
                 editBtn.setOnAction(e -> {
@@ -378,15 +358,19 @@ public class StudentsController {
                 
                 deleteBtn.setOnAction(e -> {
                     Student student = getTableView().getItems().get(getIndex());
-                    handleDelete(student);
-                    // Refresh table after deletion
-                    ObservableList<Student> students = FXCollections.observableArrayList(
-                        studentDao.getAllStudentsSortedByName()
-                    );
-                    studentsTable.setItems(students);
+                    boolean deleted = actionsHandler.handleDelete(student);
+                    if (deleted) {
+                        getTableView().getItems().remove(student); // Remove from table
 
-                    //Update student count
-                    countLabel.setText("Total: " + students.size() + " student" + (students.size() != 1 ? "s" : ""));
+                        // Clear form if we were editing this student
+                        if (editingStudent != null && editingStudent.getId() == student.getId()) {
+                            clearForm();
+                        }
+
+                        // Update student count label
+                        countLabel.setText("Total: " + getTableView().getItems().size() +
+                                " student" + (getTableView().getItems().size() != 1 ? "s" : ""));
+                    }
                 });
                 
                 viewBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
@@ -522,20 +506,10 @@ public class StudentsController {
         student.setLanguagesFromString(languagesStr);
         student.setDbSkills(dbSkillsStr);
         student.setRole(preferredRole);
-        
-        // Store additional info in interests field
-        StringBuilder interestsBuilder = new StringBuilder();
-        interestsBuilder.append("Employment: ").append(employed ? "Employed" : "Not Employed");
-        if (employed && !jobDetails.isEmpty()) {
-            interestsBuilder.append(" | Job: ").append(jobDetails);
-        }
-        if (!comments.isEmpty()) {
-            interestsBuilder.append(" | Comments: ").append(comments);
-        }
-        if (flag != null && !flag.equals("None")) {
-            interestsBuilder.append(" | Flag: ").append(flag);
-        }
-        student.setInterests(interestsBuilder.toString());
+        student.setEmploymentStatus(employed ? "Employed" : "Not Employed");
+        student.setJobDetails(jobDetails);
+        student.setComments(comments);
+        student.setFlag(flag);
         
         // Save to database
         boolean success;
@@ -606,93 +580,42 @@ public class StudentsController {
      */
     private void handleEdit(Student student) {
         editingStudent = student;
-        
-        // Populate form with student data
+
         nameField.setText(student.getName());
         academicStatusCombo.setValue(student.getAcademicStatus());
-        
-        // Clear all CheckBoxes first
-        for (CheckBox checkBox : languageCheckBoxes) {
-            checkBox.setSelected(false);
-        }
-        for (CheckBox checkBox : dbSkillCheckBoxes) {
-            checkBox.setSelected(false);
-        }
-        
-        // Select languages
-        List<String> studentLanguages = student.getLanguages();
-        for (CheckBox checkBox : languageCheckBoxes) {
-            if (studentLanguages.contains(checkBox.getText())) {
-                checkBox.setSelected(true);
-            }
-        }
-        
-        // Select DB skills
-        if (student.getDbSkills() != null && !student.getDbSkills().isEmpty()) {
-            String[] skills = student.getDbSkills().split(",");
-            List<String> skillList = new java.util.ArrayList<>();
-            for (String skill : skills) {
-                skillList.add(skill.trim());
-            }
-            
-            for (CheckBox checkBox : dbSkillCheckBoxes) {
-                if (skillList.contains(checkBox.getText())) {
-                    checkBox.setSelected(true);
-                }
-            }
-        }
-        
-        preferredRoleCombo.setValue(student.getRole() != null ? student.getRole() : null);
-        
-        // Parse interests field to extract employment, job details, comments, and flag
-        String interests = student.getInterests();
-        if (interests != null && !interests.isEmpty()) {
-            // Parse the interests string
-            if (interests.contains("Employment: Employed")) {
-                employedRadio.setSelected(true);
-                jobDetailsField.setDisable(false);
-                
-                // Extract job details
-                if (interests.contains("| Job: ")) {
-                    int jobStart = interests.indexOf("| Job: ") + 7;
-                    int jobEnd = interests.indexOf(" |", jobStart);
-                    if (jobEnd == -1) jobEnd = interests.length();
-                    jobDetailsField.setText(interests.substring(jobStart, jobEnd));
-                }
-            } else {
-                notEmployedRadio.setSelected(true);
-                jobDetailsField.setDisable(true);
-            }
-            
-            // Extract comments
-            if (interests.contains("| Comments: ")) {
-                int commentsStart = interests.indexOf("| Comments: ") + 12;
-                int commentsEnd = interests.indexOf(" |", commentsStart);
-                if (commentsEnd == -1) commentsEnd = interests.length();
-                commentsArea.setText(interests.substring(commentsStart, commentsEnd));
-            }
-            
-            // Extract flag
-            if (interests.contains("| Flag: ")) {
-                int flagStart = interests.indexOf("| Flag: ") + 8;
-                String flagValue = interests.substring(flagStart).trim();
-                whitelistCheckbox.setSelected(flagValue.equalsIgnoreCase("Whitelist"));
-                blacklistCheckbox.setSelected(flagValue.equalsIgnoreCase("Blacklist"));
-            } else {
-                whitelistCheckbox.setSelected(false);
-                blacklistCheckbox.setSelected(false);
-            }
 
+        // Languages
+        for (CheckBox cb : languageCheckBoxes) {
+            cb.setSelected(student.getLanguages().contains(cb.getText()));
         }
-        
-        // Update form title
+
+        // DB Skills
+        for (CheckBox cb : dbSkillCheckBoxes) {
+            cb.setSelected(student.getDbSkills() != null && student.getDbSkills().contains(cb.getText()));
+        }
+
+        preferredRoleCombo.setValue(student.getRole());
+
+        if ("Employed".equalsIgnoreCase(student.getEmploymentStatus())) {
+            employedRadio.setSelected(true);
+            jobDetailsField.setDisable(false);
+            jobDetailsField.setText(student.getJobDetails());
+        } else {
+            notEmployedRadio.setSelected(true);
+            jobDetailsField.setDisable(true);
+            jobDetailsField.clear();
+        }
+
+        commentsArea.setText(student.getComments());
+        whitelistCheckbox.setSelected("Whitelist".equalsIgnoreCase(student.getFlag()));
+        blacklistCheckbox.setSelected("Blacklist".equalsIgnoreCase(student.getFlag()));
+
         formTitleLabel.setText("Edit Student Profile: " + student.getName());
         saveButton.setText("Update Student");
-        
-        // Show message
-        showMessage("Editing student. Update the fields and click 'Update Student'.", "success");
+
+        showMessage("Editing student. Update fields and click 'Update Student'.", "success");
     }
-    
+
     /**
      * Handle Delete button click
      */
@@ -726,7 +649,6 @@ public class StudentsController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Student Details");
         alert.setHeaderText("Student Profile: " + student.getName());
-        
         StringBuilder details = new StringBuilder();
         details.append("ID: ").append(student.getId()).append("\n");
         details.append("Name: ").append(student.getName()).append("\n");
@@ -734,44 +656,6 @@ public class StudentsController {
         details.append("Languages: ").append(!student.getLanguagesAsString().isEmpty() ? student.getLanguagesAsString() : "N/A").append("\n");
         details.append("DB Skills: ").append(student.getDbSkills() != null ? student.getDbSkills() : "N/A").append("\n");
         details.append("Role: ").append(student.getRole() != null ? student.getRole() : "N/A").append("\n");
-        
-        // Parse and display additional fields from interests
-        String interests = student.getInterests();
-        if (interests != null && !interests.isEmpty()) {
-            // Employment Status
-            if (interests.contains("Employment: ")) {
-                if (interests.contains("Employment: Employed")) {
-                    details.append("Employment Status: Employed").append("\n");
-                } else if (interests.contains("Employment: Not Employed")) {
-                    details.append("Employment Status: Not Employed").append("\n");
-                }
-            }
-            
-            // Job Details
-            if (interests.contains("| Job: ")) {
-                int jobStart = interests.indexOf("| Job: ") + 7;
-                int jobEnd = interests.indexOf(" |", jobStart);
-                if (jobEnd == -1) jobEnd = interests.length();
-                String jobDetails = interests.substring(jobStart, jobEnd);
-                details.append("Job Details: ").append(jobDetails).append("\n");
-            }
-            
-            // Comments
-            if (interests.contains("| Comments: ")) {
-                int commentsStart = interests.indexOf("| Comments: ") + 12;
-                int commentsEnd = interests.indexOf(" |", commentsStart);
-                if (commentsEnd == -1) commentsEnd = interests.length();
-                String comments = interests.substring(commentsStart, commentsEnd);
-                details.append("Comments: ").append(comments).append("\n");
-            }
-            
-            // Flag
-            if (interests.contains("| Flag: ")) {
-                int flagStart = interests.indexOf("| Flag: ") + 8;
-                String flag = interests.substring(flagStart).trim();
-                details.append("Flag: ").append(flag).append("\n");
-            }
-        }
         
         alert.setContentText(details.toString());
         alert.showAndWait();
@@ -801,6 +685,7 @@ public class StudentsController {
             );
             javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 900, 800);
             stage.setScene(scene);
+            stage.setTitle("Student Management System");
         } catch (Exception e) {
             e.printStackTrace();
             showMessage("Error returning to home page: " + e.getMessage(), "error");
