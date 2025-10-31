@@ -1,9 +1,19 @@
-# Student Information Management System - Version 0.6
+# Student Information Management System - Version 0.7
 
 **Team Number:** 23  
 **Section:** 02
 
 ## Team Members and Contributions 
+
+**Version 0.7
+
+| Name | Contribution                                                                            |
+|------|-----------------------------------------------------------------------------------------|
+| Van Anh Tran |                                               |
+| Yinqi Chen |  |
+| Harshika Vijayabharath |  |
+| Phuong Tong |  |
+
 **Version 0.6
 
 | Name | Contribution                                                                             |
@@ -41,34 +51,31 @@
 | Phuong Tong | Updated MainController navigation, integrated module-info.java, project documentation |
 ## Project Description
 
-This is Version 0.6 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
+This is Version 0.7 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
 
-**Note**: This version includes **pre-populated data** (3 programming languages and 5 student profiles) and a fully functional **Search Student Profiles** page with advanced filtering and deletion capabilities.
+**Note**: This version includes **pre-populated data** (3 programming languages and 5 student profiles) and a fully functioning 'Edit' option for users to update students' information
 
-## Version 0.6 Features
-
-### ✅ New in This Version 0.6
+## Version 0.7 Features
 
 - **Pre-populated Database**
-  - Application automatically initializes with **exactly 3 programming languages**: Java, Python, JavaScript
+  - Application automatically initializes with **exactly 3 programming languages** that user entered in **Define Programming Languages** page
   - Application automatically initializes with **exactly 5 student profiles** with diverse backgrounds
-  - Data initialization happens on first run or when database is empty
-  - Ensures consistent starting data for demonstration and testing
+
+### ✅ New in This Version 0.7
 
 - **Search Student Profiles Page** ✅ (UC-03)
-  - Dedicated search page accessible from home page
-  - User can type in search box to search about students 
-  - Results display in a table format with a Delete action button that handles student profile deletion
+  - Results display in a table format with a new View action button that handles showing student profile details
 
-- **Delete Student Profiles** ✅
-  - **Delete button for each student** in the search results table
-  - Confirmation dialog before deletion
-  - **Permanently removes student from database**
-  - Automatically updates the table after deletion
+- **Edit Student Profiles** ✅
+  - **Edit button for each student** in the students details page
+  - Confirmation dialog before submit the edit
+  - **Updating student's new information to database**
+  - Automatically updates the detail page after editing
   - Success/error messages for user feedback
+  - **Cancel** button allow user to cancel the editing process
 
 - **Enhanced Navigation**
-  - New "Search Students" button on home page
+  - New "View" button on the search result table
   - Back to home functionality from all pages
   - Consistent navigation across all views
 
@@ -101,7 +108,7 @@ This is Version 0.6 of the Student Information Management System, a desktop appl
   - Email format validation
   - Multi-language support (comma-separated)
 
-#### **UC-03: Search Student Profiles** ✅ (NEW in v0.6)
+#### **UC-03: Search Student Profiles** ✅
 - **Search Student Profiles Page**:
   - ✅ `searchStudents(filters)` - Search students with multiple filter criteria
   - ✅ `filterByName(text)` - Filter by student name (case-insensitive partial match)
@@ -117,6 +124,7 @@ This is Version 0.6 of the Student Information Management System, a desktop appl
   - Automatic sorting by name (A→Z, case-insensitive)
 
 ### Features Coming in Future Versions:
+- Evaluation comments 
 - Advanced reporting and analytics
 - Team formation tools
 - Export data to CSV/PDF
@@ -212,22 +220,17 @@ mvn clean javafx:run
 
 ## Version History
 
-- **v0.6** (Current): 
+- **v0.6**: 
   - ✅ **Pre-populated Database**
-    - DataInitializer class automatically populates database
-    - Exactly 3 programming languages (Java, Python, JavaScript)
+    - Exactly 3 programming languages
     - Exactly 5 student profiles with diverse backgrounds
-    - Data initialization happens on first run
   - ✅ **Search Student Profiles Page** (UC-03)
-    - Dedicated search page with advanced filtering
-    - Filter by name, academic status, language, and role
+    - Dedicated search page allow user to search up students
     - TableView with comprehensive student information
-    - View detailed student profile dialog
     - Delete functionality with confirmation
-    - Real-time result count and messaging
     - Refresh data capability
   - ✅ **Enhanced Navigation**
-    - Added "Search Student Profiles" button to home page
+    - Added "Search Students" button to home page
     - Updated navigation flow across all pages
     - Consistent back-to-home functionality
   - Updated version number to 0.6 throughout application
