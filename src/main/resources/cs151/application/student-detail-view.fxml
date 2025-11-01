@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cs151.controller.StudentDetailController"
+            prefHeight="600.0" prefWidth="900.0">
+
+    <VBox alignment="TOP_CENTER" spacing="20" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <!-- Header -->
+        <HBox alignment="CENTER" spacing="12.0" maxWidth="900">
+            <Button fx:id="backButton" text="← Back" onAction="#onBackButtonClick"
+                    style="-fx-background-color: #757575; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 10 24; -fx-font-size: 16px;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Student Details"
+                   style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <Separator />
+
+        <!-- Details Section (Horizontally centered) -->
+        <HBox alignment="CENTER" style="-fx-background-color: white; -fx-padding: 28; -fx-border-color: #ddd; -fx-border-radius: 5;">
+            <GridPane hgap="20" vgap="12" style="-fx-padding: 10; -fx-font-size: 16px;">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" minWidth="150"/>
+                    <ColumnConstraints halignment="LEFT" minWidth="350"/>
+                </columnConstraints>
+
+                <!-- Name-->
+                <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="nameDetail" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                <!-- Academic Status -->
+                <Label text="Academic Status:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="academicStatusDetail" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                <!-- Languages -->
+                <Label text="Languages:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="languagesDetail" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                <!-- Databases Skills -->
+                <Label text="DB Skills:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="dbSkillsDetail" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+                <!-- Role -->
+                <Label text="Role:" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="roleDetail" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+                <!-- Employment  -->
+                <Label text="Employment:" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="employmentStatusDetail" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+                <!-- Employment Detail -->
+                <Label text="Job Details:" GridPane.rowIndex="6" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="jobDetailsDetail" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+
+                <!-- Comments-->
+                <Label text="Comments:" GridPane.rowIndex="7" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="commentsDetail" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+
+                <!-- Flag -->
+                <Label text="Flag:" GridPane.rowIndex="8" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="flagDetail" GridPane.rowIndex="8" GridPane.columnIndex="1" />
+            </GridPane>
+        </HBox>
+
+        <!-- Message Label -->
+        <Label fx:id="messageLabel" text="" minHeight="38" prefHeight="38" wrapText="true" maxWidth="860"
+               style="-fx-font-size: 18px; -fx-line-spacing: 7px; -fx-padding: 6 0;"/>
+
+        <Separator />
+
+        <!-- Close button -->
+        <Button text="Close"
+                fx:id="closeButton"
+                onAction="#onCloseButtonClick"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 20; -fx-background-radius: 5;" />
+
+    </VBox>
+</AnchorPane>
