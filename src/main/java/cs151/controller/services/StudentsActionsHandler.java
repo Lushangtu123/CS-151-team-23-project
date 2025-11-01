@@ -3,7 +3,8 @@ package cs151.controller.services;
 import cs151.data.StudentDAO;
 import cs151.model.Student;
 import cs151.controller.StudentDetailController;
-
+import cs151.controller.StudentsController;
+import cs151.controller.SearchController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
@@ -30,18 +31,13 @@ public class StudentsActionsHandler {
 
             // Pass the student data to the controller
             StudentDetailController controller = loader.getController();
+            controller.setStudentDao(studentDao);
             controller.setStudent(student);
 
             // Show the new window
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
-            // Optional fallback: show an alert if FXML fails
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Cannot show student details");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
         }
     }
 
@@ -58,7 +54,19 @@ public class StudentsActionsHandler {
         return false;
     }
 
-    public Student handleEdit(Student student) {
-        return student;
+    public void handleEdit(Student student) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cs151/application/students-view.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load(), 1000, 800));
+            stage.setTitle("Edit Student - " + student.getName());
+
+            StudentsController controller = loader.getController();
+            controller.handleEdit(student);
+
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

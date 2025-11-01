@@ -220,6 +220,12 @@
                    minHeight="55"
                    prefHeight="55"
                    style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 15 45; -fx-font-size: 16px;"/>
+            <Button fx:id="cancelButton"
+                    text="Cancel"
+                    onAction="#onCancelButtonClick"
+                    minHeight="55"
+                    prefHeight="55"
+                    style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 15 45; -fx-font-size: 16px;"/>
         </HBox>
         
         <!-- Message Label -->

@@ -69,6 +69,9 @@ public class StudentsController {
     
     @FXML
     private Button backButton;
+
+    @FXML
+    private Button cancelButton;
     
     @FXML
     private Label messageLabel;
@@ -83,7 +86,7 @@ public class StudentsController {
     private final LanguageDAO languageDao = new LanguageDAO();
     private final StudentsActionsHandler actionsHandler = new StudentsActionsHandler(studentDao);
     private Student editingStudent = null; // Track if we're editing
-    
+
     // Available options for multi-select
     private final ObservableList<String> availableLanguages = FXCollections.observableArrayList();
     private final ObservableList<String> availableDbSkills = FXCollections.observableArrayList(
@@ -123,7 +126,12 @@ public class StudentsController {
         
         // Listen for employment status changes
         employmentGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
+            boolean isEmployed = employedRadio.isSelected();
             jobDetailsField.setDisable(!employedRadio.isSelected());
+
+            if(!isEmployed) {
+                jobDetailsField.clear();
+            }
         });
 
         //Set up mutual exclusive flags
@@ -430,9 +438,14 @@ public class StudentsController {
         // Get form values
         String name = nameField.getText().trim();
         String academicStatus = academicStatusCombo.getValue();
+
         boolean employed = employedRadio.isSelected();
         String jobDetails = jobDetailsField.getText().trim();
-        
+        if (!employed) {
+            jobDetails = ""; // or null if you prefer to store null
+        }
+
+
         // Get selected languages from CheckBoxes
         List<String> selectedLanguages = languageCheckBoxes.stream()
             .filter(CheckBox::isSelected)
@@ -530,7 +543,7 @@ public class StudentsController {
                 return;
             }
         }
-        
+
         // Clear form
         clearForm();
     }
@@ -578,8 +591,12 @@ public class StudentsController {
     /**
      * Handle Edit button click
      */
-    private void handleEdit(Student student) {
-        editingStudent = student;
+    public void handleEdit(Student student) {
+        this.editingStudent = student;
+
+        // Update form labels to Edit Mode
+        formTitleLabel.setText("Edit Student Profile: " + student.getName());
+        saveButton.setText("Update Student");
 
         nameField.setText(student.getName());
         academicStatusCombo.setValue(student.getAcademicStatus());
@@ -615,7 +632,14 @@ public class StudentsController {
 
         showMessage("Editing student. Update fields and click 'Update Student'.", "success");
     }
-    
+
+
+    @FXML
+    private void onCancelButtonClick() {
+        Stage currentStage = (Stage) cancelButton.getScene().getWindow();
+        currentStage.close();
+    }
+
     /**
      * Display a message to the user
      */
