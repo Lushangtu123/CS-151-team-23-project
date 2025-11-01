@@ -615,51 +615,6 @@ public class StudentsController {
 
         showMessage("Editing student. Update fields and click 'Update Student'.", "success");
     }
-
-    /**
-     * Handle Delete button click
-     */
-    private void handleDelete(Student student) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Student");
-        alert.setHeaderText("Delete Student Profile");
-        alert.setContentText("Are you sure you want to delete '" + student.getName() + "'?\nThis action cannot be undone.");
-        
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                boolean success = studentDao.deleteStudent(student.getId());
-                if (success) {
-                    showMessage("Student '" + student.getName() + "' deleted successfully!", "success");
-                    
-                    // Clear form if we were editing this student
-                    if (editingStudent != null && editingStudent.getId() == student.getId()) {
-                        clearForm();
-                    }
-                } else {
-                    showMessage("Failed to delete student.", "error");
-                }
-            }
-        });
-    }
-    
-    /**
-     * Handle View button click - show detailed information
-     */
-    private void handleView(Student student) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Student Details");
-        alert.setHeaderText("Student Profile: " + student.getName());
-        StringBuilder details = new StringBuilder();
-        details.append("ID: ").append(student.getId()).append("\n");
-        details.append("Name: ").append(student.getName()).append("\n");
-        details.append("Academic Status: ").append(student.getAcademicStatus()).append("\n");
-        details.append("Languages: ").append(!student.getLanguagesAsString().isEmpty() ? student.getLanguagesAsString() : "N/A").append("\n");
-        details.append("DB Skills: ").append(student.getDbSkills() != null ? student.getDbSkills() : "N/A").append("\n");
-        details.append("Role: ").append(student.getRole() != null ? student.getRole() : "N/A").append("\n");
-        
-        alert.setContentText(details.toString());
-        alert.showAndWait();
-    }
     
     /**
      * Display a message to the user
