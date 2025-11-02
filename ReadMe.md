@@ -148,28 +148,32 @@ This is Version 0.7 of the Student Information Management System, a desktop appl
 │   │   ├── java/
 │   │   │   ├── cs151/
 │   │   │   │   ├── application/
-│   │   │   │   │   ├── Main.java                    (Entry point with data initialization)
-│   │   │   │   │   └── MainController.java          (Home page controller)
+│   │   │   │   │   ├── Main.java                           (Entry point with data initialization)
+│   │   │   │   │   └── MainController.java                 (Home page controller)
 │   │   │   │   ├── controller/
-│   │   │   │   │   ├── LanguagesController.java     (Languages CRUD controller)
-│   │   │   │   │   ├── StudentsController.java      (Students CRUD controller)
-│   │   │   │   │   └── SearchController.java        (Search & filter controller)
+│   │   │   │   │   ├── services/
+│   │   │   │   │   │    └── StudentsActionsHandler.java    (Handle Edit, Delete, View)
+│   │   │   │   │   ├── LanguagesController.java            (Languages CRUD controller)
+│   │   │   │   │   ├── StudentsController.java             (Students CRUD controller)
+│   │   │   │   │   ├── StudentDetailController.java        (Student detail page + navigate to Edit)
+│   │   │   │   │   └── SearchController.java               (Search & filter controller)
 │   │   │   │   ├── data/
-│   │   │   │   │   ├── LanguageDAO.java             (Language database access)
-│   │   │   │   │   ├── StudentDAO.java              (Student database access)
+│   │   │   │   │   ├── LanguageDAO.java                    (Language database access)
+│   │   │   │   │   ├── StudentDAO.java                     (Student database access)
 │   │   │   │   │   └── package-info.java
 │   │   │   │   └── model/
-│   │   │   │       ├── Language.java                (Language entity)
-│   │   │   │       └── Student.java                 (Student entity)
+│   │   │   │       ├── Language.java                       (Language entity)
+│   │   │   │       └── Student.java                        (Student entity)
 │   │   │   └── module-info.java
 │   │   └── resources/
 │   │       └── cs151/
 │   │           └── application/
-│   │               ├── hello-view.fxml              (Home page)
-│   │               ├── languages-view.fxml          (Languages page)
-│   │               ├── search-view.fxml             (Search student page)
-│   │               └── students-view.fxml           (Manage students page) 
-├── student.db                                       (SQLite database)
+│   │               ├── hello-view.fxml                     (Home page)
+│   │               ├── languages-view.fxml                 (Languages page)
+│   │               ├── search-view.fxml                    (Search student page)
+│   │               ├── student-detail-view.fxml            (Student detail page)
+│   │               └── students-view.fxml                  (Manage students page) 
+├── student.db                                              (SQLite database)
 ├── ReadMe.md
 ├── pom.xml
 └── .gitignore
