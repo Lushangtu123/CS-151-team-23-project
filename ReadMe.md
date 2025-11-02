@@ -7,12 +7,12 @@
 
 **Version 0.7**
 
-| Name | Contribution                                                                            |
-|------|-----------------------------------------------------------------------------------------|
-| Van Anh Tran | Implemented StudentDetailController for viewing and editing student profiles, enhanced data validation |
-| Yinqi Chen | Designed and implemented student-detail-view.fxml UI layout, edit form styling, confirmation dialogs |
-| Harshika Vijayabharath | Implemented edit functionality in StudentsController, integrated View button in SearchController, testing |
-| Phuong Tong | Updated StudentDAO with edit operations, enhanced navigation flow, documentation and final review |
+| Name | Contribution                                                                                                                    |
+|------|---------------------------------------------------------------------------------------------------------------------------------|
+| Van Anh Tran | Implemented StudentDetailController for viewing and editing student profiles, enhanced data validation                          |
+| Yinqi Chen | Designed and implemented student-detail-view.fxml UI layout, edit form styling, confirmation dialogs, documentation             |
+| Harshika Vijayabharath | Integrating Edit functionality to work in both Search and Management pages, integrated View button in SearchController, testing |
+| Phuong Tong | Refactored [Delete, View, Edit] actions into StudentsActionsHandler, updated StudentDAO, enhanced navigation flow, final review |
 
 **Version 0.6**
 

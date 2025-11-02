@@ -355,9 +355,11 @@ public class StudentsController {
             {
                 viewBtn.setOnAction(e -> {
                     Student student = getTableView().getItems().get(getIndex());
-                    actionsHandler.handleView(student);
+                    actionsHandler.handleView(student, () -> {
+                        refreshStudentTable(studentsTable, countLabel);
+                    });
                 });
-                
+
                 editBtn.setOnAction(e -> {
                     Student student = getTableView().getItems().get(getIndex());
                     handleEdit(student);
@@ -429,7 +431,15 @@ public class StudentsController {
         // Show dialog
         dialog.showAndWait();
     }
-    
+    public void refreshStudentTable(TableView<Student> table, Label countLabel) {
+        ObservableList<Student> students = FXCollections.observableArrayList(studentDao.getAllStudentsSortedByName());
+        table.setItems(students);
+
+        int size = table.getItems().size();
+        countLabel.setText("Total: " + size + " student" + (size != 1 ? "s" : ""));
+    }
+
+
     /**
      * Handle Save button click
      */
@@ -651,7 +661,7 @@ public class StudentsController {
             messageLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold; -fx-font-size: 14px;");
         }
     }
-    
+
     /**
      * Handle Back button click
      */

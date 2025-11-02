@@ -84,7 +84,15 @@ public class SearchController {
                 deleteBtn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
 
                 // Handle view action
-                viewBtn.setOnAction(event -> actionsHandler.handleView(getCurrentStudent()));
+                viewBtn.setOnAction(event -> {
+                    Student student = getCurrentStudent();
+                    actionsHandler.handleView(student, () -> {
+                        // Refresh table or clear search query when child window closes
+                        searchField.clear();
+                        searchStudents("");
+                    });
+                });
+
                 // Handle delete action
                 deleteBtn.setOnAction(event -> {
                     boolean deleted = actionsHandler.handleDelete(getCurrentStudent());

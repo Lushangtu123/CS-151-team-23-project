@@ -12,7 +12,8 @@ import javafx.scene.Scene;
 
 public class StudentDetailController {
 
-    @FXML private Label nameDetail;
+    @FXML
+    private Label nameDetail;
 
     @FXML private Label academicStatusDetail;
 
