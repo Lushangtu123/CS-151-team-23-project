@@ -5,16 +5,16 @@
 
 ## Team Members and Contributions 
 
-**Version 0.7
+**Version 0.7**
 
 | Name | Contribution                                                                            |
 |------|-----------------------------------------------------------------------------------------|
-| Van Anh Tran |                                               |
-| Yinqi Chen |  |
-| Harshika Vijayabharath |  |
-| Phuong Tong |  |
+| Van Anh Tran | Implemented StudentDetailController for viewing and editing student profiles, enhanced data validation |
+| Yinqi Chen | Designed and implemented student-detail-view.fxml UI layout, edit form styling, confirmation dialogs |
+| Harshika Vijayabharath | Implemented edit functionality in StudentsController, integrated View button in SearchController, testing |
+| Phuong Tong | Updated StudentDAO with edit operations, enhanced navigation flow, documentation and final review |
 
-**Version 0.6
+**Version 0.6**
 
 | Name | Contribution                                                                             |
 |------|------------------------------------------------------------------------------------------|
@@ -23,7 +23,7 @@
 | Harshika Vijayabharath | Updated MainController navigation, update flag as checkbox from previous version, testing |
 | Phuong Tong | Integrated search page, implemented deletion feature, documentation, final review |
 
-**Version 0.5
+**Version 0.5**
 
 | Name | Contribution                                                                                                      |
 |------|-------------------------------------------------------------------------------------------------------------------|
@@ -32,16 +32,16 @@
 | Harshika Vijayabharath | Implemented StudentController and testing students' data                                                          |
 | Phuong Tong | Updating add-student form and MainController, implemented Student model, final review and documentation           |
 
-**Version 0.3
+**Version 0.3**
 
 | Name | Contribution |
 |------|--------------|
 | Van Anh Tran | Created Language model class, implemented data validation logic, database testing and debugging, SQLite integration |
 | Yinqi Chen | Designed and implemented languages-view.fxml UI layout, CSS styling, fixed merge conflicts |
-| Harshika Vijayabharath | Setup table view with sorting, Implemented LanguagesController with CRUD operations, final review
+| Harshika Vijayabharath | Setup table view with sorting, Implemented LanguagesController with CRUD operations, final review |
 | Phuong Tong | Implemented LanguageDAO for SQLite persistence, updated MainController navigation, integrated module-info.java, project documentation |
 
-**Version 0.2
+**Version 0.2**
 
 | Name | Contribution |
 |------|--------------|
@@ -49,6 +49,7 @@
 | Yinqi Chen | Designed and implemented languages-view.fxml UI layout, CSS styling |
 | Harshika Vijayabharath | Implemented LanguagesController with CRUD operations, table view setup |
 | Phuong Tong | Updated MainController navigation, integrated module-info.java, project documentation |
+
 ## Project Description
 
 This is Version 0.7 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
@@ -273,4 +274,3 @@ mvn clean javafx:run
 **Course:** CS 151 - Object-Oriented Design  
 
 **Semester:** Fall 2025
-
