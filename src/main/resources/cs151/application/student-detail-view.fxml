@@ -81,6 +81,11 @@
 
         <!-- Action Buttons Row -->
         <HBox alignment="CENTER" spacing="12" maxWidth="860">
+            <Button fx:id="viewCommentsButton"
+                    text="📝 View Comments"
+                    onAction="#onViewCommentsClick"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-cursor: hand; -fx-padding: 8 24; -fx-background-radius: 5;" />
+            
             <Button fx:id="editButton"
                     text="Edit"
                     onAction="#onEditButtonClick"

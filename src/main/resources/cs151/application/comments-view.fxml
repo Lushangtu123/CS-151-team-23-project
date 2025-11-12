@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cs151.controller.CommentsController"
+            style="-fx-background-color: #f5f5f5;">
+
+    <!-- Header -->
+    <top>
+        <VBox style="-fx-background-color: #2c3e50; -fx-padding: 20;">
+            <Text fx:id="pageTitle" 
+                  text="Student Comments" 
+                  style="-fx-fill: white; -fx-font-size: 32px; -fx-font-weight: bold;"/>
+            <Text fx:id="studentNameLabel" 
+                  text="" 
+                  style="-fx-fill: #ecf0f1; -fx-font-size: 18px;"/>
+        </VBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <VBox spacing="20" style="-fx-padding: 30;">
+            
+            <!-- Comments List Section -->
+            <VBox spacing="10">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Text text="Evaluation Comments" 
+                          style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+                    <Label fx:id="commentCountLabel" 
+                           text="(0 comments)" 
+                           style="-fx-text-fill: #7f8c8d; -fx-font-size: 16px;"/>
+                </HBox>
+                
+                <!-- Scrollable Comments List -->
+                <ScrollPane fitToWidth="true" 
+                           style="-fx-background-color: transparent;" 
+                           prefHeight="300">
+                    <VBox fx:id="commentsContainer" 
+                          spacing="10" 
+                          style="-fx-padding: 10; -fx-background-color: white; -fx-background-radius: 5;">
+                        <!-- Comments will be added here dynamically -->
+                        <Label text="No comments yet. Add the first evaluation comment below." 
+                               style="-fx-text-fill: #95a5a6; -fx-font-size: 14px; -fx-padding: 20;"/>
+                    </VBox>
+                </ScrollPane>
+            </VBox>
+            
+            <!-- Add New Comment Section -->
+            <VBox spacing="10" 
+                  style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-width: 1; -fx-border-radius: 5;">
+                <Text text="Add New Evaluation Comment" 
+                      style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+                
+                <VBox spacing="5">
+                    <Label text="Comment Content:" 
+                           style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    <TextArea fx:id="newCommentArea" 
+                             promptText="Enter your evaluation comment here..."
+                             wrapText="true"
+                             prefRowCount="4"
+                             style="-fx-font-size: 14px;"/>
+                </VBox>
+                
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <Label text="Date:" 
+                           style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    <Label fx:id="todayDateLabel" 
+                           text="" 
+                           style="-fx-text-fill: #2980b9; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                    <Label text="(Auto-stamped with today's date)" 
+                           style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px; -fx-font-style: italic;"/>
+                </HBox>
+                
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="addCommentButton" 
+                            text="Add Comment" 
+                            onAction="#handleAddComment"
+                            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 10 30; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                    <Button text="Clear" 
+                            onAction="#handleClear"
+                            style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 30; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                </HBox>
+                
+                <!-- Message Label -->
+                <Label fx:id="messageLabel" 
+                       text="" 
+                       style="-fx-font-size: 14px; -fx-padding: 5;"/>
+            </VBox>
+            
+        </VBox>
+    </center>
+
+    <!-- Bottom Navigation -->
+    <bottom>
+        <HBox spacing="10" 
+              alignment="CENTER_LEFT" 
+              style="-fx-background-color: #ecf0f1; -fx-padding: 20;">
+            <Button text="← Back to Student Details" 
+                    onAction="#handleBackToDetails"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 30; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            <Button text="← Back to Home" 
+                    onAction="#handleBackToHome"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 30; -fx-background-radius: 5; -fx-cursor: hand;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
+

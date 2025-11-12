@@ -1,15 +1,19 @@
 package cs151.controller;
 
+import cs151.application.Main;
 import cs151.controller.services.StudentsActionsHandler;
 import cs151.data.StudentDAO;
 import cs151.model.Student;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,14 +81,20 @@ public class SearchController {
     private void addActionColumnToTable() {
         actionsColumn.setCellFactory(column -> new TableCell<>() {
             private final Button viewBtn = new Button("View");
+            private final Button commentsBtn = new Button("Comments");
             private final Button deleteBtn = new Button("Delete");
 
             {
-                viewBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
-                deleteBtn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
+                viewBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 5 8;");
+                commentsBtn.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 5 8;");
+                deleteBtn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 5 8;");
 
                 // Handle view action
                 viewBtn.setOnAction(event -> actionsHandler.handleView(getCurrentStudent()));
+                
+                // Handle comments action
+                commentsBtn.setOnAction(event -> handleViewComments(getCurrentStudent()));
+                
                 // Handle delete action
                 deleteBtn.setOnAction(event -> {
                     boolean deleted = actionsHandler.handleDelete(getCurrentStudent());
@@ -102,12 +112,32 @@ public class SearchController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    HBox container = new HBox(10, viewBtn, deleteBtn); // spacing = 10
+                    HBox container = new HBox(5, viewBtn, commentsBtn, deleteBtn); // spacing = 5
                     container.setStyle("-fx-alignment: center;");
                     setGraphic(container);
                 }
             }
         });
+    }
+    
+    /**
+     * Handle viewing comments for a student
+     */
+    private void handleViewComments(Student student) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("comments-view.fxml"));
+            Scene scene = new Scene(loader.load(), 900, 800);
+            
+            CommentsController controller = loader.getController();
+            controller.setStudent(student);
+            
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+            messageLabel.setText("Error loading comments page: " + e.getMessage());
+            messageLabel.setStyle("-fx-text-fill: red;");
+        }
     }
 
     private void searchStudents(String query) {

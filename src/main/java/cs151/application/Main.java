@@ -11,7 +11,7 @@ import java.io.IOException;
  * Main application class for Student Information Management System
  * Entry point for the JavaFX application
  * 
- * @version 0.2
+ * @version 0.8
  * @team 23
  */
 public class Main extends Application {
@@ -27,7 +27,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 800);
-        stage.setTitle("Student Information Management System - v0.7");
+        stage.setTitle("Student Information Management System - v0.8");
         stage.setScene(scene);
         stage.setResizable(true);
         stage.setMinWidth(800);
