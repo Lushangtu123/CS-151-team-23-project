@@ -76,7 +76,7 @@ public class MainController {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     Main.class.getResource("/cs151/application/search-view.fxml")
             );
-            Scene scene = new Scene(fxmlLoader.load(), 1000, 800);
+            Scene scene = new Scene(fxmlLoader.load(), 1150, 800);
 
             // Set the new scene
             stage.setTitle("Search Students");

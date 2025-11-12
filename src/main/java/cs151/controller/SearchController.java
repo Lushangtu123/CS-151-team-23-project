@@ -1,7 +1,9 @@
 package cs151.controller;
 
+import cs151.controller.services.CommentsHandler;
 import cs151.controller.services.StudentsActionsHandler;
 import cs151.data.StudentDAO;
+import cs151.model.Comment;
 import cs151.model.Student;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -40,6 +42,9 @@ public class SearchController {
     private TableColumn<Student, Void> actionsColumn;
 
     @FXML
+    private TableColumn<Student, Void> commentColumn;
+
+    @FXML
     private Button backButton;
 
     @FXML
@@ -47,6 +52,7 @@ public class SearchController {
 
     private final StudentDAO studentDao = new StudentDAO();
     private final StudentsActionsHandler actionsHandler = new StudentsActionsHandler(studentDao);
+    private final CommentsHandler commentsHandler = new CommentsHandler(studentDao);
 
     @FXML
     public void initialize() {
@@ -59,9 +65,10 @@ public class SearchController {
         dbSkillsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDbSkills()));
         roleColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getRole()));
 
-        // Add action column to hold Delete
+        // Add action column to handle actions
         addActionColumnToTable();
-
+        // Add comment column to handle comments actions
+        addCommentColumnToTable();
         // Start with empty table
         studentTable.setItems(FXCollections.observableArrayList());
 
@@ -117,6 +124,47 @@ public class SearchController {
             }
         });
     }
+
+    private void addCommentColumnToTable() {
+        commentColumn.setCellFactory(column -> new TableCell<>() {
+            private final Button viewCommentsBtn = new Button("View");
+            private final Button addCommentBtn = new Button("Add");
+
+            {
+                viewCommentsBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
+                addCommentBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
+
+                // Handle View Comments
+                viewCommentsBtn.setOnAction(event -> {
+                    Student student = getCurrentStudent();
+                    commentsHandler.handleViewComments(student);
+                });
+
+                // Handle Add Comment
+                addCommentBtn.setOnAction(event -> {
+                    Student student = getCurrentStudent();
+                    commentsHandler.handleAddComment(student);
+                });
+            }
+
+            private Student getCurrentStudent() {
+                return getTableView().getItems().get(getIndex());
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    HBox container = new HBox(10, viewCommentsBtn, addCommentBtn);
+                    container.setStyle("-fx-alignment: center;");
+                    setGraphic(container);
+                }
+            }
+        });
+    }
+
 
     private void searchStudents(String query) {
         if (query == null || query.trim().isEmpty()) {

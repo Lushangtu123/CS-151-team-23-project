@@ -3,6 +3,7 @@ package cs151.controller;
 import cs151.controller.services.StudentsActionsHandler;
 import cs151.data.LanguageDAO;
 import cs151.data.StudentDAO;
+import cs151.model.Comment;
 import cs151.model.Language;
 import cs151.model.Student;
 import javafx.collections.FXCollections;
@@ -13,6 +14,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -326,11 +329,17 @@ public class StudentsController {
         jobDetailsCol.setStyle("-fx-font-size: 15px;");
         
         TableColumn<Student, String> commentsCol = new TableColumn<>("Comments");
-        commentsCol.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(
-                        cellData.getValue().getComments() != null ? cellData.getValue().getComments() : "N/A"
-                )
-        );
+        commentsCol.setCellValueFactory(cellData -> {
+            List<Comment> comments = cellData.getValue().getComments();
+            String commentsStr = "N/A";
+            if (comments != null && !comments.isEmpty()) {
+                commentsStr = comments.stream()
+                        .map(Comment::getComment)
+                        .collect(Collectors.joining("\n")); // or ", "
+            }
+            return new javafx.beans.property.SimpleStringProperty(commentsStr);
+        });
+
         commentsCol.setPrefWidth(150);
         commentsCol.setStyle("-fx-font-size: 15px;");
         
@@ -471,7 +480,13 @@ public class StudentsController {
         String dbSkillsStr = String.join(", ", selectedDbSkills);
         
         String preferredRole = preferredRoleCombo.getValue();
-        String comments = commentsArea.getText().trim();
+        List<Comment> commentsList = new ArrayList<>();
+        String commentsText = commentsArea.getText().trim();
+        if (!commentsText.isEmpty()) {
+            Comment comment = new Comment(0, 0, commentsText, LocalDateTime.now());
+            commentsList.add(comment);
+        }
+
         String flag = null;
         if (whitelistCheckbox.isSelected()) {
             flag = "Whitelist";
@@ -531,8 +546,9 @@ public class StudentsController {
         student.setRole(preferredRole);
         student.setEmploymentStatus(employed ? "Employed" : "Not Employed");
         student.setJobDetails(jobDetails);
-        student.setComments(comments);
         student.setFlag(flag);
+
+        student.setComments(commentsList);
         
         // Save to database
         boolean success;
@@ -633,7 +649,15 @@ public class StudentsController {
             jobDetailsField.clear();
         }
 
-        commentsArea.setText(student.getComments());
+        List<Comment> comments = student.getComments();
+        String commentsStr = "";
+        if (comments != null && !comments.isEmpty()) {
+            commentsStr = comments.stream()
+                    .map(Comment::getComment)
+                    .collect(Collectors.joining("\n")); // Each comment on a new line
+        }
+        commentsArea.setText(commentsStr);
+
         whitelistCheckbox.setSelected("Whitelist".equalsIgnoreCase(student.getFlag()));
         blacklistCheckbox.setSelected("Blacklist".equalsIgnoreCase(student.getFlag()));
 

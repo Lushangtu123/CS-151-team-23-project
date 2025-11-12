@@ -69,7 +69,6 @@ public class StudentDetailController {
         languagesDetail.setText(student.getLanguagesAsString() != null ? student.getLanguagesAsString() : "N/A");
         dbSkillsDetail.setText(student.getDbSkills() != null ? student.getDbSkills() : "N/A");
         roleDetail.setText(student.getRole() != null ? student.getRole() : "N/A");
-        commentsDetail.setText(student.getComments() != null ? student.getComments() : "N/A");
         flagDetail.setText(student.getFlag() != null ? student.getFlag() : "N/A");
     }
 
