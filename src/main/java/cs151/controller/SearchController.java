@@ -90,7 +90,7 @@ public class SearchController {
                 deleteBtn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 5 8;");
 
                 // Handle view action
-                viewBtn.setOnAction(event -> actionsHandler.handleView(getCurrentStudent()));
+                viewBtn.setOnAction(event -> actionsHandler.handleView(getCurrentStudent(), null));
                 
                 // Handle comments action
                 commentsBtn.setOnAction(event -> handleViewComments(getCurrentStudent()));

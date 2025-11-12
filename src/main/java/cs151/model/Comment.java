@@ -56,6 +56,21 @@ public class Comment {
         this.date = LocalDate.parse(dateStr, DISPLAY_FORMATTER);
     }
     
+    /**
+     * Constructor with LocalDateTime (for compatibility with remote code)
+     * Converts LocalDateTime to LocalDate
+     * @param id The unique identifier
+     * @param studentId The student ID
+     * @param content The comment content
+     * @param dateTime The datetime (will be converted to date only)
+     */
+    public Comment(int id, int studentId, String content, java.time.LocalDateTime dateTime) {
+        this.id = id;
+        this.studentId = studentId;
+        this.content = content;
+        this.date = dateTime.toLocalDate();
+    }
+    
     // Getters and Setters
     public int getId() {
         return id;
@@ -79,6 +94,13 @@ public class Comment {
     
     public void setContent(String content) {
         this.content = content;
+    }
+    
+    /**
+     * Alias for getContent() - for compatibility with remote code
+     */
+    public String getComment() {
+        return content;
     }
     
     public LocalDate getDate() {
