@@ -1,9 +1,11 @@
 package cs151.data;
 
 import cs151.model.Student;
+import cs151.model.Comment;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * Data Access Object for Student entity
@@ -16,7 +18,7 @@ public class StudentDAO {
      * Initialize Student table if it doesn't exist
      */
     public void initTable() {
-        String sql = """
+        String studentSql = """
             CREATE TABLE IF NOT EXISTS Student (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
@@ -27,13 +29,23 @@ public class StudentDAO {
                 role TEXT,
                 employmentStatus TEXT,
                 jobDetails TEXT,
-                comments TEXT,
                 flag TEXT
             );
         """;
+
+        String commentSql = """
+                CREATE TABLE IF NOT EXISTS Comments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                studentId INTEGER NOT NULL,
+                comment TEXT NOT NULL,
+                timestamp DATETIME NOT NULL,
+                FOREIGN KEY(studentId) REFERENCES Student(id)
+                );
+        """;
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+            stmt.execute(studentSql);
+            stmt.execute(commentSql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -51,8 +63,8 @@ public class StudentDAO {
 
         String sql = """
             INSERT INTO Student(name, academicStatus, email, languages, dbSkills, role,
-                                        employmentStatus, jobDetails, comments, flag)
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                        employmentStatus, jobDetails, flag)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
         """;
         
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -65,14 +77,72 @@ public class StudentDAO {
             stmt.setString(6, student.getRole());
             stmt.setString(7, student.getEmploymentStatus());
             stmt.setString(8, student.getJobDetails());
-            stmt.setString(9, student.getComments());
-            stmt.setString(10, student.getFlag());
+            stmt.setString(9, student.getFlag());
+
+            int rows = stmt.executeUpdate();
+            if (rows == 0) return false;
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    int studentId = rs.getInt(1);
+                    student.setId(studentId);
+                    // Save comments
+                    for (Comment c : student.getComments()) {
+                        addComment(studentId, c.getComment());
+                    }
+                }
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Add comment in student profiles
+     */
+    public boolean addComment(int studentId, String comment) {
+        String sql = "INSERT INTO Comments (studentId, comment, timestamp) VALUES(?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, studentId);
+            stmt.setString(2, comment);
+            stmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * Get all comments for a specific student
+     */
+    public List<Comment> getCommentsForStudent(int studentId) {
+        List<Comment> comments = new ArrayList<>();
+        String sql = "SELECT * FROM Comments WHERE studentId = ? ORDER BY timestamp ASC";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, studentId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Comment c = new Comment(
+                        rs.getInt("id"),
+                        rs.getInt("studentId"),
+                        rs.getString("comment"),
+                        rs.getTimestamp("timestamp").toLocalDateTime()
+                );
+                comments.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return comments;
     }
 
     /**
@@ -125,9 +195,8 @@ public class StudentDAO {
                 student.setRole(rs.getString("role"));
                 student.setEmploymentStatus(rs.getString("employmentStatus"));
                 student.setJobDetails(rs.getString("jobDetails"));
-                student.setComments(rs.getString("comments"));
                 student.setFlag(rs.getString("flag"));
-
+                student.setComments(getCommentsForStudent(student.getId()));
 
                 list.add(student);
             }
@@ -162,8 +231,8 @@ public class StudentDAO {
                 student.setRole(rs.getString("role"));
                 student.setEmploymentStatus(rs.getString("employmentStatus"));
                 student.setJobDetails(rs.getString("jobDetails"));
-                student.setComments(rs.getString("comments"));
                 student.setFlag(rs.getString("flag"));
+                student.setComments(getCommentsForStudent(id));
                 return student;
             }
         } catch (SQLException e) {
@@ -186,7 +255,7 @@ public class StudentDAO {
             UPDATE Student
             SET name = ?, academicStatus = ?, email = ?, languages = ?,\s
                    dbSkills = ?, role = ?, employmentStatus = ?, jobDetails = ?,\s
-                   comments = ?, flag = ?
+                    flag = ?
             WHERE id = ?
         """;
         
@@ -200,12 +269,19 @@ public class StudentDAO {
             stmt.setString(6, student.getRole());
             stmt.setString(7, student.getEmploymentStatus());
             stmt.setString(8, student.getJobDetails());
-            stmt.setString(9, student.getComments());
-            stmt.setString(10, student.getFlag());
-            stmt.setInt(11, student.getId());
-            
+            stmt.setString(9, student.getFlag());
+            stmt.setInt(10, student.getId());
+
             int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;
+            if (rowsAffected == 0) return false;
+
+            for (Comment c : student.getComments()) {
+                if (c.getId() == 0) {
+                    addComment(student.getId(), c.getComment());
+                }
+            }
+
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

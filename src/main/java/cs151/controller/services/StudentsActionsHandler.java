@@ -21,7 +21,7 @@ public class StudentsActionsHandler {
         this.studentDao = studentDao;
     }
 
-    public void handleView(Student student) {
+    public void handleView(Student student, Runnable onWindowClose) {
         try {
             // Load the FXML for the detailed view
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/cs151/application/student-detail-view.fxml"));
@@ -33,6 +33,12 @@ public class StudentsActionsHandler {
             StudentDetailController controller = loader.getController();
             controller.setStudentDao(studentDao);
             controller.setStudent(student);
+
+            stage.setOnHidden(event -> {
+                if (onWindowClose != null) {
+                    onWindowClose.run();
+                }
+            });
 
             // Show the new window
             stage.show();

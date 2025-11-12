@@ -17,7 +17,7 @@ public class Student {
     private String role;                    // Required - interested role
     private String employmentStatus;        // Required
     private String jobDetails;              // Required
-    private String comments;                // Required
+    private List<Comment> comments;                // Required
     private String flag;                    // Required
 
     /**
@@ -48,7 +48,7 @@ public class Student {
      * Full constructor with all fields
      */
     public Student(int id, String name, String academicStatus, String email, 
-                   List<String> languages, String dbSkills, String role, String employmentStatus, String jobDetails, String comments, String flag) {
+                   List<String> languages, String dbSkills, String role, String employmentStatus, String jobDetails, List<Comment> comments, String flag) {
         this.id = id;
         this.name = name;
         this.academicStatus = academicStatus;
@@ -58,7 +58,7 @@ public class Student {
         this.role = role;
         this.employmentStatus = employmentStatus;
         this.jobDetails = jobDetails;
-        this.comments = comments;
+        this.comments = comments != null ? comments : new ArrayList<>();
         this.flag = flag;
 
     }
@@ -128,9 +128,14 @@ public class Student {
 
     public void setJobDetails(String jobDetails) { this.jobDetails = jobDetails; }
 
-    public String getComments() { return comments; }
+    public List<Comment> getComments() { return comments; }
 
-    public void setComments(String comments) { this.comments = comments; }
+    public void setComments(List<Comment> comments) { this.comments = comments; }
+
+    public void addComment(Comment comment) {
+        if (this.comments == null) this.comments = new ArrayList<>();
+        this.comments.add(comment);
+    }
 
     public String getFlag() { return flag; }
 
