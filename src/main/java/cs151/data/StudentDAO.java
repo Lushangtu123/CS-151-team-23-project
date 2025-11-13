@@ -102,52 +102,6 @@ public class StudentDAO {
     }
 
     /**
-     * Add comment in student profiles
-     */
-    public boolean addComment(int studentId, String comment) {
-        String sql = "INSERT INTO Comments (studentId, comment, timestamp) VALUES(?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, studentId);
-            stmt.setString(2, comment);
-            stmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-            stmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * Get all comments for a specific student
-     */
-    public List<Comment> getCommentsForStudent(int studentId) {
-        List<Comment> comments = new ArrayList<>();
-        String sql = "SELECT * FROM Comments WHERE studentId = ? ORDER BY timestamp ASC";
-
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, studentId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Comment c = new Comment(
-                        rs.getInt("id"),
-                        rs.getInt("studentId"),
-                        rs.getString("comment"),
-                        rs.getTimestamp("timestamp").toLocalDateTime()
-                );
-                comments.add(c);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return comments;
-    }
-
-    /**
      * Retrieve all students from the database, sorted by name (A-Z, case-insensitive)
      * @return List of all students sorted alphabetically by name
      */
@@ -198,7 +152,7 @@ public class StudentDAO {
                 student.setEmploymentStatus(rs.getString("employmentStatus"));
                 student.setJobDetails(rs.getString("jobDetails"));
                 student.setFlag(rs.getString("flag"));
-                student.setComments(getCommentsForStudent(student.getId()));
+                // Comments are managed separately via CommentDAO
 
                 list.add(student);
             }
@@ -234,7 +188,7 @@ public class StudentDAO {
                 student.setEmploymentStatus(rs.getString("employmentStatus"));
                 student.setJobDetails(rs.getString("jobDetails"));
                 student.setFlag(rs.getString("flag"));
-                student.setComments(getCommentsForStudent(id));
+                // Comments are managed separately via CommentDAO
                 return student;
             }
         } catch (SQLException e) {
@@ -275,15 +229,8 @@ public class StudentDAO {
             stmt.setInt(10, student.getId());
 
             int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected == 0) return false;
-
-            for (Comment c : student.getComments()) {
-                if (c.getId() == 0) {
-                    addComment(student.getId(), c.getComment());
-                }
-            }
-
-            return true;
+            // Comments are managed separately via CommentDAO
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
