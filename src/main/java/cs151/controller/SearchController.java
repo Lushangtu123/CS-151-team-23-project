@@ -44,6 +44,9 @@ public class SearchController {
     private TableColumn<Student, Void> actionsColumn;
 
     @FXML
+    private TableColumn<Student, Void> commentColumn;
+
+    @FXML
     private Button backButton;
 
     @FXML
@@ -65,6 +68,7 @@ public class SearchController {
 
         // Add action column to hold Delete
         addActionColumnToTable();
+        addCommentColumnToTable();
 
         // Start with empty table
         studentTable.setItems(FXCollections.observableArrayList());
@@ -81,20 +85,15 @@ public class SearchController {
     private void addActionColumnToTable() {
         actionsColumn.setCellFactory(column -> new TableCell<>() {
             private final Button viewBtn = new Button("View");
-            private final Button commentsBtn = new Button("Comments");
             private final Button deleteBtn = new Button("Delete");
 
             {
                 viewBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 5 8;");
-                commentsBtn.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 5 8;");
                 deleteBtn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 5 8;");
 
                 // Handle view action
                 viewBtn.setOnAction(event -> actionsHandler.handleView(getCurrentStudent(), null));
-                
-                // Handle comments action
-                commentsBtn.setOnAction(event -> handleViewComments(getCurrentStudent()));
-                
+
                 // Handle delete action
                 deleteBtn.setOnAction(event -> {
                     boolean deleted = actionsHandler.handleDelete(getCurrentStudent());
@@ -112,7 +111,37 @@ public class SearchController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    HBox container = new HBox(5, viewBtn, commentsBtn, deleteBtn); // spacing = 5
+                    HBox container = new HBox(5, viewBtn, deleteBtn); // spacing = 5
+                    container.setStyle("-fx-alignment: center;");
+                    setGraphic(container);
+                }
+            }
+        });
+    }
+
+    private void addCommentColumnToTable() {
+        commentColumn.setCellFactory(column -> new TableCell<>() {
+            private final Button commentsBtn = new Button("All Comments");
+
+            {
+                commentsBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 8;");
+
+                // Handle View Comments
+                commentsBtn.setOnAction(event -> handleViewComments(getCurrentStudent()));
+
+            }
+
+            private Student getCurrentStudent() {
+                return getTableView().getItems().get(getIndex());
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    HBox container = new HBox(10, commentsBtn);
                     container.setStyle("-fx-alignment: center;");
                     setGraphic(container);
                 }

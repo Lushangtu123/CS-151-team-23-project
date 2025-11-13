@@ -63,13 +63,9 @@
                 <Label text="Job Details:" GridPane.rowIndex="6" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
                 <Label fx:id="jobDetailsDetail" GridPane.rowIndex="6" GridPane.columnIndex="1" />
 
-                <!-- Comments -->
-                <Label text="Comments:" GridPane.rowIndex="7" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
-                <Label fx:id="commentsDetail" GridPane.rowIndex="7" GridPane.columnIndex="1" />
-
                 <!-- Flag -->
-                <Label text="Flag:" GridPane.rowIndex="8" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
-                <Label fx:id="flagDetail" GridPane.rowIndex="8" GridPane.columnIndex="1" />
+                <Label text="Flag:" GridPane.rowIndex="7" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="flagDetail" GridPane.rowIndex="7" GridPane.columnIndex="1" />
             </GridPane>
         </HBox>
 

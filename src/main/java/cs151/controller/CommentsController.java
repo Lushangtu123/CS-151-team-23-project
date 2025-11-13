@@ -9,8 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -64,7 +63,7 @@ public class CommentsController {
         
         // Display today's date
         LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
         todayDateLabel.setText(today.format(formatter));
     }
     
@@ -115,37 +114,34 @@ public class CommentsController {
     private VBox createCommentBox(Comment comment) {
         VBox box = new VBox(8);
         box.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-border-color: #dee2e6; " +
-                    "-fx-border-width: 1; -fx-border-radius: 5; -fx-background-radius: 5;");
-        
-        // Date header with delete button
-        HBox headerBox = new HBox(10);
-        headerBox.setStyle("-fx-alignment: center-left;");
-        
+                "-fx-border-width: 1; -fx-border-radius: 5; -fx-background-radius: 5;");
+
+        HBox headerBox = new HBox();
+        headerBox.setSpacing(10);
+        headerBox.setStyle("-fx-alignment: center-left; -fx-padding: 0 0 5 0;");
+
         Label dateLabel = new Label("📅 " + comment.getDateAsString());
-        dateLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #2980b9; -fx-font-size: 14px;");
-        
+        dateLabel.setStyle("-fx-text-fill: #7f8c8d; -fx-font-size: 12px; -fx-font-weight: normal;");
+
         Button deleteBtn = new Button("Delete");
         deleteBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 12px; " +
-                          "-fx-padding: 5 15; -fx-background-radius: 3; -fx-cursor: hand;");
+                "-fx-padding: 5 15; -fx-background-radius: 3; -fx-cursor: hand;");
         deleteBtn.setOnAction(e -> handleDeleteComment(comment));
-        
-        headerBox.getChildren().addAll(dateLabel, deleteBtn);
-        HBox.setMargin(deleteBtn, new Insets(0, 0, 0, 10));
-        
-        // Comment content
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        headerBox.getChildren().addAll(dateLabel, spacer, deleteBtn);
+
+        // Comment text
         Label contentLabel = new Label(comment.getContent());
         contentLabel.setWrapText(true);
-        contentLabel.setStyle("-fx-text-fill: #2c3e50; -fx-font-size: 14px;");
-        
-        // Separator
-        Separator separator = new Separator();
-        separator.setStyle("-fx-background-color: #dee2e6;");
-        
+        contentLabel.setStyle("-fx-text-fill: #2c3e50; -fx-font-size: 16px;");
+
         box.getChildren().addAll(headerBox, contentLabel);
-        
+
         return box;
     }
-    
+
     /**
      * Handle adding a new comment
      */
@@ -188,7 +184,7 @@ public class CommentsController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Comment");
         alert.setHeaderText("Are you sure you want to delete this comment?");
-        alert.setContentText("Date: " + comment.getDateAsString() + "\n" +
+        alert.setContentText("Created on: " + comment.getDateAsString() + "\n" +
                            "Content: " + (comment.getContent().length() > 50 ? 
                            comment.getContent().substring(0, 50) + "..." : comment.getContent()));
         
@@ -221,7 +217,7 @@ public class CommentsController {
     private void handleBackToSearch() {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("search-view.fxml"));
-            Scene scene = new Scene(loader.load(), 900, 800);
+            Scene scene = new Scene(loader.load(), 1150, 800);
             
             Stage stage = (Stage) addCommentButton.getScene().getWindow();
             stage.setScene(scene);
