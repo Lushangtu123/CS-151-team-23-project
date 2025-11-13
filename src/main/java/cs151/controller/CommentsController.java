@@ -215,27 +215,19 @@ public class CommentsController {
     }
     
     /**
-     * Handle navigating back to student details
+     * Handle navigating back to search page
      */
     @FXML
-    private void handleBackToDetails() {
-        if (currentStudent == null) {
-            handleBackToHome();
-            return;
-        }
-        
+    private void handleBackToSearch() {
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("student-detail-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("search-view.fxml"));
             Scene scene = new Scene(loader.load(), 900, 800);
-            
-            StudentDetailController controller = loader.getController();
-            controller.setStudent(currentStudent);
             
             Stage stage = (Stage) addCommentButton.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
-            showMessage("Error loading student details page.", "error");
+            showMessage("Error loading search page.", "error");
         }
     }
     

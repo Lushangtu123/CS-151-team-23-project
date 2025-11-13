@@ -48,9 +48,6 @@ public class StudentDetailController {
 
     @FXML
     private Button editButton;
-    
-    @FXML
-    private Button viewCommentsButton;
 
     // ✅ Add message label
     @FXML private Label messageLabel;
@@ -103,28 +100,5 @@ public class StudentDetailController {
     private void onBackButtonClick() {
         Stage currentStage = (Stage) backButton.getScene().getWindow();
         currentStage.close();
-    }
-    
-    /**
-     * Handle viewing comments for this student
-     */
-    @FXML
-    private void onViewCommentsClick() {
-        try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("comments-view.fxml"));
-            Scene scene = new Scene(loader.load(), 900, 800);
-            
-            CommentsController controller = loader.getController();
-            controller.setStudent(student);
-            
-            Stage stage = (Stage) viewCommentsButton.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-            if (messageLabel != null) {
-                messageLabel.setText("Error loading comments page: " + e.getMessage());
-                messageLabel.setStyle("-fx-text-fill: red;");
-            }
-        }
     }
 }

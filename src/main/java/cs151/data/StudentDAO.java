@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
  */
 public class StudentDAO {
     private static final String DB_URL = "jdbc:sqlite:student.db";
+    private final CommentDAO commentDao = new CommentDAO();
 
     /**
      * Initialize Student table if it doesn't exist
@@ -86,9 +87,10 @@ public class StudentDAO {
                 if (rs.next()) {
                     int studentId = rs.getInt(1);
                     student.setId(studentId);
-                    // Save comments
+                    // Save comments using CommentDAO
                     for (Comment c : student.getComments()) {
-                        addComment(studentId, c.getComment());
+                        Comment newComment = new Comment(studentId, c.getComment());
+                        commentDao.addComment(newComment);
                     }
                 }
             }
