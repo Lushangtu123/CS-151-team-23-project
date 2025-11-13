@@ -29,21 +29,4 @@ public class CommentsHandler {
         }
     }
 
-    public void handleAddComment(Student student) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cs151/application/add-comment-view.fxml"));
-            Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load(), 700, 600));
-            stage.setTitle("Add Comment for " + student.getName());
-
-            CommentController controller = loader.getController();
-            controller.setStudentDao(studentDao);
-            controller.setStudent(student);
-
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }

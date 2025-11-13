@@ -59,10 +59,9 @@ public class CommentController {
                     HBox row = new HBox(10);
                     row.setStyle("-fx-padding: 8; -fx-background-color: #ffffff; -fx-background-radius: 5;");
 
-                    // VBox to stack timestamp and comment
-                    VBox commentBox = new VBox(2); // small spacing between date and comment
+                    VBox commentBox = new VBox(2);
                     Label dateLabel = new Label(comment.getFormattedTimestamp());
-                    dateLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #7f8c8d;"); // smaller gray text
+                    dateLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #7f8c8d;");
                     Label commentLabel = new Label(comment.getComment());
                     commentLabel.setWrapText(true);
                     commentLabel.setStyle("-fx-font-size: 14px;");
