@@ -127,12 +127,12 @@ public class SearchController {
 
     private void addCommentColumnToTable() {
         commentColumn.setCellFactory(column -> new TableCell<>() {
-            private final Button viewCommentsBtn = new Button("View");
-            private final Button addCommentBtn = new Button("Add");
+            private final Button viewCommentsBtn = new Button("All Comments");
+            //private final Button addCommentBtn = new Button("Add");
 
             {
-                viewCommentsBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
-                addCommentBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
+                viewCommentsBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
+                //addCommentBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 10;");
 
                 // Handle View Comments
                 viewCommentsBtn.setOnAction(event -> {
@@ -140,11 +140,13 @@ public class SearchController {
                     commentsHandler.handleViewComments(student);
                 });
 
+                /*
                 // Handle Add Comment
                 addCommentBtn.setOnAction(event -> {
                     Student student = getCurrentStudent();
                     commentsHandler.handleAddComment(student);
                 });
+                 */
             }
 
             private Student getCurrentStudent() {
@@ -157,7 +159,7 @@ public class SearchController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    HBox container = new HBox(10, viewCommentsBtn, addCommentBtn);
+                    HBox container = new HBox(10, viewCommentsBtn);
                     container.setStyle("-fx-alignment: center;");
                     setGraphic(container);
                 }

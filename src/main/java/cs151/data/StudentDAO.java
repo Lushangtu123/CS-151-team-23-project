@@ -146,6 +146,23 @@ public class StudentDAO {
     }
 
     /**
+     * Get all comments for a specific student
+     */
+    public boolean deleteComment(int commentId) {
+        String sql = "DELETE FROM Comments WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, commentId);
+            int affectedRows = stmt.executeUpdate();
+
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    /**
      * Retrieve all students from the database, sorted by name (A-Z, case-insensitive)
      * @return List of all students sorted alphabetically by name
      */
