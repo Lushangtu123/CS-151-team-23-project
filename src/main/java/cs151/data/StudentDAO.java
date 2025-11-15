@@ -143,7 +143,6 @@ public class StudentDAO {
                 student.setEmploymentStatus(rs.getString("employmentStatus"));
                 student.setJobDetails(rs.getString("jobDetails"));
                 student.setFlag(rs.getString("flag"));
-                // Comments are managed separately via CommentDAO
                 student.setComments(commentDao.getCommentsByStudentId(student.getId()));
 
                 list.add(student);
