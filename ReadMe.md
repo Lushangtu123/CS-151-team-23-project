@@ -59,6 +59,24 @@
 | Harshika Vijayabharath | Implemented LanguagesController with CRUD operations, table view setup |
 | Phuong Tong | Updated MainController navigation, integrated module-info.java, project documentation |
 
+**Technical Spec**
+
+| Name | Contribution |
+|------|--------------|
+| Van Anh Tran | Introduction, Software Overview, Data Model (Revised)|
+| Yinqi Chen | Detailed Design |
+| Harshika Vijayabharath | Class Diagram (domain model), final version |
+| Phuong Tong | Document review, sequence diagram final version |
+
+**Functional Spec**
+
+| Name | Contribution |
+|------|--------------|
+| Van Anh Tran | Use Case - Alternative Flow of Events (Alternative #2), Nonfunctional Requirements |
+| Yinqi Chen |  Introduction, Mockups |
+| Harshika Vijayabharath | Use Case Primary Flow of Events, Alternative Flow of Events (Alternative #1) |
+| Phuong Tong | Functional Requirements, Nonfunctional Requirements (Revised and Completed) |
+
 ## Project Description
 
 This is Version 0.8 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
@@ -163,23 +181,25 @@ This is Version 0.8 of the Student Information Management System, a desktop appl
 │   │   ├── java/
 │   │   │   ├── cs151/
 │   │   │   │   ├── application/
-│   │   │   │   │   ├── Main.java                    (Entry point with data initialization)
-│   │   │   │   │   └── MainController.java          (Home page controller)
+│   │   │   │   │   ├── Main.java                           (Entry point with data initialization)
+│   │   │   │   │   └── MainController.java                 (Home page controller)
 │   │   │   │   ├── controller/
-│   │   │   │   │   ├── LanguagesController.java     (Languages CRUD controller)
-│   │   │   │   │   ├── StudentsController.java      (Students CRUD controller)
-│   │   │   │   │   ├── SearchController.java        (Search & filter controller)
-│   │   │   │   │   ├── StudentDetailController.java (Student details view controller)
-│   │   │   │   │   └── CommentsController.java      (Comments management controller)
+│   │   │   │   │   ├── services/
+│   │   │   │   │   │    └── StudentsActionsHandler.java    (Handle Edit, Delete, View)
+│   │   │   │   │   ├── LanguagesController.java            (Languages CRUD controller)
+│   │   │   │   │   ├── StudentsController.java             (Students CRUD controller)
+│   │   │   │   │   ├── SearchController.java               (Search & filter controller)
+│   │   │   │   │   ├── StudentDetailController.java        (Student details view controller)
+│   │   │   │   │   └── CommentsController.java             (Comments management controller)
 │   │   │   │   ├── data/
-│   │   │   │   │   ├── LanguageDAO.java             (Language database access)
-│   │   │   │   │   ├── StudentDAO.java              (Student database access)
-│   │   │   │   │   ├── CommentDAO.java              (Comment database access)
+│   │   │   │   │   ├── LanguageDAO.java                    (Language database access)
+│   │   │   │   │   ├── StudentDAO.java                     (Student database access)
+│   │   │   │   │   ├── CommentDAO.java                     (Comment database access)
 │   │   │   │   │   └── package-info.java
 │   │   │   │   └── model/
-│   │   │   │       ├── Language.java                (Language entity)
-│   │   │   │       ├── Student.java                 (Student entity)
-│   │   │   │       └── Comment.java                 (Comment entity with date stamp)
+│   │   │   │       ├── Language.java                       (Language entity)
+│   │   │   │       ├── Student.java                        (Student entity)
+│   │   │   │       └── Comment.java                        (Comment entity with date stamp)
 │   │   │   └── module-info.java
 │   │   └── resources/
 │   │       └── cs151/
@@ -187,6 +207,8 @@ This is Version 0.8 of the Student Information Management System, a desktop appl
 │   │               ├── hello-view.fxml              (Home page)
 │   │               ├── languages-view.fxml          (Languages page)
 │   │               ├── search-view.fxml             (Search student page)
+│   │               ├── comments-view.fxml           (Comments page)
+│   │               ├── student-detail-view.fxml     (Student details page)
 │   │               └── students-view.fxml           (Manage students page) 
 ├── student.db                                       (SQLite database)
 ├── ReadMe.md
