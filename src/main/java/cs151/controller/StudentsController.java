@@ -3,6 +3,7 @@ package cs151.controller;
 import cs151.controller.services.StudentsActionsHandler;
 import cs151.data.LanguageDAO;
 import cs151.data.StudentDAO;
+import cs151.data.CommentDAO;
 import cs151.model.Comment;
 import cs151.model.Language;
 import cs151.model.Student;
@@ -14,10 +15,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Controller for the Student Management page
@@ -87,8 +90,10 @@ public class StudentsController {
 
     private final StudentDAO studentDao = new StudentDAO();
     private final LanguageDAO languageDao = new LanguageDAO();
+    private final CommentDAO commentDao = new CommentDAO();
     private final StudentsActionsHandler actionsHandler = new StudentsActionsHandler(studentDao);
     private Student editingStudent = null; // Track if we're editing
+    private List<Comment> currentComments = new ArrayList<>();
 
     // Available options for multi-select
     private final ObservableList<String> availableLanguages = FXCollections.observableArrayList();
@@ -333,9 +338,10 @@ public class StudentsController {
             List<Comment> comments = cellData.getValue().getComments();
             String commentsStr = "N/A";
             if (comments != null && !comments.isEmpty()) {
-                commentsStr = comments.stream()
-                        .map(Comment::getComment)
-                        .collect(Collectors.joining("\n")); // or ", "
+                commentsStr = IntStream.range(0, comments.size())
+                                        .mapToObj(i -> (i + 1) + ". " + comments.get(i).getContent())
+                                        .collect(Collectors.joining("\n"));
+
             }
             return new javafx.beans.property.SimpleStringProperty(commentsStr);
         });
@@ -461,7 +467,7 @@ public class StudentsController {
         boolean employed = employedRadio.isSelected();
         String jobDetails = jobDetailsField.getText().trim();
         if (!employed) {
-            jobDetails = ""; // or null if you prefer to store null
+            jobDetails = "";
         }
 
 
@@ -480,12 +486,6 @@ public class StudentsController {
         String dbSkillsStr = String.join(", ", selectedDbSkills);
         
         String preferredRole = preferredRoleCombo.getValue();
-        List<Comment> commentsList = new ArrayList<>();
-        String commentsText = commentsArea.getText().trim();
-        if (!commentsText.isEmpty()) {
-            Comment comment = new Comment(0, 0, commentsText, LocalDateTime.now());
-            commentsList.add(comment);
-        }
 
         String flag = null;
         if (whitelistCheckbox.isSelected()) {
@@ -548,8 +548,17 @@ public class StudentsController {
         student.setJobDetails(jobDetails);
         student.setFlag(flag);
 
-        student.setComments(commentsList);
-        
+        String newCommentContent = commentsArea.getText().trim();
+        if (!newCommentContent.isEmpty()) {
+            Comment newComment = new Comment(0, student.getId(), newCommentContent, LocalDate.now());
+
+            currentComments.add(newComment);
+            commentDao.addComment(newComment);
+        }
+
+        student.setComments(currentComments);
+        commentsArea.setText(currentComments.stream().map(Comment::getContent).collect(Collectors.joining("\n")));
+
         // Save to database
         boolean success;
         if (editingStudent != null) {
@@ -649,14 +658,12 @@ public class StudentsController {
             jobDetailsField.clear();
         }
 
-        List<Comment> comments = student.getComments();
-        String commentsStr = "";
-        if (comments != null && !comments.isEmpty()) {
-            commentsStr = comments.stream()
-                    .map(Comment::getComment)
-                    .collect(Collectors.joining("\n")); // Each comment on a new line
-        }
-        commentsArea.setText(commentsStr);
+        currentComments = new ArrayList<>(student.getComments());
+        commentsArea.setText(
+                currentComments.stream().
+                        map(Comment::getContent).
+                        collect(Collectors.joining("\n"))
+        );
 
         whitelistCheckbox.setSelected("Whitelist".equalsIgnoreCase(student.getFlag()));
         blacklistCheckbox.setSelected("Blacklist".equalsIgnoreCase(student.getFlag()));

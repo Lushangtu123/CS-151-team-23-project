@@ -144,6 +144,7 @@ public class StudentDAO {
                 student.setJobDetails(rs.getString("jobDetails"));
                 student.setFlag(rs.getString("flag"));
                 // Comments are managed separately via CommentDAO
+                student.setComments(commentDao.getCommentsByStudentId(student.getId()));
 
                 list.add(student);
             }
@@ -180,6 +181,8 @@ public class StudentDAO {
                 student.setJobDetails(rs.getString("jobDetails"));
                 student.setFlag(rs.getString("flag"));
                 // Comments are managed separately via CommentDAO
+                student.setComments(commentDao.getCommentsByStudentId(student.getId()));
+
                 return student;
             }
         } catch (SQLException e) {

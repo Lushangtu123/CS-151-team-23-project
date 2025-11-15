@@ -7,12 +7,12 @@
 
 **Version 0.8**
 
-| Name | Contribution                                                                            |
-|------|-----------------------------------------------------------------------------------------|
-| Van Anh Tran | Created Comment model and CommentDAO for database operations, implemented comment CRUD functionality |
-| Yinqi Chen | Designed and implemented comments-view.fxml UI layout, comment display cards with date stamps, CSS styling |
-| Harshika Vijayabharath | Implemented CommentsController with add/delete operations, integrated comments button in SearchController |
-| Phuong Tong | Updated navigation flow for comments, enhanced StudentDetailController, documentation and final review |
+| Name | Contribution                                                                                                                                                                                                     |
+|------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Van Anh Tran | Created Comment model and CommentDAO for database operations, implemented comment CRUD functionality                                                                                                             |
+| Yinqi Chen | Designed and implemented comments-view.fxml UI layout, comment display cards with date stamps, CSS styling                                                                                                       |
+| Harshika Vijayabharath | Implemented CommentsController, integrated comments button in SearchController                                                                                                                                   |
+| Phuong Tong | Updated navigation flow for comments, enhanced StudentDetailController, enable foreign keys in StudentDAO, updating `create/edit student` to correctly save/get comment, testing, final review and documentation |
 
 **Version 0.7**
 
@@ -73,7 +73,7 @@ This is Version 0.8 of the Student Information Management System, a desktop appl
 
 ### ✅ New in This Version 0.8
 
-- **Student Evaluation Comments System** ✅ (UC-04)
+- **Student Evaluation Comments System** ✅ (UC-05)
   - Dedicated comments page for each student showing all evaluation history
   - **View Comments** button available in both Search Results and Student Details pages
   - Add new evaluation comments with **automatic date stamping** (today's date)
@@ -84,28 +84,9 @@ This is Version 0.8 of the Student Information Management System, a desktop appl
   - Comments persist permanently in SQLite database
 
 - **Enhanced Navigation**
-  - "Comments" button in search results table for quick access
-  - "View Comments" button in student details page
-  - Back navigation from comments page to student details or home
+  - "All Comments" button in search results table for quick access
+  - Navigation to previous page (Search page) and Homepage
   - Seamless flow between all pages
-
-### Features from Version 0.7
-
-- **Search Student Profiles Page** ✅ (UC-03)
-  - Results display in a table format with a new View action button that handles showing student profile details
-
-- **Edit Student Profiles** ✅
-  - **Edit button for each student** in the students details page
-  - Confirmation dialog before submit the edit
-  - **Updating student's new information to database**
-  - Automatically updates the detail page after editing
-  - Success/error messages for user feedback
-  - **Cancel** button allow user to cancel the editing process
-
-- **Enhanced Navigation**
-  - New "View" button on the search result table
-  - Back to home functionality from all pages
-  - Consistent navigation across all views
 
 ### Implemented Features:
 
@@ -150,6 +131,14 @@ This is Version 0.8 of the Student Information Management System, a desktop appl
   - Apply filters and clear filters functionality
   - Real-time result count display
   - Automatic sorting by name (A→Z, case-insensitive)
+
+#### **UC-04: Edit Student Profiles** ✅
+-**Edit Student Profiles Page** ✅
+  - ✅ `UpdateStudent()` - Save the edited information for students
+  - **Updating student's new information to database**
+  - Automatically updates the detail page after editing
+  - Success/error messages for user feedback
+  - **Cancel** button allow user to cancel the editing process
 
 ### Features Coming in Future Versions:
 - Advanced reporting and analytics
