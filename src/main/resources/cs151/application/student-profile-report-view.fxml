@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cs151.controller.StudentProfileReportController"
+            prefHeight="700.0" prefWidth="900.0"
+            style="-fx-background-color: white;">
+
+    <VBox alignment="TOP_CENTER" spacing="15" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="12.0" maxWidth="860">
+            <Button fx:id="backButton" text="← Back" onAction="#onBackButtonClick"
+                    style="-fx-background-color: #757575; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 10 24; -fx-font-size: 16px;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Student Profile Report"
+                   style="-fx-font-size: 26px; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <Separator />
+
+        <!-- Student Profile Section -->
+        <VBox spacing="10" style="-fx-background-color: #f8f9fa; -fx-padding: 20; -fx-border-color: #ddd; -fx-border-radius: 5;">
+            <Label text="Student Information" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            
+            <GridPane hgap="20" vgap="12" style="-fx-font-size: 15px;">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" minWidth="130"/>
+                    <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="300"/>
+                </columnConstraints>
+
+                <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="nameLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                <Label text="Academic Status:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="academicStatusLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="emailLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                <Label text="Languages:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="languagesLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" wrapText="true"/>
+
+                <Label text="DB Skills:" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="dbSkillsLabel" GridPane.rowIndex="4" GridPane.columnIndex="1" wrapText="true"/>
+
+                <Label text="Role:" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="roleLabel" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+                <Label text="Flag:" GridPane.rowIndex="6" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="flagLabel" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+            </GridPane>
+        </VBox>
+
+        <Separator />
+
+        <!-- Comments Table Section -->
+        <VBox spacing="10" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Evaluation Comments" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="commentCountLabel" text="0 comments" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+            </HBox>
+            
+            <TableView fx:id="commentsTable" VBox.vgrow="ALWAYS" prefHeight="250">
+                <columns>
+                    <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
+                    <TableColumn fx:id="commentColumn" text="Comment (Excerpt)" prefWidth="720"/>
+                </columns>
+            </TableView>
+            
+            <Label text="Click on a comment row to view the full content" 
+                   style="-fx-font-size: 12px; -fx-text-fill: #666; -fx-font-style: italic;"/>
+        </VBox>
+
+    </VBox>
+</AnchorPane>
+

@@ -1,9 +1,18 @@
-# Student Information Management System - Version 0.8
+# Student Information Management System - Version 0.9
 
 **Team Number:** 23  
 **Section:** 02
 
 ## Team Members and Contributions 
+
+**Version 0.9**
+
+| Name | Contribution                                                                            |
+|------|-----------------------------------------------------------------------------------------|
+| Van Anh Tran | Created DataInitializer for predefined students and comments, implemented ReportsController with filtering logic |
+| Yinqi Chen | Designed and implemented reports-view.fxml, student-profile-report-view.fxml, and comment-detail-view.fxml UI layouts |
+| Harshika Vijayabharath | Implemented StudentProfileReportController and CommentDetailController, tested double-click and click interactions |
+| Phuong Tong | Updated MainController with Reports navigation, integrated all new pages, documentation and final review |
 
 **Version 0.8**
 
@@ -61,17 +70,38 @@
 
 ## Project Description
 
-This is Version 0.8 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
+This is Version 0.9 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
 
-**Note**: This version includes **pre-populated data** (3 programming languages and 5 student profiles) and a fully functioning **Comments/Evaluation System** with automatic date stamping
+**Note**: This version includes **pre-populated data** (6 student profiles with meaningful comments) and a fully functioning **Reports System** for viewing Whitelist/Blacklist student reports
 
-## Version 0.8 Features
+## Version 0.9 Features
 
 - **Pre-populated Database**
   - Application automatically initializes with **exactly 3 programming languages**: Java, Python, C++
-  - Application automatically initializes with **exactly 5 student profiles**: Charles Green, Geogre Brown, Joseph Baker, Chris Nelson, Paul White
+  - Application automatically initializes with **exactly 6 student profiles**:
+    - **Whitelisted** (3): Alice Johnson, Bob Smith, Carol Martinez
+    - **Blacklisted** (3): David Lee, Emma Wilson, Frank Brown
+  - Each student has **meaningful evaluation comments** (30+ words each)
 
-### ✅ New in This Version 0.8
+### ✅ New in This Version 0.9
+
+- **Reports System** ✅
+  - **View Reports Page**: Navigate from home to reports page
+  - **Filter by Flag Status**: Select All/Whitelist/Blacklist using radio buttons
+  - **Students Table**: Display filtered students in tabular format with Flag column
+  - **Double-Click to View**: Double-click student row to open detailed profile report
+  
+- **Student Profile Report** ✅
+  - **Top Section**: Student information in form format
+  - **Bottom Section**: Comments table with Date and Comment (excerpt) columns
+  - **Click to Expand**: Click comment row to view full comment text in popup window
+  
+- **Comment Detail View** ✅
+  - Popup window displaying complete comment content
+  - Shows date and full text without truncation
+  - Easy-to-read format for long evaluation comments
+
+### Features from Version 0.8
 
 - **Student Evaluation Comments System** ✅ (UC-04)
   - Dedicated comments page for each student showing all evaluation history
@@ -177,15 +207,19 @@ This is Version 0.8 of the Student Information Management System, a desktop appl
 │   │   │   │   │   ├── Main.java                    (Entry point with data initialization)
 │   │   │   │   │   └── MainController.java          (Home page controller)
 │   │   │   │   ├── controller/
-│   │   │   │   │   ├── LanguagesController.java     (Languages CRUD controller)
-│   │   │   │   │   ├── StudentsController.java      (Students CRUD controller)
-│   │   │   │   │   ├── SearchController.java        (Search & filter controller)
-│   │   │   │   │   ├── StudentDetailController.java (Student details view controller)
-│   │   │   │   │   └── CommentsController.java      (Comments management controller)
+│   │   │   │   │   ├── LanguagesController.java          (Languages CRUD controller)
+│   │   │   │   │   ├── StudentsController.java           (Students CRUD controller)
+│   │   │   │   │   ├── SearchController.java             (Search & filter controller)
+│   │   │   │   │   ├── StudentDetailController.java      (Student details view controller)
+│   │   │   │   │   ├── CommentsController.java           (Comments management controller)
+│   │   │   │   │   ├── ReportsController.java            (Reports with filtering controller)
+│   │   │   │   │   ├── StudentProfileReportController.java (Profile + comments report controller)
+│   │   │   │   │   └── CommentDetailController.java      (Comment detail popup controller)
 │   │   │   │   ├── data/
 │   │   │   │   │   ├── LanguageDAO.java             (Language database access)
 │   │   │   │   │   ├── StudentDAO.java              (Student database access)
 │   │   │   │   │   ├── CommentDAO.java              (Comment database access)
+│   │   │   │   │   ├── DataInitializer.java         (Initialize predefined data)
 │   │   │   │   │   └── package-info.java
 │   │   │   │   └── model/
 │   │   │   │       ├── Language.java                (Language entity)
@@ -195,10 +229,15 @@ This is Version 0.8 of the Student Information Management System, a desktop appl
 │   │   └── resources/
 │   │       └── cs151/
 │   │           └── application/
-│   │               ├── hello-view.fxml              (Home page)
-│   │               ├── languages-view.fxml          (Languages page)
-│   │               ├── search-view.fxml             (Search student page)
-│   │               └── students-view.fxml           (Manage students page) 
+│   │               ├── hello-view.fxml                    (Home page)
+│   │               ├── languages-view.fxml                (Languages page)
+│   │               ├── search-view.fxml                   (Search student page)
+│   │               ├── students-view.fxml                 (Manage students page)
+│   │               ├── student-detail-view.fxml           (Student details page)
+│   │               ├── comments-view.fxml                 (Comments/Evaluation page)
+│   │               ├── reports-view.fxml                  (Reports main page)
+│   │               ├── student-profile-report-view.fxml   (Profile + comments report)
+│   │               └── comment-detail-view.fxml           (Comment detail popup)
 ├── student.db                                       (SQLite database)
 ├── ReadMe.md
 ├── pom.xml
@@ -215,11 +254,13 @@ mvn clean javafx:run
 ```
 
 **What you'll see:**
-- Main menu with "Define Programming Languages", "Manage Student Profiles", and "Search Student Profiles"
-- Database automatically initializes with **3 programming languages** and **5 student profiles**
-- Search page with advanced filtering and "Comments" button for each student
-- Student management page with **CheckBox multi-selection** for languages and databases
-- **Comments/Evaluation page** with date-stamped comment history and add new comment functionality
+- Main menu with "Define Programming Languages", "Manage Student Profiles", "Search Student Profiles", and "View Reports"
+- Database automatically initializes with **3 programming languages** and **6 student profiles** (3 whitelisted, 3 blacklisted)
+- Each student has **meaningful evaluation comments** (30+ words each)
+- **Reports page** with radio button filtering (All/Whitelist/Blacklist)
+- **Double-click** student row to view detailed profile report
+- **Profile report** showing student info + comments table
+- **Click** comment row to view full content in popup
 - All data persisted in SQLite database
 
 ### Using IDE:
@@ -235,9 +276,12 @@ mvn clean javafx:run
   - `Language` (id INTEGER PRIMARY KEY, name TEXT)
     - Pre-populated with: **Java, Python, C++**
   - `Student` (id INTEGER PRIMARY KEY, name TEXT, academicStatus TEXT, email TEXT, languages TEXT, dbSkills TEXT, role TEXT, employmentStatus TEXT, jobDetails TEXT, comments TEXT, flag TEXT)
-    - Pre-populated with: **Charles Green, Geogre Brown, Joseph Baker, Chris Nelson, Paul White**
+    - Pre-populated with **6 students**:
+      - **Whitelisted**: Alice Johnson, Bob Smith, Carol Martinez
+      - **Blacklisted**: David Lee, Emma Wilson, Frank Brown
   - `Comment` (id INTEGER PRIMARY KEY, student_id INTEGER, content TEXT, date TEXT)
     - Links to Student table with foreign key
+    - Each student has **3 meaningful evaluation comments** (30+ words each)
     - Stores evaluation comments with automatic date stamping
 - **JDBC Driver**: SQLite JDBC 3.50.3.0 (included in Maven dependencies)
 - **Relationships**: 
@@ -248,15 +292,39 @@ mvn clean javafx:run
 ## Notes
 
 - Data is now **permanently stored** in SQLite database
-- Database **automatically initializes** with 3 programming languages and 5 student profiles on first run
+- Database **automatically initializes** with 3 programming languages, 6 student profiles, and 18 evaluation comments on first run
 - All programming languages, student profiles, and evaluation comments persist between application sessions
 - The application runs as a single-user desktop application (no login required)
 - Database file is automatically created on first run if it doesn't exist
-- **Search Student Profiles page** provides advanced filtering, deletion, and quick access to comments
-- **Comments System** automatically stamps each comment with today's date (yyyy-MM-dd format)
+- **Reports System** provides filtering by Whitelist/Blacklist status
+- **Double-click** on student row opens detailed profile with comments table
+- **Click** on comment row shows full text in popup window
 - Deletion from search page or comments page is **permanent** and cannot be undone
 
 ## Version History
+
+- **v0.9**:
+  - ✅ **Predefined Student Data**
+    - 6 student profiles pre-populated (3 whitelisted, 3 blacklisted)
+    - Each student has 3 meaningful evaluation comments (30+ words each)
+    - Total 18 evaluation comments in database
+  - ✅ **Reports System** (UC-04)
+    - Created Reports main page with filtering by flag status
+    - Radio buttons for All/Whitelist/Blacklist filtering
+    - Double-click student row to view detailed profile report
+  - ✅ **Student Profile Report**
+    - Top section: Student information in form format
+    - Bottom section: Comments table with Date and Comment excerpt
+    - Click comment row to view full content in popup
+  - ✅ **Comment Detail View**
+    - Popup window displaying complete comment text
+    - Shows date and full content without truncation
+  - ✅ **DataInitializer Class**
+    - Automated database initialization with predefined data
+    - Comprehensive student profiles with realistic information
+    - Meaningful evaluation comments for each student
+  - Updated version number to 0.9 throughout application
+  - Updated ReadMe with comprehensive v0.9 documentation
 
 - **v0.8**:
   - ✅ **Student Evaluation Comments System** (UC-04)

@@ -87,4 +87,31 @@ public class MainController {
             System.err.println("Error loading students page: " + e.getMessage());
         }
     }
+    
+    /**
+     * Handles navigation to the Reports page
+     * Triggered when user clicks the "View Reports" button
+     */
+    @FXML
+    protected void onReportsButtonClick(javafx.event.ActionEvent event) {
+        try {
+            // Get the current stage from the event source
+            javafx.scene.Node source = (javafx.scene.Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+
+            // Load the reports view
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    Main.class.getResource("/cs151/application/reports-view.fxml")
+            );
+            Scene scene = new Scene(fxmlLoader.load(), 1150, 800);
+
+            // Set the new scene
+            stage.setTitle("Student Reports");
+            stage.setScene(scene);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error loading reports page: " + e.getMessage());
+        }
+    }
 }

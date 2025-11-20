@@ -50,23 +50,17 @@
                 style="-fx-background-color: white; -fx-text-fill: #764ba2; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-padding: 15 25;">
         </Button>
         
-        <Button text="Generating Reports"
-                disable="true"
+        <Button text="View Reports"
+                onAction="#onReportsButtonClick"
                 prefWidth="460"
                 prefHeight="65"
                 wrapText="true"
-                style="-fx-background-color: #cccccc; -fx-text-fill: #666666; -fx-font-size: 20px; -fx-background-radius: 10; -fx-padding: 15 25;">
+                style="-fx-background-color: white; -fx-text-fill: #667eea; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-padding: 15 25;">
         </Button>
-        
-        <Label text="(Reports coming in future versions)"
-               wrapText="true"
-               textAlignment="CENTER"
-               maxWidth="460"
-               style="-fx-text-fill: #e0e0e0; -fx-font-size: 16px; -fx-font-style: italic;"/>
     </VBox>
 
     <!-- Footer -->
-    <Label text="Version 0.8 | Team 23"
+    <Label text="Version 0.9 | Team 23"
            style="-fx-text-fill: white; -fx-font-size: 16px;"/>
            
 </VBox>

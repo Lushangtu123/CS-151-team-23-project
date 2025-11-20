@@ -1,5 +1,6 @@
 package cs151.application;
 
+import cs151.data.DataInitializer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,7 +12,7 @@ import java.io.IOException;
  * Main application class for Student Information Management System
  * Entry point for the JavaFX application
  * 
- * @version 0.8
+ * @version 0.9
  * @team 23
  */
 public class Main extends Application {
@@ -25,9 +26,12 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
+        // Initialize database with predefined data
+        DataInitializer.initializeData();
+        
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 800);
-        stage.setTitle("Student Information Management System - v0.8");
+        stage.setTitle("Student Information Management System - v0.9");
         stage.setScene(scene);
         stage.setResizable(true);
         stage.setMinWidth(800);

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cs151.controller.CommentDetailController"
+      spacing="15"
+      style="-fx-background-color: white; -fx-padding: 20;">
+
+    <!-- Header -->
+    <Label text="Comment Detail" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    
+    <Separator />
+    
+    <!-- Date -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Date:" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+        <Label fx:id="dateLabel" style="-fx-font-size: 14px; -fx-text-fill: #2980b9;"/>
+    </HBox>
+    
+    <!-- Comment Content -->
+    <VBox spacing="5">
+        <Label text="Comment:" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+        <ScrollPane fitToWidth="true" prefHeight="300" style="-fx-background-color: transparent;">
+            <TextArea fx:id="commentTextArea" 
+                     wrapText="true"
+                     editable="false"
+                     style="-fx-font-size: 14px; -fx-background-color: #f8f9fa;"/>
+        </ScrollPane>
+    </VBox>
+    
+    <!-- Close Button -->
+    <HBox alignment="CENTER">
+        <Button fx:id="closeButton" text="Close" onAction="#onCloseClick"
+                style="-fx-background-color: #757575; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 30; -fx-cursor: hand;"/>
+    </HBox>
+
+</VBox>
+
