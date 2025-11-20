@@ -34,19 +34,10 @@ public class StudentDAO {
             );
         """;
 
-        String commentSql = """
-                CREATE TABLE IF NOT EXISTS Comments (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                studentId INTEGER NOT NULL,
-                comment TEXT NOT NULL,
-                timestamp DATETIME NOT NULL,
-                FOREIGN KEY(studentId) REFERENCES Student(id)
-                );
-        """;
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
+            stmt.execute("PRAGMA foreign_keys = ON;");
             stmt.execute(studentSql);
-            stmt.execute(commentSql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -152,7 +143,7 @@ public class StudentDAO {
                 student.setEmploymentStatus(rs.getString("employmentStatus"));
                 student.setJobDetails(rs.getString("jobDetails"));
                 student.setFlag(rs.getString("flag"));
-                // Comments are managed separately via CommentDAO
+                student.setComments(commentDao.getCommentsByStudentId(student.getId()));
 
                 list.add(student);
             }
@@ -189,6 +180,8 @@ public class StudentDAO {
                 student.setJobDetails(rs.getString("jobDetails"));
                 student.setFlag(rs.getString("flag"));
                 // Comments are managed separately via CommentDAO
+                student.setComments(commentDao.getCommentsByStudentId(student.getId()));
+
                 return student;
             }
         } catch (SQLException e) {
@@ -247,6 +240,11 @@ public class StudentDAO {
         
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            try (Statement pragma = conn.createStatement()) {
+                pragma.execute("PRAGMA foreign_keys = ON;");
+            }
+
             stmt.setInt(1, id);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
