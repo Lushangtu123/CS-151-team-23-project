@@ -68,6 +68,24 @@
 | Harshika Vijayabharath | Implemented LanguagesController with CRUD operations, table view setup |
 | Phuong Tong | Updated MainController navigation, integrated module-info.java, project documentation |
 
+**Technical Spec**
+
+| Name | Contribution |
+|------|--------------|
+| Van Anh Tran | Introduction, Software Overview, Data Model (Revised)|
+| Yinqi Chen | Detailed Design |
+| Harshika Vijayabharath | Class Diagram (domain model), final version |
+| Phuong Tong | Document review, sequence diagram final version |
+
+**Functional Spec**
+
+| Name | Contribution |
+|------|--------------|
+| Van Anh Tran | Use Case - Alternative Flow of Events (Alternative #2), Nonfunctional Requirements |
+| Yinqi Chen |  Introduction, Mockups |
+| Harshika Vijayabharath | Use Case Primary Flow of Events, Alternative Flow of Events (Alternative #1) |
+| Phuong Tong | Functional Requirements, Nonfunctional Requirements (Revised and Completed) |
+
 ## Project Description
 
 This is Version 0.9 of the Student Information Management System, a desktop application designed for faculty members to manage student profiles and programming language information.
@@ -100,42 +118,6 @@ This is Version 0.9 of the Student Information Management System, a desktop appl
   - Popup window displaying complete comment content
   - Shows date and full text without truncation
   - Easy-to-read format for long evaluation comments
-
-### Features from Version 0.8
-
-- **Student Evaluation Comments System** ✅ (UC-04)
-  - Dedicated comments page for each student showing all evaluation history
-  - **View Comments** button available in both Search Results and Student Details pages
-  - Add new evaluation comments with **automatic date stamping** (today's date)
-  - Display all comments with their date stamps in chronological order (newest first)
-  - Delete individual comments with confirmation dialog
-  - Comment count display
-  - Professional card-based UI for comment display
-  - Comments persist permanently in SQLite database
-
-- **Enhanced Navigation**
-  - "Comments" button in search results table for quick access
-  - "View Comments" button in student details page
-  - Back navigation from comments page to student details or home
-  - Seamless flow between all pages
-
-### Features from Version 0.7
-
-- **Search Student Profiles Page** ✅ (UC-03)
-  - Results display in a table format with a new View action button that handles showing student profile details
-
-- **Edit Student Profiles** ✅
-  - **Edit button for each student** in the students details page
-  - Confirmation dialog before submit the edit
-  - **Updating student's new information to database**
-  - Automatically updates the detail page after editing
-  - Success/error messages for user feedback
-  - **Cancel** button allow user to cancel the editing process
-
-- **Enhanced Navigation**
-  - New "View" button on the search result table
-  - Back to home functionality from all pages
-  - Consistent navigation across all views
 
 ### Implemented Features:
 
@@ -180,6 +162,23 @@ This is Version 0.9 of the Student Information Management System, a desktop appl
   - Apply filters and clear filters functionality
   - Real-time result count display
   - Automatic sorting by name (A→Z, case-insensitive)
+  
+#### **UC-04: Edit Student Profiles** ✅
+- **Edit Student Profiles Page** ✅
+  - ✅ `UpdateStudent()` - Save the edited information for students
+  - **Updating student's new information to database**
+  - Automatically updates the detail page after editing
+  - Success/error messages for user feedback
+  - **Cancel** button allow user to cancel the editing process
+
+#### **UC-05: Evaluation Comments ** ✅
+- **Student Evaluation Comments System** ✅ (UC-05)
+    - Dedicated comments page for each student showing all evaluation history
+    - **View Comments** button available in both Search Results and Student Details pages
+    - Add new evaluation comments with **automatic date stamping** (today's date)
+    - Display all comments with their date stamps in chronological order (newest first)
+    - Delete individual comments with confirmation dialog
+
 
 ### Features Coming in Future Versions:
 - Advanced reporting and analytics
@@ -309,7 +308,7 @@ mvn clean javafx:run
     - 6 student profiles pre-populated (3 whitelisted, 3 blacklisted)
     - Each student has 3 meaningful evaluation comments (30+ words each)
     - Total 18 evaluation comments in database
-  - ✅ **Reports System** (UC-04)
+  - ✅ **Reports System** (UC-06)
     - Created Reports main page with filtering by flag status
     - Radio buttons for All/Whitelist/Blacklist filtering
     - Double-click student row to view detailed profile report
@@ -328,7 +327,7 @@ mvn clean javafx:run
   - Updated ReadMe with comprehensive v0.9 documentation
 
 - **v0.8**:
-  - ✅ **Student Evaluation Comments System** (UC-04)
+  - ✅ **Student Evaluation Comments System** (UC-05)
     - Created Comment model and CommentDAO for database operations
     - Implemented dedicated comments page with comment history display
     - Automatic date stamping for new comments (yyyy-MM-dd format)
@@ -346,7 +345,7 @@ mvn clean javafx:run
   - Updated ReadMe with comprehensive comments feature documentation
   
 - **v0.7**:
-  - ✅ **Edit Student Profiles**
+  - ✅ **Edit Student Profiles** (UC-04)
     - Edit button in student details page
     - Confirmation dialogs and validation
     - Database update operations
