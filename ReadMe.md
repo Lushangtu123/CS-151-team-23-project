@@ -7,12 +7,12 @@
 
 **Version 0.9**
 
-| Name | Contribution                                                                            |
-|------|-----------------------------------------------------------------------------------------|
-| Van Anh Tran | Created DataInitializer for predefined students and comments, implemented ReportsController with filtering logic |
-| Yinqi Chen | Designed and implemented reports-view.fxml, student-profile-report-view.fxml, and comment-detail-view.fxml UI layouts |
-| Harshika Vijayabharath | Implemented StudentProfileReportController and CommentDetailController, tested double-click and click interactions |
-| Phuong Tong | Updated MainController with Reports navigation, integrated all new pages, documentation and final review |
+| Name | Contribution                                                                                                                                                              |
+|------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Van Anh Tran | Created DataInitializer for predefined students and comments, implemented ReportsController with filtering logic                                                          |
+| Yinqi Chen | Designed and implemented reports-view.fxml, student-profile-report-view.fxml, and comment-detail-view.fxml UI layouts                                                     |
+| Harshika Vijayabharath | Implemented StudentProfileReportController and CommentDetailController, tested double-click and click interactions                                                        |
+| Phuong Tong | Implemented DataInfoDAO to ensure data initialized once, Updated MainController with Reports navigation, integrated all new pages, documentation and final review + fixes |
 
 **Version 0.8**
 
@@ -220,6 +220,7 @@ This is Version 0.9 of the Student Information Management System, a desktop appl
 │   │   │   │   │   ├── StudentDAO.java              (Student database access)
 │   │   │   │   │   ├── CommentDAO.java              (Comment database access)
 │   │   │   │   │   ├── DataInitializer.java         (Initialize predefined data)
+│   │   │   │   │   ├── DataInfoDAO.java             (Check initialized data)
 │   │   │   │   │   └── package-info.java
 │   │   │   │   └── model/
 │   │   │   │       ├── Language.java                (Language entity)
