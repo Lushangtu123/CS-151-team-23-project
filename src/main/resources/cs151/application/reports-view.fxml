@@ -47,10 +47,10 @@
             <columns>
                 <TableColumn fx:id="nameColumn" text="Name" prefWidth="180"/>
                 <TableColumn fx:id="academicStatusColumn" text="Academic Status" prefWidth="150"/>
-                <TableColumn fx:id="languagesColumn" text="Languages" prefWidth="220"/>
+                <TableColumn fx:id="languagesColumn" text="Languages" prefWidth="250"/>
                 <TableColumn fx:id="dbSkillsColumn" text="DB Skills" prefWidth="220"/>
                 <TableColumn fx:id="roleColumn" text="Role" prefWidth="150"/>
-                <TableColumn fx:id="flagColumn" text="Flag" prefWidth="120"/>
+                <TableColumn fx:id="flagColumn" text="Flag" prefWidth="150"/>
             </columns>
         </TableView>
         

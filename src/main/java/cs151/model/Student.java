@@ -17,7 +17,7 @@ public class Student {
     private String role;                    // Required - interested role
     private String employmentStatus;        // Required
     private String jobDetails;              // Required
-    private List<Comment> comments;                // Required
+    private List<Comment> comments = new ArrayList<>();                // Required
     private String flag;                    // Required
 
     /**

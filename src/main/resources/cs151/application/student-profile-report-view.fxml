@@ -44,20 +44,17 @@
                 <Label text="Academic Status:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
                 <Label fx:id="academicStatusLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" />
 
-                <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
-                <Label fx:id="emailLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                <Label text="Languages:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="languagesLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" wrapText="true"/>
 
-                <Label text="Languages:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
-                <Label fx:id="languagesLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" wrapText="true"/>
+                <Label text="DB Skills:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="dbSkillsLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" wrapText="true"/>
 
-                <Label text="DB Skills:" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
-                <Label fx:id="dbSkillsLabel" GridPane.rowIndex="4" GridPane.columnIndex="1" wrapText="true"/>
+                <Label text="Role:" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="roleLabel" GridPane.rowIndex="4" GridPane.columnIndex="1" />
 
-                <Label text="Role:" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
-                <Label fx:id="roleLabel" GridPane.rowIndex="5" GridPane.columnIndex="1" />
-
-                <Label text="Flag:" GridPane.rowIndex="6" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
-                <Label fx:id="flagLabel" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+                <Label text="Flag:" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                <Label fx:id="flagLabel" GridPane.rowIndex="5" GridPane.columnIndex="1" />
             </GridPane>
         </VBox>
 
@@ -73,7 +70,7 @@
             
             <TableView fx:id="commentsTable" VBox.vgrow="ALWAYS" prefHeight="250">
                 <columns>
-                    <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
+                    <TableColumn fx:id="dateColumn" text="Date" prefWidth="140"/>
                     <TableColumn fx:id="commentColumn" text="Comment (Excerpt)" prefWidth="720"/>
                 </columns>
             </TableView>

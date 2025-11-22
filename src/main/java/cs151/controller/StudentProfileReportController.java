@@ -94,7 +94,7 @@ public class StudentProfileReportController {
         // Display student information
         nameLabel.setText(student.getName());
         academicStatusLabel.setText(student.getAcademicStatus());
-        emailLabel.setText(student.getEmail() != null ? student.getEmail() : "N/A");
+        //emailLabel.setText(student.getEmail() != null ? student.getEmail() : "N/A");
         languagesLabel.setText(student.getLanguagesAsString());
         dbSkillsLabel.setText(student.getDbSkills() != null ? student.getDbSkills() : "N/A");
         roleLabel.setText(student.getRole() != null ? student.getRole() : "N/A");
