@@ -31,7 +31,7 @@ public class Main extends Application {
         
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 800);
-        stage.setTitle("Student Information Management System - v0.9");
+        stage.setTitle("Student Information Management System");
         stage.setScene(scene);
         stage.setResizable(true);
         stage.setMinWidth(800);
