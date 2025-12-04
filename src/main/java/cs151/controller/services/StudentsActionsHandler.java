@@ -4,7 +4,6 @@ import cs151.data.StudentDAO;
 import cs151.model.Student;
 import cs151.controller.StudentDetailController;
 import cs151.controller.StudentsController;
-import cs151.controller.SearchController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
@@ -14,13 +13,15 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.util.Optional;
 
-public class StudentsActionsHandler {
+public class StudentsActionsHandler implements ActionsHandler<Student> {
     private final StudentDAO studentDao;
 
     public StudentsActionsHandler(StudentDAO studentDao) {
+
         this.studentDao = studentDao;
     }
 
+    @Override
     public void handleView(Student student, Runnable onWindowClose) {
         try {
             // Load the FXML for the detailed view
@@ -31,7 +32,7 @@ public class StudentsActionsHandler {
 
             // Pass the student data to the controller
             StudentDetailController controller = loader.getController();
-            controller.setStudentDao(studentDao);
+            controller.setActionsHandler(this);
             controller.setStudent(student);
 
             stage.setOnHidden(event -> {
@@ -47,6 +48,7 @@ public class StudentsActionsHandler {
         }
     }
 
+    @Override
     public boolean handleDelete(Student student) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Student");
@@ -60,6 +62,7 @@ public class StudentsActionsHandler {
         return false;
     }
 
+    @Override
     public void handleEdit(Student student) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/cs151/application/students-view.fxml"));

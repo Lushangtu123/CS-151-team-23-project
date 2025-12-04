@@ -1,6 +1,8 @@
 package cs151.controller;
 
 import cs151.application.Main;
+import cs151.controller.services.ActionsHandler;
+import cs151.controller.services.CommentsActionsHandler;
 import cs151.data.CommentDAO;
 import cs151.model.Comment;
 import cs151.model.Student;
@@ -59,6 +61,7 @@ public class StudentProfileReportController {
 
     private final CommentDAO commentDao = new CommentDAO();
     private Student currentStudent;
+    private final ActionsHandler<Comment> commentHandler = new CommentsActionsHandler(new CommentDAO());
 
     @FXML
     public void initialize() {
@@ -119,20 +122,7 @@ public class StudentProfileReportController {
     }
 
     private void showCommentDetail(Comment comment) {
-        try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("comment-detail-view.fxml"));
-            Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load(), 600, 450));
-            stage.setTitle("Comment Detail");
-
-            CommentDetailController controller = loader.getController();
-            controller.setComment(comment);
-
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Error", "Failed to load comment detail.");
-        }
+       commentHandler.handleView(comment, null);
     }
 
     @FXML

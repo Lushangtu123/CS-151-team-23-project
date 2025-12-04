@@ -1,5 +1,6 @@
 package cs151.controller;
 
+import cs151.controller.services.ActionsHandler;
 import cs151.controller.services.StudentsActionsHandler;
 import cs151.data.LanguageDAO;
 import cs151.data.StudentDAO;
@@ -91,7 +92,7 @@ public class StudentsController {
     private final StudentDAO studentDao = new StudentDAO();
     private final LanguageDAO languageDao = new LanguageDAO();
     private final CommentDAO commentDao = new CommentDAO();
-    private final StudentsActionsHandler actionsHandler = new StudentsActionsHandler(studentDao);
+    private final ActionsHandler<Student> actionsHandler = new StudentsActionsHandler(studentDao);
     private Student editingStudent = null; // Track if we're editing
     private List<Comment> currentComments = new ArrayList<>();
 
@@ -377,7 +378,7 @@ public class StudentsController {
 
                 editBtn.setOnAction(e -> {
                     Student student = getTableView().getItems().get(getIndex());
-                    handleEdit(student);
+                    actionsHandler.handleEdit(student);
                     dialog.close();
                 });
                 

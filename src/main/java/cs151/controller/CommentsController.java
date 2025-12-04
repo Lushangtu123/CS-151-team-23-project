@@ -1,6 +1,8 @@
 package cs151.controller;
 
 import cs151.application.Main;
+import cs151.controller.services.ActionsHandler;
+import cs151.controller.services.CommentsActionsHandler;
 import cs151.data.CommentDAO;
 import cs151.model.Comment;
 import cs151.model.Student;
@@ -50,6 +52,7 @@ public class CommentsController {
     
     private CommentDAO commentDao;
     private Student currentStudent;
+    private ActionsHandler<Comment> actionsHandler;
     
     /**
      * Initialize the controller
@@ -60,7 +63,7 @@ public class CommentsController {
         
         // Initialize Comment table
         commentDao.initTable();
-        
+        actionsHandler = new CommentsActionsHandler(commentDao);
         // Display today's date
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
@@ -180,25 +183,13 @@ public class CommentsController {
      * @param comment The comment to delete
      */
     private void handleDeleteComment(Comment comment) {
-        // Confirmation dialog
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Comment");
-        alert.setHeaderText("Are you sure you want to delete this comment?");
-        alert.setContentText("Created on: " + comment.getDateAsString() + "\n" +
-                           "Content: " + (comment.getContent().length() > 50 ? 
-                           comment.getContent().substring(0, 50) + "..." : comment.getContent()));
-        
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                boolean success = commentDao.deleteComment(comment.getId());
-                if (success) {
-                    showMessage("Comment deleted successfully!", "success");
-                    loadComments(); // Refresh the list
-                } else {
-                    showMessage("Failed to delete comment.", "error");
-                }
+        boolean deleted = actionsHandler.handleDelete(comment);
+            if (deleted) {
+                showMessage("Comment deleted successfully!", "success");
+                loadComments();
+            } else {
+                showMessage("Failed to delete comment.", "error");
             }
-        });
     }
     
     /**

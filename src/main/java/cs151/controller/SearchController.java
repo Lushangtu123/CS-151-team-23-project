@@ -1,6 +1,7 @@
 package cs151.controller;
 
 import cs151.application.Main;
+import cs151.controller.services.ActionsHandler;
 import cs151.controller.services.StudentsActionsHandler;
 import cs151.data.StudentDAO;
 import cs151.model.Student;
@@ -53,7 +54,7 @@ public class SearchController {
     private Label messageLabel;
 
     private final StudentDAO studentDao = new StudentDAO();
-    private final StudentsActionsHandler actionsHandler = new StudentsActionsHandler(studentDao);
+    private final ActionsHandler<Student> actionsHandler = new StudentsActionsHandler(studentDao);
 
     @FXML
     public void initialize() {

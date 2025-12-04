@@ -1,7 +1,7 @@
 package cs151.controller;
 
 import cs151.application.Main;
-import cs151.controller.services.StudentsActionsHandler;
+import cs151.controller.services.ActionsHandler;
 import cs151.model.Student;
 import cs151.data.StudentDAO;
 import javafx.fxml.FXML;
@@ -52,11 +52,11 @@ public class StudentDetailController {
     // ✅ Add message label
     @FXML private Label messageLabel;
 
-    private StudentsActionsHandler actionsHandler;
+    private ActionsHandler<Student> actionsHandler;
     private Student student;
 
-    public void setStudentDao(StudentDAO studentDao) {
-        this.actionsHandler = new StudentsActionsHandler(studentDao);
+    public void setActionsHandler(ActionsHandler<Student> actionsHandler) {
+        this.actionsHandler = actionsHandler;
     }
 
     /**
