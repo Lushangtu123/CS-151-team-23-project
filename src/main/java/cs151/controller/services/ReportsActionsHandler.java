@@ -33,21 +33,17 @@ public class ReportsActionsHandler implements ActionsHandler<Student> {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Failed to load student profile report.");
-            alert.showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Failed to load student profile report.").show();
         }
     }
 
     @Override
     public void handleEdit(Student item) {
-
+        throw new UnsupportedOperationException("Edit is not supported in Reports view.");
     }
 
     @Override
     public boolean handleDelete(Student item) {
-        return false;
+        throw new UnsupportedOperationException("Delete is not supported in Reports view.");
     }
 }
