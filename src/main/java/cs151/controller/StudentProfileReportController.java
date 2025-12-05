@@ -3,6 +3,7 @@ package cs151.controller;
 import cs151.application.Main;
 import cs151.controller.services.ActionsHandler;
 import cs151.controller.services.CommentsActionsHandler;
+import cs151.controller.services.NavigationHandler;
 import cs151.data.CommentDAO;
 import cs151.model.Comment;
 import cs151.model.Student;
@@ -122,13 +123,15 @@ public class StudentProfileReportController {
     }
 
     private void showCommentDetail(Comment comment) {
-       commentHandler.handleView(comment, null);
+
+        commentHandler.handleView(comment, null);
     }
 
     @FXML
     private void onBackButtonClick() {
+        NavigationHandler nav = new NavigationHandler();
         Stage stage = (Stage) backButton.getScene().getWindow();
-        stage.close();
+        nav.closeWindow(stage);
     }
 
     private void showAlert(String title, String message) {

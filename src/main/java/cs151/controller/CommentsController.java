@@ -3,6 +3,7 @@ package cs151.controller;
 import cs151.application.Main;
 import cs151.controller.services.ActionsHandler;
 import cs151.controller.services.CommentsActionsHandler;
+import cs151.controller.services.NavigationHandler;
 import cs151.data.CommentDAO;
 import cs151.model.Comment;
 import cs151.model.Student;
@@ -53,7 +54,8 @@ public class CommentsController {
     private CommentDAO commentDao;
     private Student currentStudent;
     private ActionsHandler<Comment> actionsHandler;
-    
+    private Stage mainStage;
+
     /**
      * Initialize the controller
      */
@@ -74,8 +76,9 @@ public class CommentsController {
      * Set the student whose comments will be displayed
      * @param student The student
      */
-    public void setStudent(Student student) {
+    public void setStudent(Student student, Stage mainStage) {
         this.currentStudent = student;
+        this.mainStage = mainStage;
         studentNameLabel.setText("Student: " + student.getName());
         loadComments();
     }
@@ -205,17 +208,10 @@ public class CommentsController {
      * Handle navigating back to search page
      */
     @FXML
-    private void handleBackToSearch() {
-        try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("search-view.fxml"));
-            Scene scene = new Scene(loader.load(), 1150, 800);
-            
-            Stage stage = (Stage) addCommentButton.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-            showMessage("Error loading search page.", "error");
-        }
+    private void onCloseClick() {
+        NavigationHandler nav =  new NavigationHandler();
+        Stage stage = (Stage) addCommentButton.getScene().getWindow();
+        nav.closeWindow(stage);
     }
     
     /**
@@ -223,15 +219,10 @@ public class CommentsController {
      */
     @FXML
     private void handleBackToHome() {
-        try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
-            Scene scene = new Scene(loader.load(), 900, 800);
+        NavigationHandler nav =  new NavigationHandler();
             Stage stage = (Stage) addCommentButton.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-            showMessage("Error loading home page.", "error");
-        }
+            stage.close();
+            nav.goToHome(mainStage);
     }
     
     /**

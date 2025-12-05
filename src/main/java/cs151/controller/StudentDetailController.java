@@ -2,6 +2,7 @@ package cs151.controller;
 
 import cs151.application.Main;
 import cs151.controller.services.ActionsHandler;
+import cs151.controller.services.NavigationHandler;
 import cs151.model.Student;
 import cs151.data.StudentDAO;
 import javafx.fxml.FXML;
@@ -84,10 +85,6 @@ public class StudentDetailController {
     private void onEditButtonClick() {
         try {
             actionsHandler.handleEdit(student);
-
-            // Close student detail window
-            Stage currentStage = (Stage) editButton.getScene().getWindow();
-            currentStage.close();
         } catch (Exception e) {
             e.printStackTrace();
             if (messageLabel != null) {
@@ -98,7 +95,8 @@ public class StudentDetailController {
 
     @FXML
     private void onBackButtonClick() {
-        Stage currentStage = (Stage) backButton.getScene().getWindow();
-        currentStage.close();
+        NavigationHandler nav =   new NavigationHandler();
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        nav.closeWindow(stage);
     }
 }

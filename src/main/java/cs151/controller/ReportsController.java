@@ -1,6 +1,9 @@
 package cs151.controller;
 
 import cs151.application.Main;
+import cs151.controller.services.ActionsHandler;
+import cs151.controller.services.NavigationHandler;
+import cs151.controller.services.ReportsActionsHandler;
 import cs151.data.StudentDAO;
 import cs151.model.Student;
 import javafx.beans.property.SimpleStringProperty;
@@ -59,6 +62,7 @@ public class ReportsController {
 
     private final StudentDAO studentDao = new StudentDAO();
     private ToggleGroup filterGroup;
+    private final ActionsHandler<Student> actionsHandler = new ReportsActionsHandler(studentDao);
 
     @FXML
     public void initialize() {
@@ -102,7 +106,8 @@ public class ReportsController {
             TableRow<Student> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
-                    showStudentProfileReport(row.getItem());
+                   Student student = row.getItem();
+                   actionsHandler.handleView(student, null);
                 }
             });
             return row;
@@ -141,34 +146,11 @@ public class ReportsController {
                           (filteredStudents.size() != 1 ? "s" : ""));
     }
 
-    private void showStudentProfileReport(Student student) {
-        try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("student-profile-report-view.fxml"));
-            Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load(), 900, 700));
-            stage.setTitle("Student Profile Report - " + student.getName());
-
-            StudentProfileReportController controller = loader.getController();
-            controller.setStudent(student);
-
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Error", "Failed to load student profile report.");
-        }
-    }
-
     @FXML
     private void onBackButtonClick() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cs151/application/hello-view.fxml"));
-            Scene scene = new Scene(loader.load(), 900, 800);
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Error", "Failed to return to home page.");
-        }
+        NavigationHandler nav =  new NavigationHandler();
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        nav.goToHome(stage);
     }
 
     private void showAlert(String title, String message) {

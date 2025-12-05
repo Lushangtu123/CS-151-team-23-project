@@ -1,5 +1,7 @@
 package cs151.controller.services;
 
+import cs151.application.Main;
+import cs151.controller.CommentsController;
 import cs151.data.StudentDAO;
 import cs151.model.Student;
 import cs151.controller.StudentDetailController;
@@ -11,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class StudentsActionsHandler implements ActionsHandler<Student> {
@@ -76,6 +79,24 @@ public class StudentsActionsHandler implements ActionsHandler<Student> {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void viewAllComments(Student student, Stage mainStage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/cs151/application/comments-view.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load(), 900, 800));
+            stage.setTitle("Comments for " + student.getName());
+
+            CommentsController controller = loader.getController();
+            controller.setStudent(student, mainStage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to load comments page.").show();
         }
     }
 }

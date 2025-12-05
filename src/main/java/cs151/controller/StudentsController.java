@@ -1,6 +1,7 @@
 package cs151.controller;
 
 import cs151.controller.services.ActionsHandler;
+import cs151.controller.services.NavigationHandler;
 import cs151.controller.services.StudentsActionsHandler;
 import cs151.data.LanguageDAO;
 import cs151.data.StudentDAO;
@@ -699,17 +700,12 @@ public class StudentsController {
      */
     @FXML
     protected void onBackButtonClick() {
-        try {
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            javafx.fxml.FXMLLoader fxmlLoader = new javafx.fxml.FXMLLoader(
-                getClass().getResource("/cs151/application/hello-view.fxml")
-            );
-            javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 900, 800);
-            stage.setScene(scene);
-            stage.setTitle("Student Management System");
-        } catch (Exception e) {
-            e.printStackTrace();
-            showMessage("Error returning to home page: " + e.getMessage(), "error");
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        if (editingStudent != null) {
+            stage.close();
+            return;
         }
+        NavigationHandler nav = new NavigationHandler();
+        nav.goToHome(stage);
     }
 }

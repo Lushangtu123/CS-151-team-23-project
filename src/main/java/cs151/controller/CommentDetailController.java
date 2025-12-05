@@ -1,5 +1,6 @@
 package cs151.controller;
 
+import cs151.controller.services.NavigationHandler;
 import cs151.model.Comment;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,6 +33,7 @@ public class CommentDetailController {
 
     @FXML
     private void onCloseClick() {
+        NavigationHandler nav =  new NavigationHandler();
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
     }

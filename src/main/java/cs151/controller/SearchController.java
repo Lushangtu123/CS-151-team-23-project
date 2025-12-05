@@ -2,19 +2,16 @@ package cs151.controller;
 
 import cs151.application.Main;
 import cs151.controller.services.ActionsHandler;
+import cs151.controller.services.NavigationHandler;
 import cs151.controller.services.StudentsActionsHandler;
 import cs151.data.StudentDAO;
 import cs151.model.Student;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -128,12 +125,14 @@ public class SearchController {
                 commentsBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 5 8;");
 
                 // Handle View Comments
-                commentsBtn.setOnAction(event -> handleViewComments(getCurrentStudent()));
+                commentsBtn.setOnAction(event ->
+                {
+                    Student student = getTableView().getItems().get(getIndex());
+                    Stage mainStage = (Stage) backButton.getScene().getWindow();
+                    ((StudentsActionsHandler) actionsHandler).viewAllComments(student, mainStage);
 
-            }
+                });
 
-            private Student getCurrentStudent() {
-                return getTableView().getItems().get(getIndex());
             }
 
             @Override
@@ -149,26 +148,7 @@ public class SearchController {
             }
         });
     }
-    
-    /**
-     * Handle viewing comments for a student
-     */
-    private void handleViewComments(Student student) {
-        try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("comments-view.fxml"));
-            Scene scene = new Scene(loader.load(), 900, 800);
-            
-            CommentsController controller = loader.getController();
-            controller.setStudent(student);
-            
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-            messageLabel.setText("Error loading comments page: " + e.getMessage());
-            messageLabel.setStyle("-fx-text-fill: red;");
-        }
-    }
+
 
     private void searchStudents(String query) {
         if (query == null || query.trim().isEmpty()) {
@@ -204,17 +184,8 @@ public class SearchController {
 
     @FXML
     private void onBackButtonClick() {
-        try {
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            javafx.fxml.FXMLLoader fxmlLoader = new javafx.fxml.FXMLLoader(
-                    getClass().getResource("/cs151/application/hello-view.fxml")
-            );
-            javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 900, 800);
-            stage.setScene(scene);
-            stage.setTitle("Student Information Management System");
-        } catch (Exception e) {
-            e.printStackTrace();
-            messageLabel.setText("Error returning to home page: " + e.getMessage());
-        }
+        NavigationHandler nav =  new NavigationHandler();
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        nav.goToHome(stage);
     }
 }
